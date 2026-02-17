@@ -18,6 +18,9 @@
             --text-main: #ffffff;
             --text-muted: #8E8E93;
             --card-radius: 20px;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #F44336;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -52,6 +55,45 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .logo { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+        
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .notification-badge {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .notification-badge i {
+            font-size: 20px;
+            color: #888;
+            transition: 0.3s;
+        }
+        
+        .notification-badge:hover i {
+            color: #FF416C;
+        }
+        
+        .badge-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #FF416C;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #000;
+        }
+        
         .profile-btn { 
             width: 40px; 
             height: 40px; 
@@ -138,6 +180,103 @@
 
         .robot-toast.fade-out {
             animation: fadeOut 0.3s ease forwards;
+        }
+
+        /* Notifications Panel */
+        .notifications-panel {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 350px;
+            max-width: 90%;
+            background: #161618;
+            border-radius: 20px;
+            border: 1px solid #333;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: 0.3s;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        
+        .notifications-panel.active {
+            transform: translateX(0);
+        }
+        
+        .notifications-header {
+            padding: 20px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .notifications-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .mark-read {
+            color: #FF416C;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .notifications-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .notification-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #222;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        
+        .notification-item:hover {
+            background: #222;
+        }
+        
+        .notification-item.unread {
+            background: rgba(255,65,108,0.1);
+            border-left: 3px solid #FF416C;
+        }
+        
+        .notification-title {
+            font-weight: 700;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .notification-message {
+            color: #aaa;
+            font-size: 12px;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .notification-time {
+            color: #555;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .notification-time i {
+            font-size: 8px;
+        }
+        
+        .notification-empty {
+            padding: 40px;
+            text-align: center;
+            color: #666;
+        }
+        
+        .notification-empty i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #333;
         }
 
         /* Rest of your existing styles */
@@ -284,6 +423,47 @@
             overflow: hidden; 
         }
 
+        /* Download buttons in cards */
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #222;
+        }
+        
+        .card-action-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 10px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+        
+        .card-action-btn i {
+            color: #FF416C;
+            font-size: 12px;
+        }
+        
+        .card-action-btn:hover {
+            background: #FF416C;
+            border-color: #FF416C;
+        }
+        
+        .card-action-btn:hover i {
+            color: white;
+        }
+
         .search-hero { 
             margin-bottom: 30px; 
             text-align: center; 
@@ -404,7 +584,7 @@
             box-shadow: 0 0 8px #FF416C;
         }
 
-        /* ===== UPDATED MODAL STYLES WITH CLOSE BUTTON ===== */
+        /* ===== MODAL STYLES ===== */
         #detail-modal { 
             position: fixed; 
             inset: 0; 
@@ -432,7 +612,6 @@
             border-top: 1px solid #333;
         }
         
-        /* Close button for modal */
         .modal-close-btn {
             position: sticky;
             top: 20px;
@@ -463,7 +642,6 @@
             font-size: 20px;
         }
         
-        /* Optional second close button at bottom */
         .close-bottom-btn {
             width: 100%;
             padding: 15px;
@@ -559,6 +737,27 @@
             text-decoration: none;
         }
         
+        .btn-success {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #FFC107, #ffb300);
+        }
+        
+        .download-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4CAF50;
+            color: #4CAF50;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        
         .detail-footer {
             margin-top: 40px;
             padding-top: 25px;
@@ -608,6 +807,22 @@
             font-size: 40px;
             margin-bottom: 15px;
         }
+
+        /* File type indicators */
+        .file-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 700;
+            background: #1a1a1a;
+        }
+        
+        .file-type.zip i { color: #FFC107; }
+        .file-type.pdf i { color: #F44336; }
+        .file-type.apk i { color: #4CAF50; }
     </style> 
 </head> 
 <body> 
@@ -618,14 +833,35 @@
     <p>for using this website</p>
   </div>
 
+  <!-- Notifications Panel -->
+  <div id="notifications-panel" class="notifications-panel">
+    <div class="notifications-header">
+      <h3>Notifications</h3>
+      <span class="mark-read" onclick="markAllNotificationsRead()">Mark all as read</span>
+    </div>
+    <div class="notifications-list" id="notifications-list">
+      <div class="notification-empty">
+        <i class="fas fa-bell-slash"></i>
+        <p>No notifications yet</p>
+      </div>
+    </div>
+  </div>
+
   <header> 
    <div class="logo">
     Rubi<span class="gradient-text">fy</span>
    </div> 
-   <!-- Robot Button -->
-   <div class="profile-btn" onclick="showRobotThanks()" title="Click for surprise!">
-    <i class="fas fa-robot gradient-text"></i>
-   </div> 
+   <div class="header-actions">
+     <!-- Notification Bell -->
+     <div class="notification-badge" onclick="toggleNotifications()">
+       <i class="fas fa-bell"></i>
+       <span class="badge-count" id="notification-count" style="display: none;">0</span>
+     </div>
+     <!-- Robot Button -->
+     <div class="profile-btn" onclick="showRobotThanks()" title="Click for surprise!">
+       <i class="fas fa-robot gradient-text"></i>
+     </div>
+   </div>
   </header>
 
   <!-- Main Views -->
@@ -633,7 +869,6 @@
    <div id="video-banner-container" style="display: none;"></div>
    <div class="banner-container" id="banner-box" style="display:none"></div> 
    <div class="cat-list hide-scroll" id="category-filters"> 
-    <!-- Categories will be loaded dynamically -->
     <div class="cat-pill active" onclick="filter('All', this)">🔥 All</div>
    </div> 
    <div class="grid" id="grid"> 
@@ -677,6 +912,16 @@
      </div> <i class="fas fa-chevron-right" style="color:#444"></i> 
     </div> 
    </div> 
+   
+   <!-- My Downloads Section -->
+   <h2 style="margin-bottom:20px;">My Downloads</h2> 
+   <div class="menu-card" id="downloads-list" style="padding:20px;">
+     <div style="text-align:center; color:#666;">
+       <i class="fas fa-download" style="font-size:30px; margin-bottom:10px;"></i>
+       <p>Your downloaded resources will appear here</p>
+     </div>
+   </div>
+   
    <h2 style="margin-bottom:20px;">Contact Us</h2> 
    <div class="menu-card" style="padding:20px;"> 
     <input type="text" class="search-input" style="margin-bottom:10px; background:#000;" placeholder="Your Email" id="contact-email-input"> 
@@ -693,16 +938,13 @@
    <div class="nav-btn" onclick="nav('menu', this)"><i class="fas fa-layer-group"></i></div> 
   </div> 
 
-  <!-- ===== UPDATED DETAIL MODAL WITH CLOSE BUTTONS ===== -->
+  <!-- Detail Modal -->
   <div id="detail-modal"> 
    <div class="modal-bg" onclick="closeModal()"></div> 
    <div class="modal-card"> 
-    <!-- Top close button -->
     <div class="modal-close-btn" onclick="closeModal()">
       <i class="fas fa-times"></i>
     </div>
-    
-    <!-- Modal content -->
     <div id="modal-content"></div>
    </div> 
   </div> 
@@ -717,7 +959,7 @@
   </div> 
 
   <script>
-    // ===== YOUR FIREBASE CONFIGURATION =====
+    // ===== FIREBASE CONFIGURATION =====
     const firebaseConfig = {
         apiKey: "AIzaSyCJLhRh8PR-4doZ3IRMSlLAJDO5IyLgSCo",
         authDomain: "course-ai-f49b9.firebaseapp.com",
@@ -749,6 +991,12 @@
     let categories = [];
     let currentCat = 'All';
     let contactEmail = "mrflop786@gmail.com";
+    
+    // User Panel Variables
+    let notifications = [];
+    let unreadCount = 0;
+    let downloads = JSON.parse(localStorage.getItem('rubify_downloads')) || [];
+    let userId = 'user_' + Math.random().toString(36).substr(2, 9); // Simple user ID
 
     // Show Robot Thanks Message
     function showRobotThanks() {
@@ -772,7 +1020,261 @@
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         el.classList.add('active');
         window.scrollTo(0,0);
+        
+        if(view === 'menu') {
+            renderDownloads();
+        }
     }
+
+    // ===== NOTIFICATION FUNCTIONS =====
+    function toggleNotifications() {
+        const panel = document.getElementById('notifications-panel');
+        panel.classList.toggle('active');
+        if(panel.classList.contains('active')) {
+            loadNotifications();
+        }
+    }
+
+    // FIXED: Load notifications with correct field names
+    function loadNotifications() {
+        console.log('Loading notifications...');
+        db.collection('notifications')
+            .orderBy('sentAt', 'desc') // Admin uses 'sentAt', not 'timestamp'
+            .limit(50)
+            .get()
+            .then(snap => {
+                console.log('Notifications loaded:', snap.size);
+                notifications = snap.docs.map(d => ({id: d.id, ...d.data()}));
+                renderNotifications();
+                updateNotificationBadge();
+            })
+            .catch(error => {
+                console.error('Error loading notifications:', error);
+            });
+    }
+
+    // FIXED: Better rendering with null checks
+    function renderNotifications() {
+        const list = document.getElementById('notifications-list');
+        const readStatus = JSON.parse(localStorage.getItem('rubify_notifications_read')) || {};
+        
+        if(notifications.length === 0) {
+            list.innerHTML = `
+                <div class="notification-empty">
+                    <i class="fas fa-bell-slash"></i>
+                    <p>No notifications yet</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '';
+        notifications.forEach(notif => {
+            const isRead = readStatus[notif.id] || false;
+            
+            // Handle both sentAt and timestamp fields
+            let time;
+            if (notif.sentAt) {
+                time = notif.sentAt.seconds ? new Date(notif.sentAt.seconds * 1000) : new Date(notif.sentAt);
+            } else if (notif.timestamp) {
+                time = notif.timestamp.seconds ? new Date(notif.timestamp.seconds * 1000) : new Date(notif.timestamp);
+            } else {
+                time = new Date(); // fallback to current time
+            }
+            
+            const timeAgo = getTimeAgo(time);
+            
+            html += `
+                <div class="notification-item ${!isRead ? 'unread' : ''}" onclick="markNotificationRead('${notif.id}')">
+                    <div class="notification-title">${notif.title || 'Notification'}</div>
+                    <div class="notification-message">${notif.message || ''}</div>
+                    ${notif.link ? `<div style="margin-bottom:5px;"><a href="${notif.link}" target="_blank" style="color:#FF416C; font-size:11px;">View Link →</a></div>` : ''}
+                    <div class="notification-time">
+                        <i class="fas fa-clock"></i> ${timeAgo}
+                    </div>
+                </div>
+            `;
+        });
+        
+        list.innerHTML = html;
+        updateNotificationBadge();
+    }
+
+    function getTimeAgo(date) {
+        const seconds = Math.floor((new Date() - date) / 1000);
+        
+        let interval = seconds / 31536000;
+        if (interval > 1) return Math.floor(interval) + ' years ago';
+        
+        interval = seconds / 2592000;
+        if (interval > 1) return Math.floor(interval) + ' months ago';
+        
+        interval = seconds / 86400;
+        if (interval > 1) return Math.floor(interval) + ' days ago';
+        
+        interval = seconds / 3600;
+        if (interval > 1) return Math.floor(interval) + ' hours ago';
+        
+        interval = seconds / 60;
+        if (interval > 1) return Math.floor(interval) + ' minutes ago';
+        
+        return Math.floor(seconds) + ' seconds ago';
+    }
+
+    // FIXED: Update badge count correctly
+    function updateNotificationBadge() {
+        const readStatus = JSON.parse(localStorage.getItem('rubify_notifications_read')) || {};
+        unreadCount = notifications.filter(n => !readStatus[n.id]).length;
+        
+        const badge = document.getElementById('notification-count');
+        if(unreadCount > 0) {
+            badge.style.display = 'flex';
+            badge.textContent = unreadCount;
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+
+    function markNotificationRead(id) {
+        const readStatus = JSON.parse(localStorage.getItem('rubify_notifications_read')) || {};
+        readStatus[id] = true;
+        localStorage.setItem('rubify_notifications_read', JSON.stringify(readStatus));
+        renderNotifications();
+    }
+
+    function markAllNotificationsRead() {
+        const readStatus = {};
+        notifications.forEach(n => {
+            readStatus[n.id] = true;
+        });
+        localStorage.setItem('rubify_notifications_read', JSON.stringify(readStatus));
+        renderNotifications();
+    }
+
+    // ===== DOWNLOAD FUNCTIONS =====
+    function downloadFile(url, filename, type, productId, productTitle) {
+        // Create download record
+        const download = {
+            id: Date.now().toString(),
+            productId: productId,
+            title: productTitle,
+            type: type,
+            url: url,
+            timestamp: new Date().toISOString()
+        };
+        
+        downloads.unshift(download);
+        downloads = downloads.slice(0, 50); // Keep last 50 downloads
+        localStorage.setItem('rubify_downloads', JSON.stringify(downloads));
+        
+        // Show download started message
+        showToast('Download Started', `Downloading ${filename || productTitle}`, 'success');
+        
+        // Trigger download
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename || 'download';
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Render downloads if in menu
+        if(document.getElementById('view-menu').classList.contains('active')) {
+            renderDownloads();
+        }
+    }
+
+    function renderDownloads() {
+        const container = document.getElementById('downloads-list');
+        
+        if(downloads.length === 0) {
+            container.innerHTML = `
+                <div style="text-align:center; color:#666; padding:20px;">
+                    <i class="fas fa-download" style="font-size:30px; margin-bottom:10px;"></i>
+                    <p>Your downloaded resources will appear here</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '';
+        downloads.slice(0, 10).forEach(download => {
+            const date = new Date(download.timestamp);
+            const timeAgo = getTimeAgo(date);
+            
+            html += `
+                <div style="padding:15px; border-bottom:1px solid #222;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span style="font-weight:700;">${download.title}</span>
+                        <span class="file-type ${download.type}">
+                            <i class="fas ${download.type === 'zip' ? 'fa-file-archive' : download.type === 'pdf' ? 'fa-file-pdf' : 'fa-file'}"></i>
+                            ${download.type.toUpperCase()}
+                        </span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="color:#666; font-size:11px;">
+                            <i class="fas fa-clock"></i> ${timeAgo}
+                        </span>
+                        <button onclick="downloadFile('${download.url}', '${download.title}.${download.type}', '${download.type}', '${download.productId}', '${download.title}')" 
+                                style="background:#FF416C; border:none; padding:5px 15px; border-radius:8px; color:white; font-size:11px; cursor:pointer;">
+                            <i class="fas fa-redo"></i> Redownload
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    function showToast(title, message, type = 'info') {
+        // Simple toast implementation
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #161618;
+            border: 1px solid ${type === 'success' ? '#4CAF50' : '#FF416C'};
+            border-radius: 15px;
+            padding: 15px 25px;
+            z-index: 1000;
+            color: white;
+            text-align: center;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        `;
+        
+        toast.innerHTML = `
+            <div style="font-weight:700; margin-bottom:5px;">${title}</div>
+            <div style="color:#aaa; font-size:13px;">${message}</div>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.animation = 'slideDown 0.3s ease';
+            setTimeout(() => {
+                document.body.removeChild(toast);
+            }, 300);
+        }, 3000);
+    }
+
+    // Add animation styles
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideUp {
+            from { transform: translate(-50%, 100%); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
+        }
+        @keyframes slideDown {
+            from { transform: translate(-50%, 0); opacity: 1; }
+            to { transform: translate(-50%, 100%); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
 
     // Load all content
     function loadAllContent() {
@@ -782,6 +1284,7 @@
         loadVideos();
         loadBanners();
         loadCategories();
+        loadNotifications(); // Load notifications for user panel
     }
 
     // Load contact info
@@ -944,7 +1447,7 @@
             });
     }
 
-    // Render products
+    // Render products with download buttons
     function render() {
         const grid = document.getElementById('grid');
         const searchGrid = document.getElementById('search-grid');
@@ -960,22 +1463,66 @@
             (p.description && p.description.toLowerCase().includes(term))
         );
         
-        grid.innerHTML = generateCards(filtered);
+        grid.innerHTML = generateCardsWithDownloads(filtered);
         
         if(term && term.length > 0) {
-            searchGrid.innerHTML = searched.length > 0 ? generateCards(searched) : '<p style="text-align:center; color:#666; padding:40px;">🔍 No results found for "' + term + '"</p>';
+            searchGrid.innerHTML = searched.length > 0 ? generateCardsWithDownloads(searched) : '<p style="text-align:center; color:#666; padding:40px;">🔍 No results found for "' + term + '"</p>';
         } else {
             searchGrid.innerHTML = `<p style="text-align:center; color:#444; padding:40px;">🔍 Search for apps, prompts, or tools...</p>`;
         }
     }
 
-    // Generate product cards HTML
-    function generateCards(list) {
+    // Generate product cards with download buttons
+    function generateCardsWithDownloads(list) {
         if(!list || list.length === 0) {
             return `<div style="text-align:center; color:#555; padding:40px;">📦 No items found.</div>`;
         }
         
         return list.map(p => {
+            // Check if product has downloadable assets
+            const hasApk = p.apkLink && p.apkLink.trim() !== '';
+            const hasAssets = p.assetsLink && p.assetsLink.trim() !== '';
+            const hasPdf = p.pdfLink && p.pdfLink.trim() !== '';
+            const hasZip = p.zipLink && p.zipLink.trim() !== '';
+            
+            let downloadButtons = '';
+            
+            if(hasApk) {
+                downloadButtons += `
+                    <a href="#" onclick="event.stopPropagation(); downloadFile('${p.apkLink}', '${p.title}.apk', 'apk', '${p.id}', '${p.title}'); return false;" 
+                       class="card-action-btn" title="Download APK">
+                        <i class="fab fa-android"></i> APK
+                    </a>
+                `;
+            }
+            
+            if(hasZip) {
+                downloadButtons += `
+                    <a href="#" onclick="event.stopPropagation(); downloadFile('${p.zipLink}', '${p.title}.zip', 'zip', '${p.id}', '${p.title}'); return false;" 
+                       class="card-action-btn" title="Download ZIP">
+                        <i class="fas fa-file-archive"></i> ZIP
+                    </a>
+                `;
+            }
+            
+            if(hasPdf) {
+                downloadButtons += `
+                    <a href="#" onclick="event.stopPropagation(); downloadFile('${p.pdfLink}', '${p.title}.pdf', 'pdf', '${p.id}', '${p.title}'); return false;" 
+                       class="card-action-btn" title="Download PDF">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </a>
+                `;
+            }
+            
+            if(hasAssets) {
+                downloadButtons += `
+                    <a href="#" onclick="event.stopPropagation(); downloadFile('${p.assetsLink}', '${p.title}_assets.zip', 'assets', '${p.id}', '${p.title} Assets'); return false;" 
+                       class="card-action-btn" title="Download Assets">
+                        <i class="fas fa-folder"></i> Assets
+                    </a>
+                `;
+            }
+            
             return `
             <div class="card" onclick="openDetail('${p.id}')">
                 <div class="card-img-box">
@@ -985,6 +1532,7 @@
                 <div class="card-content">
                     <div class="card-title">${p.title || 'Untitled'}</div>
                     <div class="card-desc">${p.description || 'No description available'}</div>
+                    ${downloadButtons ? `<div class="card-actions">${downloadButtons}</div>` : ''}
                 </div>
             </div>
         `}).join('');
@@ -1001,10 +1549,15 @@
     // Search input listener
     document.getElementById('search-input').addEventListener('input', render);
 
-    // ===== UPDATED OPEN DETAIL FUNCTION WITH BOTTOM CLOSE BUTTON =====
+    // Open detail with download buttons
     function openDetail(id) {
         const p = products.find(x => x.id === id);
         if(!p) return;
+        
+        const hasApk = p.apkLink && p.apkLink.trim() !== '';
+        const hasAssets = p.assetsLink && p.assetsLink.trim() !== '';
+        const hasPdf = p.pdfLink && p.pdfLink.trim() !== '';
+        const hasZip = p.zipLink && p.zipLink.trim() !== '';
         
         // Process features list
         const featuresList = p.features ? 
@@ -1016,9 +1569,18 @@
             p.howItWorks.split('\n').filter(line => line.trim() !== '')
                 .map(line => `<p style="margin-bottom:10px;">${line.trim()}</p>`).join('') : '';
         
+        // Create download badges
+        let downloadBadges = '';
+        if(hasZip) downloadBadges += '<span class="download-badge"><i class="fas fa-file-archive"></i> ZIP Available</span>';
+        if(hasPdf) downloadBadges += '<span class="download-badge"><i class="fas fa-file-pdf"></i> PDF Available</span>';
+        if(hasApk) downloadBadges += '<span class="download-badge"><i class="fab fa-android"></i> APK Available</span>';
+        
         document.getElementById('modal-content').innerHTML = `
             <img src="${p.image || 'https://via.placeholder.com/400x225'}" class="hero-img" onerror="this.src='https://via.placeholder.com/400x225'">
             <div class="content-box">
+                <div style="display:flex; gap:5px; flex-wrap:wrap; margin-bottom:10px;">
+                    ${downloadBadges}
+                </div>
                 <span style="color:#FF416C; font-weight:700; font-size:12px; letter-spacing:1px; text-transform:uppercase;">${p.category || 'RESOURCE'}</span>
                 <h1 style="font-size:32px; font-weight:800; line-height:1.1; margin:10px 0 20px 0;">${p.title || ''}</h1>
                 
@@ -1052,6 +1614,14 @@
                 <div class="section-content">${p.prosLimitations}</div>
                 ` : ''}
                 
+                <div class="section-title">Download Options</div>
+                <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
+                    ${hasApk ? `<a href="#" onclick="downloadFile('${p.apkLink}', '${p.title}.apk', 'apk', '${p.id}', '${p.title}'); return false;" class="btn-gradient"><i class="fab fa-android"></i> Download APK</a>` : ''}
+                    ${hasZip ? `<a href="#" onclick="downloadFile('${p.zipLink}', '${p.title}.zip', 'zip', '${p.id}', '${p.title}'); return false;" class="btn-glass"><i class="fas fa-file-archive"></i> Download ZIP</a>` : ''}
+                    ${hasPdf ? `<a href="#" onclick="downloadFile('${p.pdfLink}', '${p.title}.pdf', 'pdf', '${p.id}', '${p.title}'); return false;" class="btn-glass"><i class="fas fa-file-pdf"></i> Download PDF</a>` : ''}
+                    ${hasAssets ? `<a href="#" onclick="downloadFile('${p.assetsLink}', '${p.title}_assets.zip', 'assets', '${p.id}', '${p.title} Assets'); return false;" class="btn-glass"><i class="fas fa-folder"></i> Download Assets</a>` : ''}
+                </div>
+                
                 <div class="section-title">Educational & Safety Disclaimer</div>
                 <div class="section-content">${p.disclaimer || 'For educational and informational purposes only. No ownership claim over third-party tools. Users are responsible for their usage.'}</div>
                 
@@ -1059,9 +1629,6 @@
                 <div class="section-content">This resource is hosted on an external platform. Rubify does not host or store any files.</div>
                 
                 <div class="detail-footer">
-                    ${p.apkLink ? `<a href="${p.apkLink}" target="_blank" class="btn-gradient"><i class="fas fa-download"></i> Download APK</a>` : ''}
-                    ${p.assetsLink ? `<a href="${p.assetsLink}" target="_blank" class="btn-glass"><i class="fas fa-folder-open"></i> Download Assets</a>` : ''}
-                    
                     <div style="margin-top:30px;">
                         <p>If you have any questions or concerns, contact us at:</p>
                         <p style="color:#FF416C;">Email: ${contactEmail}</p>
@@ -1069,7 +1636,6 @@
                     </div>
                 </div>
                 
-                <!-- Bottom close button -->
                 <div class="close-bottom-btn" onclick="closeModal()">
                     <i class="fas fa-times-circle"></i> Close
                 </div>
@@ -1107,13 +1673,34 @@
         const email = document.getElementById('contact-email-input').value;
         const message = document.getElementById('contact-message').value;
         if(email && message) {
-            alert('Message sent! (Demo - In production, this would be saved to database)');
-            document.getElementById('contact-email-input').value = '';
-            document.getElementById('contact-message').value = '';
+            // Save message to Firestore
+            db.collection('messages').add({
+                email: email,
+                message: message,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                userId: userId
+            }).then(() => {
+                alert('Message sent successfully!');
+                document.getElementById('contact-email-input').value = '';
+                document.getElementById('contact-message').value = '';
+            }).catch(error => {
+                console.error('Error sending message:', error);
+                alert('Error sending message. Please try again.');
+            });
         } else {
             alert('Please fill all fields');
         }
     }
+
+    // Close notifications panel when clicking outside
+    document.addEventListener('click', function(event) {
+        const panel = document.getElementById('notifications-panel');
+        const bell = document.querySelector('.notification-badge');
+        
+        if(panel && bell && !panel.contains(event.target) && !bell.contains(event.target) && panel.classList.contains('active')) {
+            panel.classList.remove('active');
+        }
+    });
 
     // Initialize
     window.addEventListener('load', function() {
