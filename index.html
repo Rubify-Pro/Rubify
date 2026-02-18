@@ -230,7 +230,7 @@
             padding: 15px 20px;
             border-bottom: 1px solid #222;
             transition: 0.2s;
-            cursor: pointer;
+            position: relative;
         }
         
         .notification-item:hover {
@@ -240,6 +240,34 @@
         .notification-item.unread {
             background: rgba(255,65,108,0.1);
             border-left: 3px solid #FF416C;
+        }
+        
+        .notification-content {
+            cursor: pointer;
+            padding-right: 30px;
+        }
+        
+        .notification-delete {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255,65,108,0.2);
+            border: 1px solid #FF416C;
+            color: #FF416C;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+        
+        .notification-delete:hover {
+            background: #FF416C;
+            color: white;
         }
         
         .notification-title {
@@ -277,6 +305,262 @@
             font-size: 40px;
             margin-bottom: 15px;
             color: #333;
+        }
+
+        /* Comments Section */
+        .comments-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #111;
+            border-radius: 20px;
+            border: 1px solid #222;
+        }
+        
+        .comments-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-title i {
+            color: #FF416C;
+        }
+        
+        .comment-input-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .comment-input {
+            flex: 1;
+            padding: 15px;
+            border-radius: 15px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            resize: none;
+        }
+        
+        .comment-input:focus {
+            border-color: #FF416C;
+        }
+        
+        .comment-submit {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            background: #FF416C;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .comment-submit:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,65,108,0.3);
+        }
+        
+        .comments-list {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        
+        .comment-item {
+            padding: 15px;
+            border-bottom: 1px solid #222;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .comment-author {
+            font-weight: 700;
+            color: #FF416C;
+            font-size: 13px;
+        }
+        
+        .comment-time {
+            color: #666;
+            font-size: 10px;
+        }
+        
+        .comment-text {
+            color: #ccc;
+            font-size: 13px;
+            line-height: 1.5;
+            word-break: break-word;
+            margin-bottom: 10px;
+        }
+        
+        .comment-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+        }
+        
+        .comment-reply-btn {
+            background: transparent;
+            border: none;
+            color: #888;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            transition: 0.2s;
+        }
+        
+        .comment-reply-btn:hover {
+            color: #FF416C;
+            background: rgba(255,65,108,0.1);
+        }
+        
+        .comment-delete {
+            color: #666;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+            transition: 0.2s;
+        }
+        
+        .comment-delete:hover {
+            color: #FF416C;
+        }
+
+        /* Reply Section */
+        .replies-section {
+            margin-left: 20px;
+            margin-top: 10px;
+            padding-left: 15px;
+            border-left: 2px solid #333;
+        }
+        
+        .reply-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+        }
+        
+        .reply-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .reply-author {
+            font-weight: 600;
+            color: #4CAF50;
+            font-size: 12px;
+        }
+        
+        .reply-author i {
+            margin-right: 5px;
+        }
+        
+        .reply-time {
+            color: #666;
+            font-size: 9px;
+        }
+        
+        .reply-text {
+            color: #ddd;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        
+        .admin-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 9px;
+            margin-left: 8px;
+        }
+        
+        .pinned-badge {
+            background: #FF9800;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 9px;
+            margin-left: 8px;
+        }
+        
+        .reply-input-area {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .reply-input {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 20px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #fff;
+            font-size: 12px;
+            outline: none;
+        }
+        
+        .reply-input:focus {
+            border-color: #FF416C;
+        }
+        
+        .reply-send-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #FF416C;
+            border: none;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .reply-send-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .cancel-reply {
+            color: #888;
+            font-size: 11px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .cancel-reply:hover {
+            color: #FF416C;
         }
 
         /* Rest of your existing styles */
@@ -913,12 +1197,29 @@
     </div> 
    </div> 
    
-   <!-- My Downloads Section -->
-   <h2 style="margin-bottom:20px;">My Downloads</h2> 
-   <div class="menu-card" id="downloads-list" style="padding:20px;">
-     <div style="text-align:center; color:#666;">
-       <i class="fas fa-download" style="font-size:30px; margin-bottom:10px;"></i>
-       <p>Your downloaded resources will appear here</p>
+   <!-- User Comments Section -->
+   <h2 style="margin-bottom:20px;">Community Discussions</h2> 
+   <div class="menu-card" style="padding:20px;">
+     <div class="comments-section" style="margin-top:0;">
+       <div class="comments-title">
+         <i class="fas fa-comments"></i> Comments & Replies
+       </div>
+       
+       <!-- Comment Input -->
+       <div class="comment-input-area">
+         <textarea class="comment-input" id="comment-input" placeholder="Share your thoughts about our resources..." rows="2"></textarea>
+         <button class="comment-submit" onclick="submitComment()">
+           <i class="fas fa-paper-plane"></i>
+         </button>
+       </div>
+       
+       <!-- Comments List with Replies -->
+       <div class="comments-list" id="comments-list">
+         <div class="loading-spinner">
+           <i class="fas fa-circle-notch fa-spin gradient-text"></i>
+           <p>Loading comments...</p>
+         </div>
+       </div>
      </div>
    </div>
    
@@ -974,13 +1275,14 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // Enable persistence
+    // Enable persistence with error handling
     db.enablePersistence()
+        .then(() => console.log('Offline persistence enabled'))
         .catch((err) => {
             if (err.code == 'failed-precondition') {
-                console.log('Persistence failed');
+                console.log('Persistence failed: Multiple tabs open');
             } else if (err.code == 'unimplemented') {
-                console.log('Persistence not available');
+                console.log('Persistence not available in this browser');
             }
         });
 
@@ -995,8 +1297,10 @@
     // User Panel Variables
     let notifications = [];
     let unreadCount = 0;
-    let downloads = JSON.parse(localStorage.getItem('rubify_downloads')) || [];
-    let userId = 'user_' + Math.random().toString(36).substr(2, 9); // Simple user ID
+    let comments = [];
+    let userId = 'user_' + Math.random().toString(36).substr(2, 9);
+    let userName = 'User_' + userId.substr(0, 5);
+    let activeReplyId = null;
 
     // Show Robot Thanks Message
     function showRobotThanks() {
@@ -1022,7 +1326,7 @@
         window.scrollTo(0,0);
         
         if(view === 'menu') {
-            renderDownloads();
+            loadComments();
         }
     }
 
@@ -1035,11 +1339,10 @@
         }
     }
 
-    // FIXED: Load notifications with correct field names
     function loadNotifications() {
         console.log('Loading notifications...');
         db.collection('notifications')
-            .orderBy('sentAt', 'desc') // Admin uses 'sentAt', not 'timestamp'
+            .orderBy('sentAt', 'desc')
             .limit(50)
             .get()
             .then(snap => {
@@ -1050,10 +1353,15 @@
             })
             .catch(error => {
                 console.error('Error loading notifications:', error);
+                document.getElementById('notifications-list').innerHTML = `
+                    <div class="notification-empty">
+                        <i class="fas fa-exclamation-triangle" style="color:#ff4444;"></i>
+                        <p>Error loading notifications</p>
+                    </div>
+                `;
             });
     }
 
-    // FIXED: Better rendering with null checks
     function renderNotifications() {
         const list = document.getElementById('notifications-list');
         const readStatus = JSON.parse(localStorage.getItem('rubify_notifications_read')) || {};
@@ -1072,25 +1380,29 @@
         notifications.forEach(notif => {
             const isRead = readStatus[notif.id] || false;
             
-            // Handle both sentAt and timestamp fields
             let time;
             if (notif.sentAt) {
                 time = notif.sentAt.seconds ? new Date(notif.sentAt.seconds * 1000) : new Date(notif.sentAt);
             } else if (notif.timestamp) {
                 time = notif.timestamp.seconds ? new Date(notif.timestamp.seconds * 1000) : new Date(notif.timestamp);
             } else {
-                time = new Date(); // fallback to current time
+                time = new Date();
             }
             
             const timeAgo = getTimeAgo(time);
             
             html += `
-                <div class="notification-item ${!isRead ? 'unread' : ''}" onclick="markNotificationRead('${notif.id}')">
-                    <div class="notification-title">${notif.title || 'Notification'}</div>
-                    <div class="notification-message">${notif.message || ''}</div>
-                    ${notif.link ? `<div style="margin-bottom:5px;"><a href="${notif.link}" target="_blank" style="color:#FF416C; font-size:11px;">View Link →</a></div>` : ''}
-                    <div class="notification-time">
-                        <i class="fas fa-clock"></i> ${timeAgo}
+                <div class="notification-item ${!isRead ? 'unread' : ''}">
+                    <div class="notification-delete" onclick="deleteNotification('${notif.id}', event)">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="notification-content" onclick="markNotificationRead('${notif.id}')">
+                        <div class="notification-title">${notif.title || 'Notification'}</div>
+                        <div class="notification-message">${notif.message || ''}</div>
+                        ${notif.link ? `<div style="margin-bottom:5px;"><a href="${notif.link}" target="_blank" style="color:#FF416C; font-size:11px;">View Link →</a></div>` : ''}
+                        <div class="notification-time">
+                            <i class="fas fa-clock"></i> ${timeAgo}
+                        </div>
                     </div>
                 </div>
             `;
@@ -1098,6 +1410,22 @@
         
         list.innerHTML = html;
         updateNotificationBadge();
+    }
+
+    function deleteNotification(id, event) {
+        event.stopPropagation();
+        
+        if(confirm('Delete this notification?')) {
+            db.collection('notifications').doc(id).delete()
+                .then(() => {
+                    showToast('Deleted', 'Notification removed', 'success');
+                    loadNotifications();
+                })
+                .catch(error => {
+                    console.error('Error deleting notification:', error);
+                    showToast('Error', 'Could not delete notification', 'danger');
+                });
+        }
     }
 
     function getTimeAgo(date) {
@@ -1121,7 +1449,6 @@
         return Math.floor(seconds) + ' seconds ago';
     }
 
-    // FIXED: Update badge count correctly
     function updateNotificationBadge() {
         const readStatus = JSON.parse(localStorage.getItem('rubify_notifications_read')) || {};
         unreadCount = notifications.filter(n => !readStatus[n.id]).length;
@@ -1151,85 +1478,366 @@
         renderNotifications();
     }
 
-    // ===== DOWNLOAD FUNCTIONS =====
-    function downloadFile(url, filename, type, productId, productTitle) {
-        // Create download record
-        const download = {
-            id: Date.now().toString(),
-            productId: productId,
-            title: productTitle,
-            type: type,
-            url: url,
-            timestamp: new Date().toISOString()
-        };
+    // ===== FIXED COMMENT FUNCTIONS =====
+    
+    function loadComments() {
+        console.log('Loading comments...');
         
-        downloads.unshift(download);
-        downloads = downloads.slice(0, 50); // Keep last 50 downloads
-        localStorage.setItem('rubify_downloads', JSON.stringify(downloads));
+        // Show loading state
+        const list = document.getElementById('comments-list');
+        list.innerHTML = `
+            <div class="loading-spinner">
+                <i class="fas fa-circle-notch fa-spin gradient-text"></i>
+                <p>Loading comments...</p>
+            </div>
+        `;
         
-        // Show download started message
-        showToast('Download Started', `Downloading ${filename || productTitle}`, 'success');
-        
-        // Trigger download
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = filename || 'download';
-        link.target = '_blank';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        // Render downloads if in menu
-        if(document.getElementById('view-menu').classList.contains('active')) {
-            renderDownloads();
-        }
+        // First, load all comments
+        db.collection('comments')
+            .orderBy('timestamp', 'desc')
+            .limit(50)
+            .get()
+            .then(async (snapshot) => {
+                console.log('Comments loaded:', snapshot.size);
+                
+                if (snapshot.empty) {
+                    list.innerHTML = `
+                        <div class="notification-empty">
+                            <i class="fas fa-comment-dots"></i>
+                            <p>No comments yet. Be the first to share!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Process each comment and load its replies
+                const commentsWithReplies = [];
+                
+                for (const doc of snapshot.docs) {
+                    const commentData = doc.data();
+                    
+                    // Handle timestamp safely
+                    let timestamp = null;
+                    if (commentData.timestamp) {
+                        if (commentData.timestamp.seconds) {
+                            timestamp = new Date(commentData.timestamp.seconds * 1000);
+                        } else if (commentData.timestamp.toDate) {
+                            timestamp = commentData.timestamp.toDate();
+                        } else {
+                            timestamp = new Date(commentData.timestamp);
+                        }
+                    } else {
+                        timestamp = new Date();
+                    }
+                    
+                    const comment = {
+                        id: doc.id,
+                        text: commentData.text || '',
+                        userId: commentData.userId || 'anonymous',
+                        userName: commentData.userName || 'Anonymous',
+                        timestamp: timestamp,
+                        isAdmin: commentData.isAdmin || false,
+                        pinned: commentData.pinned || false,
+                        title: commentData.title || null,
+                        replies: []
+                    };
+                    
+                    // Load replies for this comment
+                    try {
+                        const repliesSnapshot = await db.collection('comment_replies')
+                            .where('commentId', '==', doc.id)
+                            .orderBy('timestamp', 'asc')
+                            .get();
+                        
+                        comment.replies = repliesSnapshot.docs.map(replyDoc => {
+                            const replyData = replyDoc.data();
+                            let replyTimestamp = null;
+                            
+                            if (replyData.timestamp) {
+                                if (replyData.timestamp.seconds) {
+                                    replyTimestamp = new Date(replyData.timestamp.seconds * 1000);
+                                } else if (replyData.timestamp.toDate) {
+                                    replyTimestamp = replyData.timestamp.toDate();
+                                } else {
+                                    replyTimestamp = new Date(replyData.timestamp);
+                                }
+                            } else {
+                                replyTimestamp = new Date();
+                            }
+                            
+                            return {
+                                id: replyDoc.id,
+                                text: replyData.text || '',
+                                userId: replyData.userId || 'admin',
+                                userName: replyData.userName || 'Admin',
+                                timestamp: replyTimestamp,
+                                isAdmin: replyData.isAdmin || true,
+                                sentAsNotification: replyData.sentAsNotification || false
+                            };
+                        });
+                    } catch (replyError) {
+                        console.error('Error loading replies for comment', doc.id, replyError);
+                        comment.replies = [];
+                    }
+                    
+                    commentsWithReplies.push(comment);
+                }
+                
+                comments = commentsWithReplies;
+                renderComments();
+            })
+            .catch(error => {
+                console.error('Error loading comments:', error);
+                document.getElementById('comments-list').innerHTML = `
+                    <div class="notification-empty">
+                        <i class="fas fa-exclamation-triangle" style="color:#ff4444;"></i>
+                        <p>Error loading comments. Please refresh.</p>
+                        <button onclick="loadComments()" style="background:#FF416C; border:none; padding:8px 20px; border-radius:20px; color:white; margin-top:10px; cursor:pointer;">
+                            <i class="fas fa-sync-alt"></i> Retry
+                        </button>
+                    </div>
+                `;
+            });
     }
 
-    function renderDownloads() {
-        const container = document.getElementById('downloads-list');
+    function renderComments() {
+        const list = document.getElementById('comments-list');
         
-        if(downloads.length === 0) {
-            container.innerHTML = `
-                <div style="text-align:center; color:#666; padding:20px;">
-                    <i class="fas fa-download" style="font-size:30px; margin-bottom:10px;"></i>
-                    <p>Your downloaded resources will appear here</p>
+        if (!comments || comments.length === 0) {
+            list.innerHTML = `
+                <div class="notification-empty">
+                    <i class="fas fa-comment-dots"></i>
+                    <p>No comments yet. Be the first to share!</p>
                 </div>
             `;
             return;
         }
         
+        // Sort pinned comments first, then by date
+        const sortedComments = [...comments].sort((a, b) => {
+            if (a.pinned && !b.pinned) return -1;
+            if (!a.pinned && b.pinned) return 1;
+            return b.timestamp - a.timestamp;
+        });
+        
         let html = '';
-        downloads.slice(0, 10).forEach(download => {
-            const date = new Date(download.timestamp);
-            const timeAgo = getTimeAgo(date);
+        
+        sortedComments.forEach(comment => {
+            const timeAgo = getTimeAgo(comment.timestamp);
+            const isOwnComment = comment.userId === userId;
+            
+            // Build replies HTML
+            let repliesHtml = '';
+            if (comment.replies && comment.replies.length > 0) {
+                repliesHtml = '<div class="replies-section">';
+                comment.replies.forEach(reply => {
+                    const replyTimeAgo = getTimeAgo(reply.timestamp);
+                    
+                    repliesHtml += `
+                        <div class="reply-item">
+                            <div class="reply-header">
+                                <span class="reply-author">
+                                    <i class="fas fa-shield-alt"></i> ${reply.userName || 'Admin'}
+                                    <span class="admin-badge">Admin</span>
+                                </span>
+                                <span class="reply-time"><i class="fas fa-clock"></i> ${replyTimeAgo}</span>
+                            </div>
+                            <div class="reply-text">${reply.text || ''}</div>
+                            ${reply.sentAsNotification ? '<div style="color:#4CAF50; font-size:10px; margin-top:5px;"><i class="fas fa-bell"></i> Notification sent</div>' : ''}
+                        </div>
+                    `;
+                });
+                repliesHtml += '</div>';
+            }
+            
+            // Reply input section
+            const replySectionId = `reply-section-${comment.id}`;
+            const replyInputId = `reply-input-${comment.id}`;
             
             html += `
-                <div style="padding:15px; border-bottom:1px solid #222;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                        <span style="font-weight:700;">${download.title}</span>
-                        <span class="file-type ${download.type}">
-                            <i class="fas ${download.type === 'zip' ? 'fa-file-archive' : download.type === 'pdf' ? 'fa-file-pdf' : 'fa-file'}"></i>
-                            ${download.type.toUpperCase()}
+                <div class="comment-item" id="comment-${comment.id}">
+                    <div class="comment-header">
+                        <span class="comment-author">
+                            <i class="fas fa-user-circle" style="margin-right:5px;"></i>${comment.userName}
+                            ${isOwnComment ? ' (You)' : ''}
+                            ${comment.isAdmin ? '<span class="admin-badge">Admin</span>' : ''}
+                            ${comment.pinned ? '<span class="pinned-badge"><i class="fas fa-thumbtack"></i> Pinned</span>' : ''}
+                        </span>
+                        <span style="display:flex; align-items:center; gap:10px;">
+                            <span class="comment-time"><i class="fas fa-clock"></i> ${timeAgo}</span>
+                            ${isOwnComment ? `
+                                <span class="comment-delete" onclick="deleteComment('${comment.id}')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </span>
+                            ` : ''}
                         </span>
                     </div>
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="color:#666; font-size:11px;">
-                            <i class="fas fa-clock"></i> ${timeAgo}
-                        </span>
-                        <button onclick="downloadFile('${download.url}', '${download.title}.${download.type}', '${download.type}', '${download.productId}', '${download.title}')" 
-                                style="background:#FF416C; border:none; padding:5px 15px; border-radius:8px; color:white; font-size:11px; cursor:pointer;">
-                            <i class="fas fa-redo"></i> Redownload
+                    <div class="comment-text">${comment.text || ''}</div>
+                    
+                    <!-- Reply button -->
+                    <div class="comment-actions">
+                        <button class="comment-reply-btn" onclick="showReplyInput('${comment.id}')">
+                            <i class="fas fa-reply"></i> Reply
                         </button>
                     </div>
+                    
+                    <!-- Reply input (hidden by default) -->
+                    <div id="${replySectionId}" style="display: none;" class="reply-input-area">
+                        <input type="text" id="${replyInputId}" class="reply-input" placeholder="Write your reply...">
+                        <button class="reply-send-btn" onclick="submitReply('${comment.id}')">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <span class="cancel-reply" onclick="hideReplyInput('${comment.id}')">Cancel</span>
+                    </div>
+                    
+                    ${repliesHtml}
                 </div>
             `;
         });
         
-        container.innerHTML = html;
+        list.innerHTML = html;
+    }
+
+    function showReplyInput(commentId) {
+        if (activeReplyId) {
+            const previousSection = document.getElementById(`reply-section-${activeReplyId}`);
+            if (previousSection) {
+                previousSection.style.display = 'none';
+            }
+        }
+        
+        const replySection = document.getElementById(`reply-section-${commentId}`);
+        if (replySection) {
+            replySection.style.display = 'flex';
+            activeReplyId = commentId;
+            
+            // Focus the input
+            const input = document.getElementById(`reply-input-${commentId}`);
+            if (input) input.focus();
+        }
+    }
+
+    function hideReplyInput(commentId) {
+        const replySection = document.getElementById(`reply-section-${commentId}`);
+        if (replySection) {
+            replySection.style.display = 'none';
+        }
+        if (activeReplyId === commentId) {
+            activeReplyId = null;
+        }
+    }
+
+    function submitReply(commentId) {
+        const input = document.getElementById(`reply-input-${commentId}`);
+        if (!input) return;
+        
+        const text = input.value.trim();
+        
+        if (!text) {
+            showToast('Empty Reply', 'Please write something', 'warning');
+            return;
+        }
+        
+        // Disable button to prevent double submission
+        const sendBtn = document.querySelector(`#reply-section-${commentId} .reply-send-btn`);
+        if (sendBtn) {
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        }
+        
+        db.collection('comment_replies').add({
+            commentId: commentId,
+            userId: userId,
+            userName: userName,
+            text: text,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            isAdmin: false
+        })
+        .then(() => {
+            input.value = '';
+            hideReplyInput(commentId);
+            showToast('Reply Sent', 'Your reply has been posted', 'success');
+            loadComments();
+        })
+        .catch(error => {
+            console.error('Error submitting reply:', error);
+            showToast('Error', 'Could not send reply', 'danger');
+        })
+        .finally(() => {
+            if (sendBtn) {
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+            }
+        });
+    }
+
+    function submitComment() {
+        const input = document.getElementById('comment-input');
+        const text = input.value.trim();
+        
+        if(!text) {
+            showToast('Empty Comment', 'Please write something to share', 'warning');
+            return;
+        }
+        
+        // Disable button
+        const submitBtn = document.querySelector('.comment-submit');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        }
+        
+        db.collection('comments').add({
+            text: text,
+            userId: userId,
+            userName: userName,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            userAgent: navigator.userAgent.substr(0, 100),
+            pinned: false,
+            isAdmin: false
+        })
+        .then(() => {
+            input.value = '';
+            showToast('Thanks!', 'Your comment has been shared', 'success');
+            loadComments();
+        })
+        .catch(error => {
+            console.error('Error adding comment:', error);
+            showToast('Error', 'Could not submit comment', 'danger');
+        })
+        .finally(() => {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+            }
+        });
+    }
+
+    function deleteComment(id) {
+        if(confirm('Delete your comment? This will also delete all replies.')) {
+            db.collection('comment_replies')
+                .where('commentId', '==', id)
+                .get()
+                .then(snap => {
+                    const batch = db.batch();
+                    snap.docs.forEach(doc => {
+                        batch.delete(doc.ref);
+                    });
+                    batch.delete(db.collection('comments').doc(id));
+                    return batch.commit();
+                })
+                .then(() => {
+                    showToast('Deleted', 'Comment and replies removed', 'success');
+                    loadComments();
+                })
+                .catch(error => {
+                    console.error('Error deleting comment:', error);
+                    showToast('Error', 'Could not delete comment', 'danger');
+                });
+        }
     }
 
     function showToast(title, message, type = 'info') {
-        // Simple toast implementation
         const toast = document.createElement('div');
         toast.style.cssText = `
             position: fixed;
@@ -1237,7 +1845,7 @@
             left: 50%;
             transform: translateX(-50%);
             background: #161618;
-            border: 1px solid ${type === 'success' ? '#4CAF50' : '#FF416C'};
+            border: 1px solid ${type === 'success' ? '#4CAF50' : type === 'danger' ? '#F44336' : '#FF416C'};
             border-radius: 15px;
             padding: 15px 25px;
             z-index: 1000;
@@ -1257,7 +1865,9 @@
         setTimeout(() => {
             toast.style.animation = 'slideDown 0.3s ease';
             setTimeout(() => {
-                document.body.removeChild(toast);
+                if (document.body.contains(toast)) {
+                    document.body.removeChild(toast);
+                }
             }, 300);
         }, 3000);
     }
@@ -1284,10 +1894,9 @@
         loadVideos();
         loadBanners();
         loadCategories();
-        loadNotifications(); // Load notifications for user panel
+        loadNotifications();
     }
 
-    // Load contact info
     function loadContactInfo() {
         db.collection('settings').doc('contact').get()
             .then(doc => {
@@ -1301,7 +1910,6 @@
             });
     }
 
-    // Load categories for filters
     function loadCategories() {
         db.collection('categories').get()
             .then(snap => {
@@ -1323,7 +1931,6 @@
             });
     }
 
-    // Load products
     function loadProducts() {
         db.collection('products')
             .where('live', '==', true)
@@ -1349,7 +1956,6 @@
             });
     }
 
-    // Load videos
     function loadVideos() {
         db.collection('videos')
             .where('active', '==', true)
@@ -1398,7 +2004,6 @@
             });
     }
 
-    // Load banners
     function loadBanners() {
         db.collection('banners')
             .where('active', '==', true)
@@ -1447,7 +2052,6 @@
             });
     }
 
-    // Render products with download buttons
     function render() {
         const grid = document.getElementById('grid');
         const searchGrid = document.getElementById('search-grid');
@@ -1472,14 +2076,12 @@
         }
     }
 
-    // Generate product cards with download buttons
     function generateCardsWithDownloads(list) {
         if(!list || list.length === 0) {
             return `<div style="text-align:center; color:#555; padding:40px;">📦 No items found.</div>`;
         }
         
         return list.map(p => {
-            // Check if product has downloadable assets
             const hasApk = p.apkLink && p.apkLink.trim() !== '';
             const hasAssets = p.assetsLink && p.assetsLink.trim() !== '';
             const hasPdf = p.pdfLink && p.pdfLink.trim() !== '';
@@ -1538,7 +2140,6 @@
         `}).join('');
     }
 
-    // Filter by category
     function filter(cat, el) {
         currentCat = cat;
         document.querySelectorAll('.cat-pill').forEach(x => x.classList.remove('active'));
@@ -1546,10 +2147,20 @@
         render();
     }
 
-    // Search input listener
     document.getElementById('search-input').addEventListener('input', render);
 
-    // Open detail with download buttons
+    function downloadFile(url, filename, type, productId, productTitle) {
+        showToast('Download Started', `Downloading ${filename}`, 'success');
+        
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename || 'download';
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     function openDetail(id) {
         const p = products.find(x => x.id === id);
         if(!p) return;
@@ -1559,17 +2170,14 @@
         const hasPdf = p.pdfLink && p.pdfLink.trim() !== '';
         const hasZip = p.zipLink && p.zipLink.trim() !== '';
         
-        // Process features list
         const featuresList = p.features ? 
             p.features.split('\n').filter(line => line.trim() !== '')
                 .map(line => `<li>${line.trim().replace(/^[-•*]\s*/, '')}</li>`).join('') : '';
         
-        // Process how it works
         const howItWorks = p.howItWorks ? 
             p.howItWorks.split('\n').filter(line => line.trim() !== '')
                 .map(line => `<p style="margin-bottom:10px;">${line.trim()}</p>`).join('') : '';
         
-        // Create download badges
         let downloadBadges = '';
         if(hasZip) downloadBadges += '<span class="download-badge"><i class="fas fa-file-archive"></i> ZIP Available</span>';
         if(hasPdf) downloadBadges += '<span class="download-badge"><i class="fas fa-file-pdf"></i> PDF Available</span>';
@@ -1645,13 +2253,11 @@
         window.history.pushState({}, '', `?pid=${id}`);
     }
 
-    // Close modal
     function closeModal() {
         document.getElementById('detail-modal').classList.remove('modal-open');
         window.history.pushState({}, '', window.location.pathname);
     }
 
-    // Open legal modal
     function openLegal(title) {
         document.getElementById('legal-title').innerText = title;
         
@@ -1668,31 +2274,28 @@
         document.getElementById('legal-full').classList.add('active');
     }
 
-    // Send message
     function sendMessage() {
         const email = document.getElementById('contact-email-input').value;
         const message = document.getElementById('contact-message').value;
         if(email && message) {
-            // Save message to Firestore
             db.collection('messages').add({
                 email: email,
                 message: message,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 userId: userId
             }).then(() => {
-                alert('Message sent successfully!');
+                showToast('Message Sent', 'We\'ll get back to you soon!', 'success');
                 document.getElementById('contact-email-input').value = '';
                 document.getElementById('contact-message').value = '';
             }).catch(error => {
                 console.error('Error sending message:', error);
-                alert('Error sending message. Please try again.');
+                showToast('Error', 'Could not send message', 'danger');
             });
         } else {
-            alert('Please fill all fields');
+            showToast('Missing Info', 'Please fill all fields', 'warning');
         }
     }
 
-    // Close notifications panel when clicking outside
     document.addEventListener('click', function(event) {
         const panel = document.getElementById('notifications-panel');
         const bell = document.querySelector('.notification-badge');
@@ -1702,19 +2305,16 @@
         }
     });
 
-    // Initialize
     window.addEventListener('load', function() {
         console.log('Page loaded, initializing Firebase...');
         loadAllContent();
     });
 
-    // Check URL for product ID
     const pid = new URLSearchParams(window.location.search).get('pid');
     if(pid) {
         setTimeout(() => openDetail(pid), 1500);
     }
 
-    // Handle browser back button
     window.addEventListener('popstate', function() {
         if(!window.location.search.includes('pid')) {
             closeModal();
