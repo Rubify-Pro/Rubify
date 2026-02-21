@@ -3,7 +3,7 @@
 <head> 
   <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
-  <title>Rubify - Discover AI Resources</title> 
+  <title>Rubify Pro - Discover Powerful Resources</title> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"> 
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script> 
@@ -118,92 +118,217 @@
             color: white !important;
         }
 
-        /* UPDATE OVERLAY - FULL SCREEN */
+        /* ===== BEAUTIFUL UPDATE OVERLAY WITH SMOOTH ANIMATIONS ===== */
         #update-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #000;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             z-index: 10000;
             display: none;
             align-items: center;
             justify-content: center;
-            animation: fadeIn 0.5s ease;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        #update-overlay.active {
+            opacity: 1;
         }
 
         .update-card {
-            background: #111;
-            border-radius: 30px;
-            padding: 40px;
+            background: linear-gradient(145deg, #111, #1a1a1a);
+            border-radius: 40px;
+            padding: 50px 40px;
             max-width: 500px;
             width: 90%;
             text-align: center;
-            border: 1px solid #FF416C;
-            box-shadow: 0 0 50px rgba(255,65,108,0.3);
-            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 1px solid rgba(255, 65, 108, 0.3);
+            box-shadow: 0 30px 60px rgba(255, 65, 108, 0.2);
+            transform: scale(0.9) translateY(20px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .update-card i {
-            font-size: 80px;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #FF416C, #FF4B2B);
+        #update-overlay.active .update-card {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .update-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, rgba(255, 65, 108, 0.2), rgba(255, 75, 43, 0.2));
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        .update-icon i {
+            font-size: 60px;
+            background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 65, 108, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0); }
+        }
+
         .update-card h2 {
-            font-size: 32px;
+            font-size: 36px;
+            font-weight: 800;
             margin-bottom: 15px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .update-card p {
-            color: #aaa;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-
-        .update-badge {
-            background: #FF416C;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 30px;
-            font-size: 14px;
+        .update-version-badge {
+            background: rgba(255, 65, 108, 0.2);
+            border: 1px solid #FF416C;
+            color: #FF416C;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 16px;
             font-weight: 700;
             display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        .update-version {
-            background: #222;
-            padding: 15px;
-            border-radius: 15px;
             margin-bottom: 25px;
+            letter-spacing: 1px;
         }
 
-        .update-version span {
-            color: #FF416C;
-            font-weight: 700;
-            font-size: 18px;
+        .update-version-box {
+            background: #222;
+            padding: 20px;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            border: 1px solid #333;
         }
 
-        .refresh-btn {
-            background: linear-gradient(135deg, #FF416C, #FF4B2B);
-            border: none;
-            padding: 15px 30px;
-            border-radius: 15px;
-            color: white;
+        .update-version-box .current {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .update-version-box .new {
+            font-size: 48px;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        .update-message {
+            color: #ccc;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+            padding: 0 10px;
+        }
+
+        .update-progress {
+            width: 100%;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .update-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--accent-gradient);
+            transition: width 2s ease;
+        }
+
+        .update-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .update-btn {
+            padding: 16px 40px;
+            border-radius: 50px;
             font-weight: 700;
             font-size: 16px;
             cursor: pointer;
-            width: 100%;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .refresh-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255,65,108,0.5);
+        .update-btn-primary {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: 0 10px 20px rgba(255, 65, 108, 0.3);
+        }
+
+        .update-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 65, 108, 0.5);
+        }
+
+        .update-btn-secondary {
+            background: transparent;
+            color: #888;
+            border: 1px solid #333;
+        }
+
+        .update-btn-secondary:hover {
+            border-color: #FF416C;
+            color: white;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .fa-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        /* Floating particles animation */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 65, 108, 0.3);
+            border-radius: 50%;
+            animation: float 8s infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
 
         /* Robot Toast Message */
@@ -211,20 +336,28 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.9);
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(0,0,0,0.95);
             backdrop-filter: blur(10px);
-            border: 1px solid #FF416C;
-            border-radius: 20px;
-            padding: 30px 40px;
-            z-index: 1000;
+            border: 2px solid #FF416C;
+            border-radius: 30px;
+            padding: 40px 50px;
+            z-index: 2000;
             text-align: center;
-            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 20px 40px rgba(255,65,108,0.3);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            box-shadow: 0 30px 60px rgba(255,65,108,0.3);
+        }
+
+        .robot-toast.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
         }
 
         .robot-toast i {
-            font-size: 60px;
+            font-size: 80px;
             margin-bottom: 20px;
             background: linear-gradient(135deg, #FF416C, #FF4B2B);
             -webkit-background-clip: text;
@@ -232,7 +365,7 @@
         }
 
         .robot-toast h2 {
-            font-size: 28px;
+            font-size: 32px;
             margin-bottom: 10px;
             background: linear-gradient(135deg, #FF416C, #FF4B2B);
             -webkit-background-clip: text;
@@ -240,33 +373,8 @@
         }
 
         .robot-toast p {
-            color: #aaa;
+            color: #ccc;
             font-size: 16px;
-        }
-
-        @keyframes popIn {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.3);
-            }
-            100% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            to { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
-        }
-
-        .robot-toast.fade-out {
-            animation: fadeOut 0.3s ease forwards;
         }
 
         /* Notifications Panel */
@@ -650,7 +758,7 @@
             color: #FF416C;
         }
 
-        /* Rest of your existing styles */
+        /* Main Views */
         .view { display: none; padding: 90px 20px 20px 20px; animation: fadeIn 0.4s ease; }
         .view.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -794,19 +902,21 @@
             overflow: hidden; 
         }
 
-        /* Download buttons in cards */
+        /* ===== FIXED DOWNLOAD BUTTONS WITH WORKING LINKS ===== */
         .card-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-top: 12px;
             padding-top: 12px;
             border-top: 1px solid #222;
+            flex-wrap: wrap;
         }
         
         .card-action-btn {
             flex: 1;
-            padding: 8px;
-            border-radius: 10px;
+            min-width: 70px;
+            padding: 10px 5px;
+            border-radius: 12px;
             background: #1a1a1a;
             border: 1px solid #333;
             color: #fff;
@@ -817,23 +927,53 @@
             justify-content: center;
             gap: 5px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s ease;
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-action-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .card-action-btn:active::before {
+            width: 300px;
+            height: 300px;
         }
         
         .card-action-btn i {
             color: #FF416C;
             font-size: 12px;
+            transition: 0.3s;
         }
         
         .card-action-btn:hover {
             background: #FF416C;
             border-color: #FF416C;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.3);
         }
         
         .card-action-btn:hover i {
             color: white;
+            transform: scale(1.1);
         }
+        
+        /* File type specific colors on hover */
+        .card-action-btn[data-type="apk"]:hover { background: #4CAF50; border-color: #4CAF50; }
+        .card-action-btn[data-type="zip"]:hover { background: #FFC107; border-color: #FFC107; }
+        .card-action-btn[data-type="pdf"]:hover { background: #F44336; border-color: #F44336; }
+        .card-action-btn[data-type="assets"]:hover { background: #2196F3; border-color: #2196F3; }
 
         .search-hero { 
             margin-bottom: 30px; 
@@ -955,7 +1095,7 @@
             box-shadow: 0 0 8px #FF416C;
         }
 
-        /* ===== MODAL STYLES ===== */
+        /* Detail Modal */
         #detail-modal { 
             position: fixed; 
             inset: 0; 
@@ -1090,7 +1230,14 @@
             justify-content: center; 
             gap: 10px;
             text-decoration: none;
+            transition: 0.3s;
         }
+        
+        .btn-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 65, 108, 0.5);
+        }
+        
         .btn-glass {
             width: 100%; 
             padding: 18px; 
@@ -1106,14 +1253,12 @@
             justify-content: center; 
             gap: 10px;
             text-decoration: none;
+            transition: 0.3s;
         }
         
-        .btn-success {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-        }
-        
-        .btn-warning {
-            background: linear-gradient(135deg, #FFC107, #ffb300);
+        .btn-glass:hover {
+            background: rgba(255,65,108,0.2);
+            border-color: #FF416C;
         }
         
         .download-badge {
@@ -1197,28 +1342,44 @@
     </style> 
 </head> 
 <body> 
-  <!-- UPDATE OVERLAY - Shown when force update is active -->
+  <!-- BEAUTIFUL UPDATE OVERLAY WITH SMOOTH ANIMATIONS -->
   <div id="update-overlay">
+    <div class="particles" id="particles"></div>
     <div class="update-card">
-      <i class="fas fa-rocket"></i>
-      <h2 class="gradient-text">Update Required</h2>
-      <div class="update-badge" id="update-version-badge">New Version Available</div>
-      <div class="update-version">
-        <span id="update-version-text">v1.0.0</span>
+      <div class="update-icon">
+        <i class="fas fa-rocket"></i>
       </div>
-      <p id="update-message-text">Important update available! Please refresh or clear cache to continue using Rubify.</p>
-      <button class="refresh-btn" onclick="handleUpdate()">
-        <i class="fas fa-sync-alt"></i> Refresh Now
-      </button>
-      <p style="color:#666; font-size:12px; margin-top:20px;">If refresh doesn't work, clear your browser cache.</p>
+      <h2>Update Available</h2>
+      <div class="update-version-badge" id="update-version-badge">New Version</div>
+      <div class="update-version-box">
+        <div class="current">Current Version</div>
+        <div class="new" id="update-version-text">v1.0.0</div>
+      </div>
+      <div class="update-message" id="update-message-text">
+        A new version of Rubify Pro is available with exciting features and improvements!
+      </div>
+      <div class="update-progress">
+        <div class="update-progress-bar" id="update-progress-bar"></div>
+      </div>
+      <div class="update-buttons">
+        <button class="update-btn update-btn-primary" onclick="handleUpdate()">
+          <i class="fas fa-sync-alt"></i> Update Now
+        </button>
+        <button class="update-btn update-btn-secondary" onclick="remindLater()">
+          <i class="fas fa-clock"></i> Later
+        </button>
+      </div>
+      <p style="color:#666; font-size:12px; margin-top:20px;">
+        <i class="fas fa-shield-alt"></i> This update improves performance and security
+      </p>
     </div>
   </div>
 
   <!-- Robot Toast Message -->
-  <div id="robot-thanks" class="robot-toast" style="display: none;">
+  <div id="robot-thanks" class="robot-toast">
     <i class="fas fa-robot"></i>
     <h2>Thanks!</h2>
-    <p>for using this website</p>
+    <p>for using Rubify Pro</p>
   </div>
 
   <!-- Notifications Panel -->
@@ -1236,8 +1397,9 @@
   </div>
 
   <header> 
-   <div class="logo">
-    Rubi<span class="gradient-text">fy</span>
+  <div class="logo">
+    Rubify <span class="gradient-text">Website</span>
+</div>
    </div> 
    <div class="header-actions">
      <!-- Notification Bell -->
@@ -1262,7 +1424,7 @@
    <div class="grid" id="grid"> 
     <div class="loading-spinner">
         <i class="fas fa-circle-notch fa-spin gradient-text"></i>
-        <p>Loading Rubify...</p>
+        <p>Loading Rubify Pro...</p>
     </div>
    </div> 
   </div> 
@@ -1274,7 +1436,7 @@
    </div> 
    <div class="search-box"> 
     <i class="fas fa-search search-icon"></i> 
-    <input type="text" class="search-input" id="search-input" placeholder="Search Rubify..."> 
+    <input type="text" class="search-input" id="search-input" placeholder="Search Rubify Pro..."> 
    </div> 
    <div class="grid" id="search-grid" style="margin-top: 30px;">
     <p style="text-align:center; color:#444; padding:40px;">🔍 Search for apps, prompts, or tools...</p>
@@ -1406,30 +1568,52 @@
     let userName = 'User_' + userId.substr(0, 5);
     let activeReplyId = null;
 
-    // Check for updates on load
-    window.addEventListener('load', function() {
-        checkForUpdates();
-        loadAllContent();
-    });
+    // Create floating particles for update overlay
+    function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        if (!particlesContainer) return;
+        
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.width = Math.random() * 8 + 2 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.background = `rgba(255, ${Math.floor(65 + Math.random() * 50)}, ${Math.floor(65 + Math.random() * 50)}, ${0.2 + Math.random() * 0.3})`;
+            particlesContainer.appendChild(particle);
+        }
+    }
 
-    // Check for forced updates
+    // Check for updates on load with beautiful animation
     async function checkForUpdates() {
         try {
             const doc = await db.collection('system').doc('update').get();
             if (doc.exists) {
                 const data = doc.data();
                 if (data.forceUpdate === true) {
-                    // Show update overlay
+                    // Show update overlay with animation
+                    const overlay = document.getElementById('update-overlay');
                     document.getElementById('update-version-text').textContent = `v${data.version || '1.0.0'}`;
-                    document.getElementById('update-message-text').textContent = data.message || 'Important update available! Please refresh or clear cache to continue using Rubify.';
-                    document.getElementById('update-overlay').style.display = 'flex';
+                    document.getElementById('update-message-text').textContent = data.message || 'A new version of Rubify Pro is available with exciting features and improvements!';
                     
-                    // Also store in localStorage to remember update state
-                    localStorage.setItem('rubify_update_version', data.version || '1.0.0');
-                    localStorage.setItem('rubify_update_forced', 'true');
-                } else {
-                    document.getElementById('update-overlay').style.display = 'none';
-                    localStorage.setItem('rubify_update_forced', 'false');
+                    // Animate progress bar
+                    setTimeout(() => {
+                        document.getElementById('update-progress-bar').style.width = '100%';
+                    }, 100);
+                    
+                    // Show overlay
+                    overlay.style.display = 'flex';
+                    setTimeout(() => {
+                        overlay.classList.add('active');
+                    }, 50);
+                    
+                    // Create floating particles
+                    createParticles();
+                    
+                    // Store in localStorage
+                    localStorage.setItem('rubify_pro_update_version', data.version || '1.0.0');
+                    localStorage.setItem('rubify_pro_update_forced', 'true');
                 }
             }
         } catch (error) {
@@ -1437,24 +1621,48 @@
         }
     }
 
-    // Handle update button click
+    // Handle update button click with smooth animation
     function handleUpdate() {
-        // Force a hard refresh
-        window.location.reload(true);
+        const overlay = document.getElementById('update-overlay');
+        const btn = event.currentTarget;
+        
+        // Button loading animation
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+        btn.disabled = true;
+        
+        // Progress bar animation
+        document.getElementById('update-progress-bar').style.width = '100%';
+        
+        // Simulate update process with smooth fade out
+        setTimeout(() => {
+            overlay.classList.remove('active');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                // Force a hard refresh
+                window.location.reload(true);
+            }, 500);
+        }, 1500);
     }
 
-    // Show Robot Thanks Message
+    // Remind later function
+    function remindLater() {
+        const overlay = document.getElementById('update-overlay');
+        overlay.classList.remove('active');
+        setTimeout(() => {
+            overlay.style.display = 'none';
+        }, 500);
+        
+        // Store reminder in localStorage (remind in 1 hour)
+        localStorage.setItem('rubify_pro_update_reminder', Date.now() + 3600000);
+    }
+
+    // Show Robot Thanks Message with smooth animation
     function showRobotThanks() {
         const toast = document.getElementById('robot-thanks');
-        toast.style.display = 'block';
-        toast.classList.remove('fade-out');
+        toast.classList.add('active');
         
         setTimeout(() => {
-            toast.classList.add('fade-out');
-            setTimeout(() => {
-                toast.style.display = 'none';
-                toast.classList.remove('fade-out');
-            }, 300);
+            toast.classList.remove('active');
         }, 2000);
     }
 
@@ -1505,7 +1713,7 @@
 
     function renderNotifications() {
         const list = document.getElementById('notifications-list');
-        const readStatus = JSON.parse(localStorage.getItem('rubify_notifications_read')) || {};
+        const readStatus = JSON.parse(localStorage.getItem('rubify_pro_notifications_read')) || {};
         
         if(notifications.length === 0) {
             list.innerHTML = `
@@ -1591,7 +1799,7 @@
     }
 
     function updateNotificationBadge() {
-        const readStatus = JSON.parse(localStorage.getItem('rubify_notifications_read')) || {};
+        const readStatus = JSON.parse(localStorage.getItem('rubify_pro_notifications_read')) || {};
         unreadCount = notifications.filter(n => !readStatus[n.id]).length;
         
         const badge = document.getElementById('notification-count');
@@ -1604,9 +1812,9 @@
     }
 
     function markNotificationRead(id) {
-        const readStatus = JSON.parse(localStorage.getItem('rubify_notifications_read')) || {};
+        const readStatus = JSON.parse(localStorage.getItem('rubify_pro_notifications_read')) || {};
         readStatus[id] = true;
-        localStorage.setItem('rubify_notifications_read', JSON.stringify(readStatus));
+        localStorage.setItem('rubify_pro_notifications_read', JSON.stringify(readStatus));
         renderNotifications();
     }
 
@@ -1615,7 +1823,7 @@
         notifications.forEach(n => {
             readStatus[n.id] = true;
         });
-        localStorage.setItem('rubify_notifications_read', JSON.stringify(readStatus));
+        localStorage.setItem('rubify_pro_notifications_read', JSON.stringify(readStatus));
         renderNotifications();
     }
 
@@ -2217,6 +2425,7 @@
         }
     }
 
+    // ===== FIXED DOWNLOAD FUNCTION WITH WORKING LINKS =====
     function generateCardsWithDownloads(list) {
         if(!list || list.length === 0) {
             return `<div style="text-align:center; color:#555; padding:40px;">📦 No items found.</div>`;
@@ -2232,8 +2441,9 @@
             
             if(hasApk) {
                 downloadButtons += `
-                    <a href="#" onclick="event.stopPropagation(); downloadFile('${p.apkLink}', '${p.title}.apk', 'apk', '${p.id}', '${p.title}'); return false;" 
-                       class="card-action-btn" title="Download APK">
+                    <a href="${p.apkLink}" target="_blank" rel="noopener noreferrer" 
+                       class="card-action-btn" data-type="apk" onclick="event.stopPropagation(); downloadFile('${p.apkLink}', '${p.title}.apk', 'apk'); return true;" 
+                       title="Download APK">
                         <i class="fab fa-android"></i> APK
                     </a>
                 `;
@@ -2241,8 +2451,9 @@
             
             if(hasZip) {
                 downloadButtons += `
-                    <a href="#" onclick="event.stopPropagation(); downloadFile('${p.zipLink}', '${p.title}.zip', 'zip', '${p.id}', '${p.title}'); return false;" 
-                       class="card-action-btn" title="Download ZIP">
+                    <a href="${p.zipLink}" target="_blank" rel="noopener noreferrer" 
+                       class="card-action-btn" data-type="zip" onclick="event.stopPropagation(); downloadFile('${p.zipLink}', '${p.title}.zip', 'zip'); return true;" 
+                       title="Download ZIP">
                         <i class="fas fa-file-archive"></i> ZIP
                     </a>
                 `;
@@ -2250,8 +2461,9 @@
             
             if(hasPdf) {
                 downloadButtons += `
-                    <a href="#" onclick="event.stopPropagation(); downloadFile('${p.pdfLink}', '${p.title}.pdf', 'pdf', '${p.id}', '${p.title}'); return false;" 
-                       class="card-action-btn" title="Download PDF">
+                    <a href="${p.pdfLink}" target="_blank" rel="noopener noreferrer" 
+                       class="card-action-btn" data-type="pdf" onclick="event.stopPropagation(); downloadFile('${p.pdfLink}', '${p.title}.pdf', 'pdf'); return true;" 
+                       title="Download PDF">
                         <i class="fas fa-file-pdf"></i> PDF
                     </a>
                 `;
@@ -2259,8 +2471,9 @@
             
             if(hasAssets) {
                 downloadButtons += `
-                    <a href="#" onclick="event.stopPropagation(); downloadFile('${p.assetsLink}', '${p.title}_assets.zip', 'assets', '${p.id}', '${p.title} Assets'); return false;" 
-                       class="card-action-btn" title="Download Assets">
+                    <a href="${p.assetsLink}" target="_blank" rel="noopener noreferrer" 
+                       class="card-action-btn" data-type="assets" onclick="event.stopPropagation(); downloadFile('${p.assetsLink}', '${p.title}_assets.zip', 'assets'); return true;" 
+                       title="Download Assets">
                         <i class="fas fa-folder"></i> Assets
                     </a>
                 `;
@@ -2290,16 +2503,24 @@
 
     document.getElementById('search-input').addEventListener('input', render);
 
-    function downloadFile(url, filename, type, productId, productTitle) {
+    // Fixed download function with better handling
+    function downloadFile(url, filename, type) {
         showToast('Download Started', `Downloading ${filename}`, 'success');
         
+        // Create a temporary anchor element
         const link = document.createElement('a');
         link.href = url;
         link.download = filename || 'download';
         link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        
+        // Append to body, click, and remove
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        
+        // Track download in console
+        console.log(`Downloading ${type} file: ${filename} from ${url}`);
     }
 
     function openDetail(id) {
@@ -2365,23 +2586,23 @@
                 
                 <div class="section-title">Download Options</div>
                 <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
-                    ${hasApk ? `<a href="#" onclick="downloadFile('${p.apkLink}', '${p.title}.apk', 'apk', '${p.id}', '${p.title}'); return false;" class="btn-gradient"><i class="fab fa-android"></i> Download APK</a>` : ''}
-                    ${hasZip ? `<a href="#" onclick="downloadFile('${p.zipLink}', '${p.title}.zip', 'zip', '${p.id}', '${p.title}'); return false;" class="btn-glass"><i class="fas fa-file-archive"></i> Download ZIP</a>` : ''}
-                    ${hasPdf ? `<a href="#" onclick="downloadFile('${p.pdfLink}', '${p.title}.pdf', 'pdf', '${p.id}', '${p.title}'); return false;" class="btn-glass"><i class="fas fa-file-pdf"></i> Download PDF</a>` : ''}
-                    ${hasAssets ? `<a href="#" onclick="downloadFile('${p.assetsLink}', '${p.title}_assets.zip', 'assets', '${p.id}', '${p.title} Assets'); return false;" class="btn-glass"><i class="fas fa-folder"></i> Download Assets</a>` : ''}
+                    ${hasApk ? `<a href="${p.apkLink}" target="_blank" rel="noopener noreferrer" onclick="downloadFile('${p.apkLink}', '${p.title}.apk', 'apk'); return true;" class="btn-gradient"><i class="fab fa-android"></i> Download APK</a>` : ''}
+                    ${hasZip ? `<a href="${p.zipLink}" target="_blank" rel="noopener noreferrer" onclick="downloadFile('${p.zipLink}', '${p.title}.zip', 'zip'); return true;" class="btn-glass"><i class="fas fa-file-archive"></i> Download ZIP</a>` : ''}
+                    ${hasPdf ? `<a href="${p.pdfLink}" target="_blank" rel="noopener noreferrer" onclick="downloadFile('${p.pdfLink}', '${p.title}.pdf', 'pdf'); return true;" class="btn-glass"><i class="fas fa-file-pdf"></i> Download PDF</a>` : ''}
+                    ${hasAssets ? `<a href="${p.assetsLink}" target="_blank" rel="noopener noreferrer" onclick="downloadFile('${p.assetsLink}', '${p.title}_assets.zip', 'assets'); return true;" class="btn-glass"><i class="fas fa-folder"></i> Download Assets</a>` : ''}
                 </div>
                 
                 <div class="section-title">Educational & Safety Disclaimer</div>
                 <div class="section-content">${p.disclaimer || 'For educational and informational purposes only. No ownership claim over third-party tools. Users are responsible for their usage.'}</div>
                 
                 <div class="section-title">External Resource Notice</div>
-                <div class="section-content">This resource is hosted on an external platform. Rubify does not host or store any files.</div>
+                <div class="section-content">This resource is hosted on an external platform. Rubify Pro does not host or store any files.</div>
                 
                 <div class="detail-footer">
                     <div style="margin-top:30px;">
                         <p>If you have any questions or concerns, contact us at:</p>
                         <p style="color:#FF416C;">Email: ${contactEmail}</p>
-                        <p style="margin-top:15px;">Rubify respects intellectual property rights.<br>All trademarks and resources belong to their respective owners.</p>
+                        <p style="margin-top:15px;">Rubify Pro respects intellectual property rights.<br>All trademarks and resources belong to their respective owners.</p>
                     </div>
                 </div>
                 
@@ -2404,11 +2625,11 @@
         
         let content = '';
         if(title === 'Privacy Policy') {
-            content = '<p>At Rubify, we value your privacy. This policy outlines how we collect, use, and protect your information.</p><br><p>We collect minimal information necessary to provide our services. Your data is never sold to third parties.</p>';
+            content = '<p>At Rubify Pro, we value your privacy. This policy outlines how we collect, use, and protect your information.</p><br><p>We collect minimal information necessary to provide our services. Your data is never sold to third parties.</p>';
         } else if(title === 'Terms of Service') {
-            content = '<p>By using Rubify, you agree to these terms. Our platform provides AI resource listings for educational purposes.</p><br><p>You are responsible for how you use the resources found on our platform. We do not guarantee accuracy or availability of third-party links.</p>';
+            content = '<p>By using Rubify Pro, you agree to these terms. Our platform provides AI resource listings for educational purposes.</p><br><p>You are responsible for how you use the resources found on our platform. We do not guarantee accuracy or availability of third-party links.</p>';
         } else if(title === 'Disclaimer') {
-            content = '<p>Rubify is a platform for discovering AI resources. We do not host, store, or own any of the listed resources.</p><br><p>All trademarks, logos, and brand names are the property of their respective owners. Use resources at your own discretion.</p>';
+            content = '<p>Rubify Pro is a platform for discovering AI resources. We do not host, store, or own any of the listed resources.</p><br><p>All trademarks, logos, and brand names are the property of their respective owners. Use resources at your own discretion.</p>';
         }
         
         document.getElementById('legal-text').innerHTML = content;
@@ -2444,6 +2665,13 @@
         if(panel && bell && !panel.contains(event.target) && !bell.contains(event.target) && panel.classList.contains('active')) {
             panel.classList.remove('active');
         }
+    });
+
+    // Initialize on load
+    window.addEventListener('load', function() {
+        console.log('Rubify Pro loaded, initializing Firebase...');
+        checkForUpdates();
+        loadAllContent();
     });
 
     const pid = new URLSearchParams(window.location.search).get('pid');
