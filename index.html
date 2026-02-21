@@ -118,6 +118,94 @@
             color: white !important;
         }
 
+        /* UPDATE OVERLAY - FULL SCREEN */
+        #update-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .update-card {
+            background: #111;
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid #FF416C;
+            box-shadow: 0 0 50px rgba(255,65,108,0.3);
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .update-card i {
+            font-size: 80px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FF416C, #FF4B2B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .update-card h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .update-card p {
+            color: #aaa;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .update-badge {
+            background: #FF416C;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .update-version {
+            background: #222;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+
+        .update-version span {
+            color: #FF416C;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #FF416C, #FF4B2B);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255,65,108,0.5);
+        }
+
         /* Robot Toast Message */
         .robot-toast {
             position: fixed;
@@ -167,15 +255,14 @@
             }
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         @keyframes fadeOut {
-            from {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.3);
-            }
+            from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            to { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
         }
 
         .robot-toast.fade-out {
@@ -1110,6 +1197,23 @@
     </style> 
 </head> 
 <body> 
+  <!-- UPDATE OVERLAY - Shown when force update is active -->
+  <div id="update-overlay">
+    <div class="update-card">
+      <i class="fas fa-rocket"></i>
+      <h2 class="gradient-text">Update Required</h2>
+      <div class="update-badge" id="update-version-badge">New Version Available</div>
+      <div class="update-version">
+        <span id="update-version-text">v1.0.0</span>
+      </div>
+      <p id="update-message-text">Important update available! Please refresh or clear cache to continue using Rubify.</p>
+      <button class="refresh-btn" onclick="handleUpdate()">
+        <i class="fas fa-sync-alt"></i> Refresh Now
+      </button>
+      <p style="color:#666; font-size:12px; margin-top:20px;">If refresh doesn't work, clear your browser cache.</p>
+    </div>
+  </div>
+
   <!-- Robot Toast Message -->
   <div id="robot-thanks" class="robot-toast" style="display: none;">
     <i class="fas fa-robot"></i>
@@ -1302,6 +1406,43 @@
     let userName = 'User_' + userId.substr(0, 5);
     let activeReplyId = null;
 
+    // Check for updates on load
+    window.addEventListener('load', function() {
+        checkForUpdates();
+        loadAllContent();
+    });
+
+    // Check for forced updates
+    async function checkForUpdates() {
+        try {
+            const doc = await db.collection('system').doc('update').get();
+            if (doc.exists) {
+                const data = doc.data();
+                if (data.forceUpdate === true) {
+                    // Show update overlay
+                    document.getElementById('update-version-text').textContent = `v${data.version || '1.0.0'}`;
+                    document.getElementById('update-message-text').textContent = data.message || 'Important update available! Please refresh or clear cache to continue using Rubify.';
+                    document.getElementById('update-overlay').style.display = 'flex';
+                    
+                    // Also store in localStorage to remember update state
+                    localStorage.setItem('rubify_update_version', data.version || '1.0.0');
+                    localStorage.setItem('rubify_update_forced', 'true');
+                } else {
+                    document.getElementById('update-overlay').style.display = 'none';
+                    localStorage.setItem('rubify_update_forced', 'false');
+                }
+            }
+        } catch (error) {
+            console.error('Error checking for updates:', error);
+        }
+    }
+
+    // Handle update button click
+    function handleUpdate() {
+        // Force a hard refresh
+        window.location.reload(true);
+    }
+
     // Show Robot Thanks Message
     function showRobotThanks() {
         const toast = document.getElementById('robot-thanks');
@@ -1478,7 +1619,7 @@
         renderNotifications();
     }
 
-    // ===== FIXED COMMENT FUNCTIONS =====
+    // ===== COMMENT FUNCTIONS =====
     
     function loadComments() {
         console.log('Loading comments...');
@@ -2303,11 +2444,6 @@
         if(panel && bell && !panel.contains(event.target) && !bell.contains(event.target) && panel.classList.contains('active')) {
             panel.classList.remove('active');
         }
-    });
-
-    window.addEventListener('load', function() {
-        console.log('Page loaded, initializing Firebase...');
-        loadAllContent();
     });
 
     const pid = new URLSearchParams(window.location.search).get('pid');
