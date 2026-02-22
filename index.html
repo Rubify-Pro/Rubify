@@ -3,7 +3,7 @@
 <head> 
   <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
-  <title>Rubify Pro - Discover Powerful Resources</title> 
+  <title>Rubify Website - Secure Access</title> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"> 
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script> 
@@ -30,17 +30,359 @@
             background-image: radial-gradient(circle at 50% 0%, #2a1a2e 0%, #000 70%);
             color: var(--text-main);
             min-height: 100vh;
-            padding-bottom: 100px;
             overflow-x: hidden;
         }
 
+        /* Force Login Overlay */
+        .force-login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .force-login-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .login-container {
+            max-width: 450px;
+            width: 90%;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-card {
+            background: #111;
+            border-radius: 30px;
+            padding: 40px 30px;
+            border: 1px solid #FF416C;
+            box-shadow: 0 30px 60px rgba(255, 65, 108, 0.3);
+            text-align: center;
+        }
+
+        .lock-icon {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 65, 108, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            border: 3px solid #FF416C;
+        }
+
+        .lock-icon i {
+            font-size: 45px;
+            color: #FF416C;
+        }
+
+        .login-card h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-card p {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            color: #aaa;
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .key-input-wrapper {
+            display: flex;
+            align-items: center;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 0 15px;
+            transition: 0.3s;
+        }
+
+        .key-input-wrapper:focus-within {
+            border-color: #FF416C;
+            box-shadow: 0 0 0 3px rgba(255, 65, 108, 0.2);
+        }
+
+        .key-input-wrapper i {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .key-input {
+            width: 100%;
+            padding: 16px 15px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 15px;
+            outline: none;
+            font-family: monospace;
+        }
+
+        .key-input::placeholder {
+            color: #444;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 65, 108, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn i {
+            font-size: 18px;
+        }
+
+        .info-text {
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(255, 65, 108, 0.05);
+            border: 1px solid rgba(255, 65, 108, 0.2);
+            border-radius: 12px;
+            display: flex;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .info-text i {
+            color: #FF416C;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .info-text p {
+            color: #aaa;
+            font-size: 12px;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .try-again {
+            color: #ff4444;
+            font-size: 13px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .try-again.show {
+            display: block;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Main Website Content (Hidden by default) */
+        #main-content {
+            display: none;
+        }
+
+        #main-content.visible {
+            display: block;
+        }
+
+        /* User Profile Dropdown */
+        .user-dropdown {
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            background: #161618;
+            border: 1px solid #FF416C;
+            border-radius: 20px;
+            width: 300px;
+            padding: 20px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .user-dropdown.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .user-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+            margin-bottom: 15px;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #FF416C, #FF4B2B);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            color: white;
+        }
+        
+        .user-info h4 {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .user-info p {
+            color: #888;
+            font-size: 12px;
+        }
+        
+        .key-badge {
+            background: rgba(255, 65, 108, 0.1);
+            border: 1px solid #FF416C;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .key-badge .label {
+            color: #888;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+        
+        .key-badge .value {
+            color: #FF416C;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: monospace;
+        }
+        
+        .dropdown-btn {
+            width: 100%;
+            padding: 12px;
+            background: #222;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: #FF416C;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.3s;
+            margin-bottom: 8px;
+        }
+        
+        .dropdown-btn:hover {
+            background: #FF416C;
+            color: white;
+            border-color: #FF416C;
+        }
+        
+        .dropdown-btn.logout {
+            color: #ff4444;
+        }
+        
+        .dropdown-btn.logout:hover {
+            background: #ff4444;
+            color: white;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .premium-badge {
+            background: linear-gradient(135deg, #FF416C, #FF4B2B);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
         .hide-scroll::-webkit-scrollbar { display: none; }
+        
         .glass {
             background: var(--glass-surface);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
         }
+        
         .gradient-text {
             background: var(--accent-gradient);
             -webkit-background-clip: text;
@@ -54,6 +396,7 @@
             background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
+        
         .logo { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
         
         .header-actions {
@@ -111,14 +454,10 @@
             background: #FF416C;
             border-color: #FF416C;
         }
-        .profile-btn i {
-            transition: all 0.3s ease;
-        }
         .profile-btn:hover i {
             color: white !important;
         }
 
-        /* ===== BEAUTIFUL UPDATE OVERLAY WITH SMOOTH ANIMATIONS ===== */
         #update-overlay {
             position: fixed;
             top: 0;
@@ -295,16 +634,6 @@
             color: white;
         }
 
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .fa-spin {
-            animation: spin 1s linear infinite;
-        }
-
-        /* Floating particles animation */
         .particles {
             position: absolute;
             top: 0;
@@ -331,7 +660,6 @@
             100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
 
-        /* Robot Toast Message */
         .robot-toast {
             position: fixed;
             top: 50%;
@@ -377,7 +705,6 @@
             font-size: 16px;
         }
 
-        /* Notifications Panel */
         .notifications-panel {
             position: fixed;
             top: 80px;
@@ -502,7 +829,6 @@
             color: #333;
         }
 
-        /* Comments Section */
         .comments-section {
             margin-top: 30px;
             padding: 20px;
@@ -645,7 +971,6 @@
             color: #FF416C;
         }
 
-        /* Reply Section */
         .replies-section {
             margin-left: 20px;
             margin-top: 10px;
@@ -758,7 +1083,6 @@
             color: #FF416C;
         }
 
-        /* Main Views */
         .view { display: none; padding: 90px 20px 20px 20px; animation: fadeIn 0.4s ease; }
         .view.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -902,7 +1226,6 @@
             overflow: hidden; 
         }
 
-        /* ===== FIXED DOWNLOAD BUTTONS WITH WORKING LINKS ===== */
         .card-actions {
             display: flex;
             gap: 8px;
@@ -969,7 +1292,6 @@
             transform: scale(1.1);
         }
         
-        /* File type specific colors on hover */
         .card-action-btn[data-type="apk"]:hover { background: #4CAF50; border-color: #4CAF50; }
         .card-action-btn[data-type="zip"]:hover { background: #FFC107; border-color: #FFC107; }
         .card-action-btn[data-type="pdf"]:hover { background: #F44336; border-color: #F44336; }
@@ -1095,7 +1417,6 @@
             box-shadow: 0 0 8px #FF416C;
         }
 
-        /* Detail Modal */
         #detail-modal { 
             position: fixed; 
             inset: 0; 
@@ -1324,7 +1645,6 @@
             margin-bottom: 15px;
         }
 
-        /* File type indicators */
         .file-type {
             display: inline-flex;
             align-items: center;
@@ -1339,1351 +1659,1667 @@
         .file-type.zip i { color: #FFC107; }
         .file-type.pdf i { color: #F44336; }
         .file-type.apk i { color: #4CAF50; }
+
+        /* Custom Toast */
+        .custom-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #161618;
+            border-left: 4px solid #FF416C;
+            border-radius: 12px;
+            padding: 15px 25px;
+            color: white;
+            font-size: 14px;
+            z-index: 11000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .custom-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        .custom-toast.success {
+            border-left-color: #4CAF50;
+        }
+        
+        .custom-toast.error {
+            border-left-color: #F44336;
+        }
+        
+        .custom-toast i {
+            font-size: 20px;
+        }
+        
+        .custom-toast.success i { color: #4CAF50; }
+        .custom-toast.error i { color: #F44336; }
     </style> 
 </head> 
-<body> 
-  <!-- BEAUTIFUL UPDATE OVERLAY WITH SMOOTH ANIMATIONS -->
-  <div id="update-overlay">
-    <div class="particles" id="particles"></div>
-    <div class="update-card">
-      <div class="update-icon">
-        <i class="fas fa-rocket"></i>
-      </div>
-      <h2>Update Available</h2>
-      <div class="update-version-badge" id="update-version-badge">New Version</div>
-      <div class="update-version-box">
-        <div class="current">Current Version</div>
-        <div class="new" id="update-version-text">v1.0.0</div>
-      </div>
-      <div class="update-message" id="update-message-text">
-        A new version of Rubify Pro is available with exciting features and improvements!
-      </div>
-      <div class="update-progress">
-        <div class="update-progress-bar" id="update-progress-bar"></div>
-      </div>
-      <div class="update-buttons">
-        <button class="update-btn update-btn-primary" onclick="handleUpdate()">
-          <i class="fas fa-sync-alt"></i> Update Now
-        </button>
-        <button class="update-btn update-btn-secondary" onclick="remindLater()">
-          <i class="fas fa-clock"></i> Later
-        </button>
-      </div>
-      <p style="color:#666; font-size:12px; margin-top:20px;">
-        <i class="fas fa-shield-alt"></i> This update improves performance and security
-      </p>
+<body>
+    <!-- Force Login Overlay -->
+    <div id="force-login" class="force-login-overlay">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="lock-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h1>Rubify Pro</h1>
+                <p>Enter your access key to continue</p>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-key" style="margin-right: 5px; color: #FF416C;"></i> Your Random Key</label>
+                    <div class="key-input-wrapper">
+                        <i class="fas fa-key"></i>
+                        <input type="text" id="login-key" class="key-input" placeholder="e.g., VIP_ABCD or KEY_XYZW" autocomplete="off">
+                    </div>
+                </div>
+                
+                <button class="login-btn" onclick="verifyAndLogin()">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span id="login-text">Access Website</span>
+                    <span id="login-spinner" style="display: none;"><span class="loader"></span></span>
+                </button>
+                
+                <div class="info-text">
+                    <i class="fas fa-info-circle"></i>
+                    <p>This website is protected. You need a valid key from admin to access premium content.</p>
+                </div>
+                
+                <div id="login-error" class="try-again">
+                    <i class="fas fa-exclamation-circle"></i> Invalid key! Please try again.
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Robot Toast Message -->
-  <div id="robot-thanks" class="robot-toast">
-    <i class="fas fa-robot"></i>
-    <h2>Thanks!</h2>
-    <p>for using Rubify Pro</p>
-  </div>
-
-  <!-- Notifications Panel -->
-  <div id="notifications-panel" class="notifications-panel">
-    <div class="notifications-header">
-      <h3>Notifications</h3>
-      <span class="mark-read" onclick="markAllNotificationsRead()">Mark all as read</span>
-    </div>
-    <div class="notifications-list" id="notifications-list">
-      <div class="notification-empty">
-        <i class="fas fa-bell-slash"></i>
-        <p>No notifications yet</p>
-      </div>
-    </div>
-  </div>
-
-  <header> 
-  <div class="logo">
-    Rubify <span class="gradient-text">Website</span>
-</div>
-   </div> 
-   <div class="header-actions">
-     <!-- Notification Bell -->
-     <div class="notification-badge" onclick="toggleNotifications()">
-       <i class="fas fa-bell"></i>
-       <span class="badge-count" id="notification-count" style="display: none;">0</span>
-     </div>
-     <!-- Robot Button -->
-     <div class="profile-btn" onclick="showRobotThanks()" title="Click for surprise!">
-       <i class="fas fa-robot gradient-text"></i>
-     </div>
-   </div>
-  </header>
-
-  <!-- Main Views -->
-  <div id="view-home" class="view active"> 
-   <div id="video-banner-container" style="display: none;"></div>
-   <div class="banner-container" id="banner-box" style="display:none"></div> 
-   <div class="cat-list hide-scroll" id="category-filters"> 
-    <div class="cat-pill active" onclick="filter('All', this)">🔥 All</div>
-   </div> 
-   <div class="grid" id="grid"> 
-    <div class="loading-spinner">
-        <i class="fas fa-circle-notch fa-spin gradient-text"></i>
-        <p>Loading Rubify Pro...</p>
-    </div>
-   </div> 
-  </div> 
-  
-  <div id="view-search" class="view"> 
-   <div class="search-hero"> 
-    <h1>Find your <span class="gradient-text">next asset</span></h1> 
-    <p style="color:#888">Search through our premium collection.</p> 
-   </div> 
-   <div class="search-box"> 
-    <i class="fas fa-search search-icon"></i> 
-    <input type="text" class="search-input" id="search-input" placeholder="Search Rubify Pro..."> 
-   </div> 
-   <div class="grid" id="search-grid" style="margin-top: 30px;">
-    <p style="text-align:center; color:#444; padding:40px;">🔍 Search for apps, prompts, or tools...</p>
-   </div> 
-  </div> 
-  
-  <div id="view-menu" class="view"> 
-   <h2 style="margin-bottom:20px;">Settings</h2> 
-   <div class="menu-card"> 
-    <div class="menu-item" onclick="openLegal('Privacy Policy')"> 
-     <div class="menu-left">
-      <div class="menu-icon"><i class="fas fa-shield-alt"></i></div> Privacy Policy
-     </div> <i class="fas fa-chevron-right" style="color:#444"></i> 
-    </div> 
-    <div class="menu-item" onclick="openLegal('Terms of Service')"> 
-     <div class="menu-left">
-      <div class="menu-icon"><i class="fas fa-file-contract"></i></div> Terms & Conditions
-     </div> <i class="fas fa-chevron-right" style="color:#444"></i> 
-    </div> 
-    <div class="menu-item" onclick="openLegal('Disclaimer')"> 
-     <div class="menu-left">
-      <div class="menu-icon"><i class="fas fa-exclamation-circle"></i></div> Disclaimer
-     </div> <i class="fas fa-chevron-right" style="color:#444"></i> 
-    </div> 
-   </div> 
-   
-   <!-- User Comments Section -->
-   <h2 style="margin-bottom:20px;">Community Discussions</h2> 
-   <div class="menu-card" style="padding:20px;">
-     <div class="comments-section" style="margin-top:0;">
-       <div class="comments-title">
-         <i class="fas fa-comments"></i> Comments & Replies
-       </div>
-       
-       <!-- Comment Input -->
-       <div class="comment-input-area">
-         <textarea class="comment-input" id="comment-input" placeholder="Share your thoughts about our resources..." rows="2"></textarea>
-         <button class="comment-submit" onclick="submitComment()">
-           <i class="fas fa-paper-plane"></i>
-         </button>
-       </div>
-       
-       <!-- Comments List with Replies -->
-       <div class="comments-list" id="comments-list">
-         <div class="loading-spinner">
-           <i class="fas fa-circle-notch fa-spin gradient-text"></i>
-           <p>Loading comments...</p>
-         </div>
-       </div>
-     </div>
-   </div>
-   
-   <h2 style="margin-bottom:20px;">Contact Us</h2> 
-   <div class="menu-card" style="padding:20px;"> 
-    <input type="text" class="search-input" style="margin-bottom:10px; background:#000;" placeholder="Your Email" id="contact-email-input"> 
-    <textarea class="search-input" style="margin-bottom:10px; background:#000;" rows="3" placeholder="Message..." id="contact-message"></textarea> 
-    <button class="btn-gradient" onclick="sendMessage()">Send Message</button> 
-   </div> 
-   <p style="text-align:center; color:#333; font-size:12px; margin-top:20px;" id="contact-email-display">Contact: mrflop786@gmail.com</p> 
-  </div> 
-
-  <!-- Navigation -->
-  <div class="nav-island glass"> 
-   <div class="nav-btn active" onclick="nav('home', this)"><i class="fas fa-home"></i></div> 
-   <div class="nav-btn" onclick="nav('search', this)"><i class="fas fa-search"></i></div> 
-   <div class="nav-btn" onclick="nav('menu', this)"><i class="fas fa-layer-group"></i></div> 
-  </div> 
-
-  <!-- Detail Modal -->
-  <div id="detail-modal"> 
-   <div class="modal-bg" onclick="closeModal()"></div> 
-   <div class="modal-card"> 
-    <div class="modal-close-btn" onclick="closeModal()">
-      <i class="fas fa-times"></i>
-    </div>
-    <div id="modal-content"></div>
-   </div> 
-  </div> 
-
-  <!-- Legal Modal -->
-  <div id="legal-full"> 
-   <div class="close-circle" onclick="document.getElementById('legal-full').classList.remove('active')">
-    <i class="fas fa-times"></i>
-   </div> 
-   <h1 id="legal-title" class="gradient-text" style="font-size:32px; margin-bottom:20px;"></h1> 
-   <div id="legal-text" style="color:#aaa; line-height:1.8;"></div> 
-  </div> 
-
-  <script>
-    // ===== FIREBASE CONFIGURATION =====
-    const firebaseConfig = {
-        apiKey: "AIzaSyCJLhRh8PR-4doZ3IRMSlLAJDO5IyLgSCo",
-        authDomain: "course-ai-f49b9.firebaseapp.com",
-        databaseURL: "https://course-ai-f49b9-default-rtdb.firebaseio.com",
-        projectId: "course-ai-f49b9",
-        storageBucket: "course-ai-f49b9.firebasestorage.app",
-        messagingSenderId: "956951752114",
-        appId: "1:956951752114:web:0ff9c3aaeffe3fbeef88ab"
-    };
-    
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    // Enable persistence with error handling
-    db.enablePersistence()
-        .then(() => console.log('Offline persistence enabled'))
-        .catch((err) => {
-            if (err.code == 'failed-precondition') {
-                console.log('Persistence failed: Multiple tabs open');
-            } else if (err.code == 'unimplemented') {
-                console.log('Persistence not available in this browser');
-            }
-        });
-
-    // Global variables
-    let products = [];
-    let banners = [];
-    let videos = [];
-    let categories = [];
-    let currentCat = 'All';
-    let contactEmail = "mrflop786@gmail.com";
-    
-    // User Panel Variables
-    let notifications = [];
-    let unreadCount = 0;
-    let comments = [];
-    let userId = 'user_' + Math.random().toString(36).substr(2, 9);
-    let userName = 'User_' + userId.substr(0, 5);
-    let activeReplyId = null;
-
-    // Create floating particles for update overlay
-    function createParticles() {
-        const particlesContainer = document.getElementById('particles');
-        if (!particlesContainer) return;
+    <!-- User Profile Dropdown -->
+    <div id="user-dropdown" class="user-dropdown">
+        <div class="user-header">
+            <div class="user-avatar" id="user-avatar">U</div>
+            <div class="user-info">
+                <h4 id="user-name">User</h4>
+                <p id="user-key-type">Key Type: <span style="color:#FF416C;">Not Logged In</span></p>
+            </div>
+        </div>
         
-        for (let i = 0; i < 30; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 8 + 's';
-            particle.style.width = Math.random() * 8 + 2 + 'px';
-            particle.style.height = particle.style.width;
-            particle.style.background = `rgba(255, ${Math.floor(65 + Math.random() * 50)}, ${Math.floor(65 + Math.random() * 50)}, ${0.2 + Math.random() * 0.3})`;
-            particlesContainer.appendChild(particle);
-        }
-    }
+        <div class="key-badge" id="key-badge" style="display: none;">
+            <div class="label">Current Key</div>
+            <div class="value" id="current-key">-</div>
+        </div>
+        
+        <button class="dropdown-btn logout" onclick="logoutUser()" id="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </div>
 
-    // Check for updates on load with beautiful animation
-    async function checkForUpdates() {
-        try {
-            const doc = await db.collection('system').doc('update').get();
-            if (doc.exists) {
-                const data = doc.data();
-                if (data.forceUpdate === true) {
-                    // Show update overlay with animation
-                    const overlay = document.getElementById('update-overlay');
-                    document.getElementById('update-version-text').textContent = `v${data.version || '1.0.0'}`;
-                    document.getElementById('update-message-text').textContent = data.message || 'A new version of Rubify Pro is available with exciting features and improvements!';
-                    
-                    // Animate progress bar
-                    setTimeout(() => {
-                        document.getElementById('update-progress-bar').style.width = '100%';
-                    }, 100);
-                    
-                    // Show overlay
-                    overlay.style.display = 'flex';
-                    setTimeout(() => {
-                        overlay.classList.add('active');
-                    }, 50);
-                    
-                    // Create floating particles
-                    createParticles();
-                    
-                    // Store in localStorage
-                    localStorage.setItem('rubify_pro_update_version', data.version || '1.0.0');
-                    localStorage.setItem('rubify_pro_update_forced', 'true');
+    <!-- Custom Toast -->
+    <div id="custom-toast" class="custom-toast">
+        <i id="toast-icon" class="fas fa-info-circle"></i>
+        <span id="toast-message">Notification</span>
+    </div>
+
+    <!-- BEAUTIFUL UPDATE OVERLAY -->
+    <div id="update-overlay">
+        <div class="particles" id="particles"></div>
+        <div class="update-card">
+            <div class="update-icon">
+                <i class="fas fa-rocket"></i>
+            </div>
+            <h2>Update Website</h2>
+            <div class="update-version-badge" id="update-version-badge">Web Error Fix</div>
+            <div class="update-version-box">
+                <div class="new" id="update-version-text">1.0.0</div>
+            </div>
+            <div class="update-message" id="update-message-text">
+                A new version of Rubify Website is available with exciting features and improvements!
+            </div>
+            <div class="update-progress">
+                <div class="update-progress-bar" id="update-progress-bar"></div>
+            </div>
+            <div class="update-buttons">
+                <button class="update-btn update-btn-primary" onclick="handleUpdate()">
+                    <i class="fas fa-sync-alt"></i> Update Now
+                </button>
+                <button class="update-btn update-btn-secondary" onclick="remindLater()">
+                    <i class="fas fa-clock"></i> Later
+                </button>
+            </div>
+            <p style="color:#666; font-size:12px; margin-top:20px;">
+                <i class="fas fa-shield-alt"></i> This update improves performance and security
+            </p>
+        </div>
+    </div>
+
+    <!-- Robot Toast Message -->
+    <div id="robot-thanks" class="robot-toast">
+        <i class="fas fa-robot"></i>
+        <h2>Thanks!</h2>
+        <p>for using Rubify Website</p>
+    </div>
+
+    <!-- Notifications Panel -->
+    <div id="notifications-panel" class="notifications-panel">
+        <div class="notifications-header">
+            <h3>Notifications</h3>
+            <span class="mark-read" onclick="markAllNotificationsRead()">Mark all as read</span>
+        </div>
+        <div class="notifications-list" id="notifications-list">
+            <div class="notification-empty">
+                <i class="fas fa-bell-slash"></i>
+                <p>No notifications yet</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Website Content -->
+    <div id="main-content">
+        <header> 
+            <div class="logo">
+                Rubify <span class="gradient-text">Website</span>
+            </div>
+            <div class="header-actions">
+                <!-- Login/Profile Button -->
+                <div class="profile-btn" id="login-profile-btn" onclick="toggleUserDropdown()">
+                    <i class="fas fa-user" id="profile-icon"></i>
+                </div>
+                <!-- Notification Bell -->
+                <div class="notification-badge" onclick="toggleNotifications()">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge-count" id="notification-count" style="display: none;">0</span>
+                </div>
+                <!-- Robot Button -->
+                <div class="profile-btn" onclick="showRobotThanks()" title="Click for surprise!">
+                    <i class="fas fa-robot gradient-text"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Views -->
+        <div id="view-home" class="view active"> 
+            <div id="video-banner-container" style="display: none;"></div>
+            <div class="banner-container" id="banner-box" style="display:none"></div> 
+            <div class="cat-list hide-scroll" id="category-filters"> 
+                <div class="cat-pill active" onclick="filter('All', this)">🔥 All</div>
+            </div> 
+            <div class="grid" id="grid"> 
+                <div class="loading-spinner">
+                    <i class="fas fa-circle-notch fa-spin gradient-text"></i>
+                    <p>Loading Rubify Website...</p>
+                </div>
+            </div> 
+        </div> 
+
+        <div id="view-search" class="view"> 
+            <div class="search-hero"> 
+                <h1>Find your <span class="gradient-text">next asset</span></h1> 
+                <p style="color:#888">Search through our premium collection.</p> 
+            </div> 
+            <div class="search-box"> 
+                <i class="fas fa-search search-icon"></i> 
+                <input type="text" class="search-input" id="search-input" placeholder="Search Rubify Website..."> 
+            </div> 
+            <div class="grid" id="search-grid" style="margin-top: 30px;">
+                <p style="text-align:center; color:#444; padding:40px;">🔍 Search for apps, prompts, or tools...</p>
+            </div> 
+        </div> 
+
+        <div id="view-menu" class="view"> 
+            <h2 style="margin-bottom:20px;">Settings</h2> 
+            <div class="menu-card"> 
+                <div class="menu-item" onclick="openLegal('Privacy Policy')"> 
+                    <div class="menu-left">
+                        <div class="menu-icon"><i class="fas fa-shield-alt"></i></div> Privacy Policy
+                    </div> <i class="fas fa-chevron-right" style="color:#444"></i> 
+                </div> 
+                <div class="menu-item" onclick="openLegal('Terms of Service')"> 
+                    <div class="menu-left">
+                        <div class="menu-icon"><i class="fas fa-file-contract"></i></div> Terms & Conditions
+                    </div> <i class="fas fa-chevron-right" style="color:#444"></i> 
+                </div> 
+                <div class="menu-item" onclick="openLegal('Disclaimer')"> 
+                    <div class="menu-left">
+                        <div class="menu-icon"><i class="fas fa-exclamation-circle"></i></div> Disclaimer
+                    </div> <i class="fas fa-chevron-right" style="color:#444"></i> 
+                </div> 
+            </div> 
+
+            <!-- User Comments Section -->
+            <h2 style="margin-bottom:20px;">Community Discussions</h2> 
+            <div class="menu-card" style="padding:20px;">
+                <div class="comments-section" style="margin-top:0;">
+                    <div class="comments-title">
+                        <i class="fas fa-comments"></i> Comments & Replies
+                    </div>
+
+                    <!-- Comment Input -->
+                    <div class="comment-input-area">
+                        <textarea class="comment-input" id="comment-input" placeholder="Share your thoughts about our resources..." rows="2"></textarea>
+                        <button class="comment-submit" onclick="submitComment()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+
+                    <!-- Comments List with Replies -->
+                    <div class="comments-list" id="comments-list">
+                        <div class="loading-spinner">
+                            <i class="fas fa-circle-notch fa-spin gradient-text"></i>
+                            <p>Loading comments...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="margin-bottom:20px;">Contact Us</h2> 
+            <div class="menu-card" style="padding:20px;"> 
+                <input type="text" class="search-input" style="margin-bottom:10px; background:#000;" placeholder="Your Email" id="contact-email-input"> 
+                <textarea class="search-input" style="margin-bottom:10px; background:#000;" rows="3" placeholder="Message..." id="contact-message"></textarea> 
+                <button class="btn-gradient" onclick="sendMessage()">Send Message</button> 
+            </div> 
+            <p style="text-align:center; color:#333; font-size:12px; margin-top:20px;" id="contact-email-display">Contact: mrflop786@gmail.com</p> 
+        </div> 
+
+        <!-- Navigation -->
+        <div class="nav-island glass"> 
+            <div class="nav-btn active" onclick="nav('home', this)"><i class="fas fa-home"></i></div> 
+            <div class="nav-btn" onclick="nav('search', this)"><i class="fas fa-search"></i></div> 
+            <div class="nav-btn" onclick="nav('menu', this)"><i class="fas fa-layer-group"></i></div> 
+        </div> 
+
+        <!-- Detail Modal -->
+        <div id="detail-modal"> 
+            <div class="modal-bg" onclick="closeModal()"></div> 
+            <div class="modal-card"> 
+                <div class="modal-close-btn" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </div>
+                <div id="modal-content"></div>
+            </div> 
+        </div> 
+
+        <!-- Legal Modal -->
+        <div id="legal-full"> 
+            <div class="close-circle" onclick="document.getElementById('legal-full').classList.remove('active')">
+                <i class="fas fa-times"></i>
+            </div> 
+            <h1 id="legal-title" class="gradient-text" style="font-size:32px; margin-bottom:20px;"></h1> 
+            <div id="legal-text" style="color:#aaa; line-height:1.8;"></div> 
+        </div> 
+    </div>
+
+    <script>
+        // ===== FIREBASE CONFIGURATION =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyCJLhRh8PR-4doZ3IRMSlLAJDO5IyLgSCo",
+            authDomain: "course-ai-f49b9.firebaseapp.com",
+            databaseURL: "https://course-ai-f49b9-default-rtdb.firebaseio.com",
+            projectId: "course-ai-f49b9",
+            storageBucket: "course-ai-f49b9.firebasestorage.app",
+            messagingSenderId: "956951752114",
+            appId: "1:956951752114:web:0ff9c3aaeffe3fbeef88ab"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Enable persistence
+        db.enablePersistence()
+            .then(() => console.log('Offline persistence enabled'))
+            .catch((err) => {
+                if (err.code == 'failed-precondition') {
+                    console.log('Persistence failed: Multiple tabs open');
+                } else if (err.code == 'unimplemented') {
+                    console.log('Persistence not available in this browser');
                 }
-            }
-        } catch (error) {
-            console.error('Error checking for updates:', error);
-        }
-    }
+            });
 
-    // Handle update button click with smooth animation
-    function handleUpdate() {
-        const overlay = document.getElementById('update-overlay');
-        const btn = event.currentTarget;
-        
-        // Button loading animation
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
-        btn.disabled = true;
-        
-        // Progress bar animation
-        document.getElementById('update-progress-bar').style.width = '100%';
-        
-        // Simulate update process with smooth fade out
-        setTimeout(() => {
+        // Global variables
+        let products = [];
+        let banners = [];
+        let videos = [];
+        let categories = [];
+        let currentCat = 'All';
+        let contactEmail = "mrflop786@gmail.com";
+
+        // User Panel Variables
+        let notifications = [];
+        let unreadCount = 0;
+        let comments = [];
+        let userId = 'user_' + Math.random().toString(36).substr(2, 9);
+        let userName = 'User_' + userId.substr(0, 5);
+        let activeReplyId = null;
+
+        // Login Variables
+        let loggedInUser = null;
+        let userKey = null;
+
+        // ===== FORCE LOGIN FUNCTIONS =====
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('custom-toast');
+            const icon = document.getElementById('toast-icon');
+            const msg = document.getElementById('toast-message');
+
+            msg.textContent = message;
+
+            if (type === 'success') {
+                toast.className = 'custom-toast show success';
+                icon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                toast.className = 'custom-toast show error';
+                icon.className = 'fas fa-exclamation-circle';
+            } else {
+                toast.className = 'custom-toast show';
+                icon.className = 'fas fa-info-circle';
+            }
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function getDeviceId() {
+            let deviceId = localStorage.getItem('rubify_device_id');
+            if (!deviceId) {
+                deviceId = 'DEV_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                localStorage.setItem('rubify_device_id', deviceId);
+            }
+            return deviceId;
+        }
+
+        async function logDeviceAccess(keyName, status = 'success') {
+            const deviceId = getDeviceId();
+            const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+            
+            try {
+                // Log to device_logs collection
+                await db.collection('device_logs').add({
+                    deviceId: deviceId,
+                    keyName: keyName || 'unknown',
+                    timestamp: timestamp,
+                    lastSeen: timestamp,
+                    status: status,
+                    userAgent: navigator.userAgent,
+                    ip: 'client-side',
+                    attempts: 1
+                });
+                
+                // Also update the device document with aggregated data
+                const deviceRef = db.collection('devices').doc(deviceId);
+                const deviceDoc = await deviceRef.get();
+                
+                if (deviceDoc.exists) {
+                    // Update existing device
+                    const data = deviceDoc.data();
+                    await deviceRef.update({
+                        lastSeen: timestamp,
+                        keyName: keyName,
+                        status: status,
+                        attempts: firebase.firestore.FieldValue.increment(1),
+                        userAgent: navigator.userAgent
+                    });
+                } else {
+                    // Create new device record
+                    await deviceRef.set({
+                        deviceId: deviceId,
+                        keyName: keyName,
+                        firstSeen: timestamp,
+                        lastSeen: timestamp,
+                        status: status,
+                        attempts: 1,
+                        userAgent: navigator.userAgent,
+                        blocked: false
+                    });
+                }
+            } catch (error) {
+                console.error('Error logging device:', error);
+            }
+        }
+
+        async function checkIfDeviceBlocked() {
+            const deviceId = getDeviceId();
+            try {
+                // Check blacklist
+                const blacklistDoc = await db.collection('settings').doc('blacklist').get();
+                if (blacklistDoc.exists) {
+                    const blacklist = blacklistDoc.data().devices || [];
+                    if (blacklist.includes(deviceId)) {
+                        return true;
+                    }
+                }
+                
+                // Check device status
+                const deviceDoc = await db.collection('devices').doc(deviceId).get();
+                if (deviceDoc.exists && deviceDoc.data().blocked === true) {
+                    return true;
+                }
+                
+                return false;
+            } catch (error) {
+                console.error('Error checking device block status:', error);
+                return false;
+            }
+        }
+
+        function checkSavedLogin() {
+            const saved = localStorage.getItem('rubify_logged_in');
+            const keyData = localStorage.getItem('rubify_key_data');
+
+            if (saved === 'true' && keyData) {
+                loggedInUser = JSON.parse(keyData);
+                userKey = localStorage.getItem('rubify_key');
+
+                // Hide login overlay and show content
+                document.getElementById('force-login').classList.add('hidden');
+                document.getElementById('main-content').classList.add('visible');
+
+                // Update profile
+                updateUserDropdown();
+
+                return true;
+            }
+            return false;
+        }
+
+        async function verifyAndLogin() {
+            const keyInput = document.getElementById('login-key').value.trim();
+
+            if (!keyInput) {
+                showError('Please enter a key');
+                return;
+            }
+
+            // Check if device is blocked
+            const isBlocked = await checkIfDeviceBlocked();
+            if (isBlocked) {
+                showError('This device has been blocked. Please contact support.');
+                await logDeviceAccess(keyInput, 'blocked_device');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('login-text').style.display = 'none';
+            document.getElementById('login-spinner').style.display = 'inline';
+            document.getElementById('login-error').classList.remove('show');
+
+            try {
+                // Get keys from Firestore
+                const keysDoc = await db.collection('settings').doc('keys').get();
+
+                if (!keysDoc.exists) {
+                    showError('Key system not configured');
+                    await logDeviceAccess(keyInput, 'system_error');
+                    return;
+                }
+
+                const keysData = keysDoc.data();
+                const keys = keysData.keys || {};
+
+                // Check if key exists
+                if (!keys[keyInput]) {
+                    showError('Invalid key! Please check and try again');
+                    await logDeviceAccess(keyInput, 'invalid_key');
+                    return;
+                }
+
+                const keyData = keys[keyInput];
+                const deviceId = getDeviceId();
+
+                // Check if device is allowed
+                if (keyData.devices && keyData.devices.length > 0) {
+                    if (!keyData.devices.includes(deviceId) && keyData.devices[0] !== 'YOUR_PERSONAL_DEVICE_ID') {
+                        showError('This key is locked to specific devices');
+                        await logDeviceAccess(keyInput, 'device_not_allowed');
+                        return;
+                    }
+                }
+
+                // Check expiry for date keys
+                if (keyData.type === 'date' && keyData.value) {
+                    const expiryDate = new Date(keyData.value).getTime();
+                    const now = Date.now();
+
+                    if (expiryDate < now) {
+                        showError('This key has expired!');
+                        await logDeviceAccess(keyInput, 'expired');
+                        return;
+                    }
+                }
+
+                // Success - store login
+                loggedInUser = {
+                    keyName: keyInput,
+                    type: keyData.type,
+                    value: keyData.value || 'Lifetime',
+                    toast: keyData.toast || 'Welcome!',
+                    notify: keyData.notify
+                };
+
+                userKey = keyInput;
+
+                // Save to localStorage
+                localStorage.setItem('rubify_logged_in', 'true');
+                localStorage.setItem('rubify_key', keyInput);
+                localStorage.setItem('rubify_key_data', JSON.stringify(loggedInUser));
+
+                // Log successful device access
+                await logDeviceAccess(keyInput, 'success');
+
+                // Hide login overlay
+                document.getElementById('force-login').classList.add('hidden');
+
+                // Show main content
+                document.getElementById('main-content').classList.add('visible');
+
+                // Update UI
+                updateUserDropdown();
+
+                // Show welcome message
+                showToast(loggedInUser.toast || 'Login successful!', 'success');
+
+                // Load content
+                loadAllContent();
+
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('Error verifying key. Please try again.');
+                await logDeviceAccess(keyInput, 'error');
+            } finally {
+                document.getElementById('login-text').style.display = 'inline';
+                document.getElementById('login-spinner').style.display = 'none';
+            }
+        }
+
+        function showError(message) {
+            const errorEl = document.getElementById('login-error');
+            errorEl.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+            errorEl.classList.add('show');
+
+            // Shake the input
+            document.querySelector('.key-input-wrapper').style.animation = 'shake 0.5s ease';
+            setTimeout(() => {
+                document.querySelector('.key-input-wrapper').style.animation = '';
+            }, 500);
+        }
+
+        function logoutUser() {
+            // Log logout event
+            if (userKey) {
+                logDeviceAccess(userKey, 'logout');
+            }
+            
+            loggedInUser = null;
+            userKey = null;
+            localStorage.removeItem('rubify_logged_in');
+            localStorage.removeItem('rubify_key');
+            localStorage.removeItem('rubify_key_data');
+
+            document.getElementById('user-dropdown').classList.remove('active');
+            document.getElementById('main-content').classList.remove('visible');
+            document.getElementById('force-login').classList.remove('hidden');
+            document.getElementById('login-key').value = '';
+            document.getElementById('profile-icon').className = 'fas fa-user';
+
+            showToast('Logged out successfully', 'info');
+        }
+
+        function toggleUserDropdown() {
+            if (!loggedInUser) return;
+
+            const dropdown = document.getElementById('user-dropdown');
+            dropdown.classList.toggle('active');
+            updateUserDropdown();
+        }
+
+        function updateUserDropdown() {
+            if (loggedInUser) {
+                document.getElementById('user-avatar').textContent = loggedInUser.keyName.charAt(0);
+                document.getElementById('user-name').textContent = `User: ${loggedInUser.keyName.substring(0, 8)}...`;
+                document.getElementById('user-key-type').innerHTML = `Key Type: <span style="color:#FF416C;">${loggedInUser.type}</span>`;
+                document.getElementById('key-badge').style.display = 'block';
+                document.getElementById('current-key').textContent = loggedInUser.keyName;
+                document.getElementById('profile-icon').className = 'fas fa-user-check';
+            }
+        }
+
+        // ===== UPDATE OVERLAY FUNCTIONS =====
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            if (!particlesContainer) return;
+
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.width = Math.random() * 8 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = `rgba(255, ${Math.floor(65 + Math.random() * 50)}, ${Math.floor(65 + Math.random() * 50)}, ${0.2 + Math.random() * 0.3})`;
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        async function checkForUpdates() {
+            try {
+                const doc = await db.collection('system').doc('update').get();
+                if (doc.exists) {
+                    const data = doc.data();
+                    if (data.forceUpdate === true) {
+                        const overlay = document.getElementById('update-overlay');
+                        document.getElementById('update-version-text').textContent = `${data.version || '1.0.0'}`;
+                        document.getElementById('update-message-text').textContent = data.message || 'A new version is available!';
+
+                        setTimeout(() => {
+                            document.getElementById('update-progress-bar').style.width = '100%';
+                        }, 100);
+
+                        overlay.style.display = 'flex';
+                        setTimeout(() => {
+                            overlay.classList.add('active');
+                        }, 50);
+
+                        createParticles();
+
+                        localStorage.setItem('rubify_pro_update_version', data.version || '1.0.0');
+                        localStorage.setItem('rubify_pro_update_forced', 'true');
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking for updates:', error);
+            }
+        }
+
+        function handleUpdate() {
+            const overlay = document.getElementById('update-overlay');
+            const btn = event.currentTarget;
+
+            btn.disabled = true;
+            document.getElementById('update-progress-bar').style.width = '100%';
+
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    window.location.reload(true);
+                }, 500);
+            }, 1500);
+        }
+
+        function remindLater() {
+            const overlay = document.getElementById('update-overlay');
             overlay.classList.remove('active');
             setTimeout(() => {
                 overlay.style.display = 'none';
-                // Force a hard refresh
-                window.location.reload(true);
             }, 500);
-        }, 1500);
-    }
 
-    // Remind later function
-    function remindLater() {
-        const overlay = document.getElementById('update-overlay');
-        overlay.classList.remove('active');
-        setTimeout(() => {
-            overlay.style.display = 'none';
-        }, 500);
-        
-        // Store reminder in localStorage (remind in 1 hour)
-        localStorage.setItem('rubify_pro_update_reminder', Date.now() + 3600000);
-    }
-
-    // Show Robot Thanks Message with smooth animation
-    function showRobotThanks() {
-        const toast = document.getElementById('robot-thanks');
-        toast.classList.add('active');
-        
-        setTimeout(() => {
-            toast.classList.remove('active');
-        }, 2000);
-    }
-
-    // Navigation
-    function nav(view, el) {
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById('view-' + view).classList.add('active');
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        el.classList.add('active');
-        window.scrollTo(0,0);
-        
-        if(view === 'menu') {
-            loadComments();
+            localStorage.setItem('rubify_pro_update_reminder', Date.now() + 3600000);
         }
-    }
 
-    // ===== NOTIFICATION FUNCTIONS =====
-    function toggleNotifications() {
-        const panel = document.getElementById('notifications-panel');
-        panel.classList.toggle('active');
-        if(panel.classList.contains('active')) {
-            loadNotifications();
+        function showRobotThanks() {
+            const toast = document.getElementById('robot-thanks');
+            toast.classList.add('active');
+
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 2000);
         }
-    }
 
-    function loadNotifications() {
-        console.log('Loading notifications...');
-        db.collection('notifications')
-            .orderBy('sentAt', 'desc')
-            .limit(50)
-            .get()
-            .then(snap => {
-                console.log('Notifications loaded:', snap.size);
-                notifications = snap.docs.map(d => ({id: d.id, ...d.data()}));
-                renderNotifications();
-                updateNotificationBadge();
-            })
-            .catch(error => {
-                console.error('Error loading notifications:', error);
-                document.getElementById('notifications-list').innerHTML = `
-                    <div class="notification-empty">
-                        <i class="fas fa-exclamation-triangle" style="color:#ff4444;"></i>
-                        <p>Error loading notifications</p>
-                    </div>
-                `;
-            });
-    }
-
-    function renderNotifications() {
-        const list = document.getElementById('notifications-list');
-        const readStatus = JSON.parse(localStorage.getItem('rubify_pro_notifications_read')) || {};
-        
-        if(notifications.length === 0) {
-            list.innerHTML = `
-                <div class="notification-empty">
-                    <i class="fas fa-bell-slash"></i>
-                    <p>No notifications yet</p>
-                </div>
-            `;
-            return;
-        }
-        
-        let html = '';
-        notifications.forEach(notif => {
-            const isRead = readStatus[notif.id] || false;
-            
-            let time;
-            if (notif.sentAt) {
-                time = notif.sentAt.seconds ? new Date(notif.sentAt.seconds * 1000) : new Date(notif.sentAt);
-            } else if (notif.timestamp) {
-                time = notif.timestamp.seconds ? new Date(notif.timestamp.seconds * 1000) : new Date(notif.timestamp);
-            } else {
-                time = new Date();
-            }
-            
-            const timeAgo = getTimeAgo(time);
-            
-            html += `
-                <div class="notification-item ${!isRead ? 'unread' : ''}">
-                    <div class="notification-delete" onclick="deleteNotification('${notif.id}', event)">
-                        <i class="fas fa-times"></i>
-                    </div>
-                    <div class="notification-content" onclick="markNotificationRead('${notif.id}')">
-                        <div class="notification-title">${notif.title || 'Notification'}</div>
-                        <div class="notification-message">${notif.message || ''}</div>
-                        ${notif.link ? `<div style="margin-bottom:5px;"><a href="${notif.link}" target="_blank" style="color:#FF416C; font-size:11px;">View Link →</a></div>` : ''}
-                        <div class="notification-time">
-                            <i class="fas fa-clock"></i> ${timeAgo}
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
-        
-        list.innerHTML = html;
-        updateNotificationBadge();
-    }
-
-    function deleteNotification(id, event) {
-        event.stopPropagation();
-        
-        if(confirm('Delete this notification?')) {
-            db.collection('notifications').doc(id).delete()
-                .then(() => {
-                    showToast('Deleted', 'Notification removed', 'success');
-                    loadNotifications();
-                })
-                .catch(error => {
-                    console.error('Error deleting notification:', error);
-                    showToast('Error', 'Could not delete notification', 'danger');
-                });
-        }
-    }
-
-    function getTimeAgo(date) {
-        const seconds = Math.floor((new Date() - date) / 1000);
-        
-        let interval = seconds / 31536000;
-        if (interval > 1) return Math.floor(interval) + ' years ago';
-        
-        interval = seconds / 2592000;
-        if (interval > 1) return Math.floor(interval) + ' months ago';
-        
-        interval = seconds / 86400;
-        if (interval > 1) return Math.floor(interval) + ' days ago';
-        
-        interval = seconds / 3600;
-        if (interval > 1) return Math.floor(interval) + ' hours ago';
-        
-        interval = seconds / 60;
-        if (interval > 1) return Math.floor(interval) + ' minutes ago';
-        
-        return Math.floor(seconds) + ' seconds ago';
-    }
-
-    function updateNotificationBadge() {
-        const readStatus = JSON.parse(localStorage.getItem('rubify_pro_notifications_read')) || {};
-        unreadCount = notifications.filter(n => !readStatus[n.id]).length;
-        
-        const badge = document.getElementById('notification-count');
-        if(unreadCount > 0) {
-            badge.style.display = 'flex';
-            badge.textContent = unreadCount;
-        } else {
-            badge.style.display = 'none';
-        }
-    }
-
-    function markNotificationRead(id) {
-        const readStatus = JSON.parse(localStorage.getItem('rubify_pro_notifications_read')) || {};
-        readStatus[id] = true;
-        localStorage.setItem('rubify_pro_notifications_read', JSON.stringify(readStatus));
-        renderNotifications();
-    }
-
-    function markAllNotificationsRead() {
-        const readStatus = {};
-        notifications.forEach(n => {
-            readStatus[n.id] = true;
-        });
-        localStorage.setItem('rubify_pro_notifications_read', JSON.stringify(readStatus));
-        renderNotifications();
-    }
-
-    // ===== COMMENT FUNCTIONS =====
-    
-    function loadComments() {
-        console.log('Loading comments...');
-        
-        // Show loading state
-        const list = document.getElementById('comments-list');
-        list.innerHTML = `
-            <div class="loading-spinner">
-                <i class="fas fa-circle-notch fa-spin gradient-text"></i>
-                <p>Loading comments...</p>
-            </div>
-        `;
-        
-        // First, load all comments
-        db.collection('comments')
-            .orderBy('timestamp', 'desc')
-            .limit(50)
-            .get()
-            .then(async (snapshot) => {
-                console.log('Comments loaded:', snapshot.size);
-                
-                if (snapshot.empty) {
-                    list.innerHTML = `
-                        <div class="notification-empty">
-                            <i class="fas fa-comment-dots"></i>
-                            <p>No comments yet. Be the first to share!</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                // Process each comment and load its replies
-                const commentsWithReplies = [];
-                
-                for (const doc of snapshot.docs) {
-                    const commentData = doc.data();
-                    
-                    // Handle timestamp safely
-                    let timestamp = null;
-                    if (commentData.timestamp) {
-                        if (commentData.timestamp.seconds) {
-                            timestamp = new Date(commentData.timestamp.seconds * 1000);
-                        } else if (commentData.timestamp.toDate) {
-                            timestamp = commentData.timestamp.toDate();
-                        } else {
-                            timestamp = new Date(commentData.timestamp);
-                        }
-                    } else {
-                        timestamp = new Date();
-                    }
-                    
-                    const comment = {
-                        id: doc.id,
-                        text: commentData.text || '',
-                        userId: commentData.userId || 'anonymous',
-                        userName: commentData.userName || 'Anonymous',
-                        timestamp: timestamp,
-                        isAdmin: commentData.isAdmin || false,
-                        pinned: commentData.pinned || false,
-                        title: commentData.title || null,
-                        replies: []
-                    };
-                    
-                    // Load replies for this comment
-                    try {
-                        const repliesSnapshot = await db.collection('comment_replies')
-                            .where('commentId', '==', doc.id)
-                            .orderBy('timestamp', 'asc')
-                            .get();
-                        
-                        comment.replies = repliesSnapshot.docs.map(replyDoc => {
-                            const replyData = replyDoc.data();
-                            let replyTimestamp = null;
-                            
-                            if (replyData.timestamp) {
-                                if (replyData.timestamp.seconds) {
-                                    replyTimestamp = new Date(replyData.timestamp.seconds * 1000);
-                                } else if (replyData.timestamp.toDate) {
-                                    replyTimestamp = replyData.timestamp.toDate();
-                                } else {
-                                    replyTimestamp = new Date(replyData.timestamp);
-                                }
-                            } else {
-                                replyTimestamp = new Date();
-                            }
-                            
-                            return {
-                                id: replyDoc.id,
-                                text: replyData.text || '',
-                                userId: replyData.userId || 'admin',
-                                userName: replyData.userName || 'Admin',
-                                timestamp: replyTimestamp,
-                                isAdmin: replyData.isAdmin || true,
-                                sentAsNotification: replyData.sentAsNotification || false
-                            };
-                        });
-                    } catch (replyError) {
-                        console.error('Error loading replies for comment', doc.id, replyError);
-                        comment.replies = [];
-                    }
-                    
-                    commentsWithReplies.push(comment);
-                }
-                
-                comments = commentsWithReplies;
-                renderComments();
-            })
-            .catch(error => {
-                console.error('Error loading comments:', error);
-                document.getElementById('comments-list').innerHTML = `
-                    <div class="notification-empty">
-                        <i class="fas fa-exclamation-triangle" style="color:#ff4444;"></i>
-                        <p>Error loading comments. Please refresh.</p>
-                        <button onclick="loadComments()" style="background:#FF416C; border:none; padding:8px 20px; border-radius:20px; color:white; margin-top:10px; cursor:pointer;">
-                            <i class="fas fa-sync-alt"></i> Retry
-                        </button>
-                    </div>
-                `;
-            });
-    }
-
-    function renderComments() {
-        const list = document.getElementById('comments-list');
-        
-        if (!comments || comments.length === 0) {
-            list.innerHTML = `
-                <div class="notification-empty">
-                    <i class="fas fa-comment-dots"></i>
-                    <p>No comments yet. Be the first to share!</p>
-                </div>
-            `;
-            return;
-        }
-        
-        // Sort pinned comments first, then by date
-        const sortedComments = [...comments].sort((a, b) => {
-            if (a.pinned && !b.pinned) return -1;
-            if (!a.pinned && b.pinned) return 1;
-            return b.timestamp - a.timestamp;
-        });
-        
-        let html = '';
-        
-        sortedComments.forEach(comment => {
-            const timeAgo = getTimeAgo(comment.timestamp);
-            const isOwnComment = comment.userId === userId;
-            
-            // Build replies HTML
-            let repliesHtml = '';
-            if (comment.replies && comment.replies.length > 0) {
-                repliesHtml = '<div class="replies-section">';
-                comment.replies.forEach(reply => {
-                    const replyTimeAgo = getTimeAgo(reply.timestamp);
-                    
-                    repliesHtml += `
-                        <div class="reply-item">
-                            <div class="reply-header">
-                                <span class="reply-author">
-                                    <i class="fas fa-shield-alt"></i> ${reply.userName || 'Admin'}
-                                    <span class="admin-badge">Admin</span>
-                                </span>
-                                <span class="reply-time"><i class="fas fa-clock"></i> ${replyTimeAgo}</span>
-                            </div>
-                            <div class="reply-text">${reply.text || ''}</div>
-                            ${reply.sentAsNotification ? '<div style="color:#4CAF50; font-size:10px; margin-top:5px;"><i class="fas fa-bell"></i> Notification sent</div>' : ''}
-                        </div>
-                    `;
-                });
-                repliesHtml += '</div>';
-            }
-            
-            // Reply input section
-            const replySectionId = `reply-section-${comment.id}`;
-            const replyInputId = `reply-input-${comment.id}`;
-            
-            html += `
-                <div class="comment-item" id="comment-${comment.id}">
-                    <div class="comment-header">
-                        <span class="comment-author">
-                            <i class="fas fa-user-circle" style="margin-right:5px;"></i>${comment.userName}
-                            ${isOwnComment ? ' (You)' : ''}
-                            ${comment.isAdmin ? '<span class="admin-badge">Admin</span>' : ''}
-                            ${comment.pinned ? '<span class="pinned-badge"><i class="fas fa-thumbtack"></i> Pinned</span>' : ''}
-                        </span>
-                        <span style="display:flex; align-items:center; gap:10px;">
-                            <span class="comment-time"><i class="fas fa-clock"></i> ${timeAgo}</span>
-                            ${isOwnComment ? `
-                                <span class="comment-delete" onclick="deleteComment('${comment.id}')">
-                                    <i class="fas fa-trash-alt"></i>
-                                </span>
-                            ` : ''}
-                        </span>
-                    </div>
-                    <div class="comment-text">${comment.text || ''}</div>
-                    
-                    <!-- Reply button -->
-                    <div class="comment-actions">
-                        <button class="comment-reply-btn" onclick="showReplyInput('${comment.id}')">
-                            <i class="fas fa-reply"></i> Reply
-                        </button>
-                    </div>
-                    
-                    <!-- Reply input (hidden by default) -->
-                    <div id="${replySectionId}" style="display: none;" class="reply-input-area">
-                        <input type="text" id="${replyInputId}" class="reply-input" placeholder="Write your reply...">
-                        <button class="reply-send-btn" onclick="submitReply('${comment.id}')">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                        <span class="cancel-reply" onclick="hideReplyInput('${comment.id}')">Cancel</span>
-                    </div>
-                    
-                    ${repliesHtml}
-                </div>
-            `;
-        });
-        
-        list.innerHTML = html;
-    }
-
-    function showReplyInput(commentId) {
-        if (activeReplyId) {
-            const previousSection = document.getElementById(`reply-section-${activeReplyId}`);
-            if (previousSection) {
-                previousSection.style.display = 'none';
+        // ===== NOTIFICATION FUNCTIONS =====
+        function toggleNotifications() {
+            const panel = document.getElementById('notifications-panel');
+            panel.classList.toggle('active');
+            if (panel.classList.contains('active')) {
+                loadNotifications();
             }
         }
-        
-        const replySection = document.getElementById(`reply-section-${commentId}`);
-        if (replySection) {
-            replySection.style.display = 'flex';
-            activeReplyId = commentId;
-            
-            // Focus the input
-            const input = document.getElementById(`reply-input-${commentId}`);
-            if (input) input.focus();
-        }
-    }
 
-    function hideReplyInput(commentId) {
-        const replySection = document.getElementById(`reply-section-${commentId}`);
-        if (replySection) {
-            replySection.style.display = 'none';
-        }
-        if (activeReplyId === commentId) {
-            activeReplyId = null;
-        }
-    }
-
-    function submitReply(commentId) {
-        const input = document.getElementById(`reply-input-${commentId}`);
-        if (!input) return;
-        
-        const text = input.value.trim();
-        
-        if (!text) {
-            showToast('Empty Reply', 'Please write something', 'warning');
-            return;
-        }
-        
-        // Disable button to prevent double submission
-        const sendBtn = document.querySelector(`#reply-section-${commentId} .reply-send-btn`);
-        if (sendBtn) {
-            sendBtn.disabled = true;
-            sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-        }
-        
-        db.collection('comment_replies').add({
-            commentId: commentId,
-            userId: userId,
-            userName: userName,
-            text: text,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            isAdmin: false
-        })
-        .then(() => {
-            input.value = '';
-            hideReplyInput(commentId);
-            showToast('Reply Sent', 'Your reply has been posted', 'success');
-            loadComments();
-        })
-        .catch(error => {
-            console.error('Error submitting reply:', error);
-            showToast('Error', 'Could not send reply', 'danger');
-        })
-        .finally(() => {
-            if (sendBtn) {
-                sendBtn.disabled = false;
-                sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
-            }
-        });
-    }
-
-    function submitComment() {
-        const input = document.getElementById('comment-input');
-        const text = input.value.trim();
-        
-        if(!text) {
-            showToast('Empty Comment', 'Please write something to share', 'warning');
-            return;
-        }
-        
-        // Disable button
-        const submitBtn = document.querySelector('.comment-submit');
-        if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-        }
-        
-        db.collection('comments').add({
-            text: text,
-            userId: userId,
-            userName: userName,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            userAgent: navigator.userAgent.substr(0, 100),
-            pinned: false,
-            isAdmin: false
-        })
-        .then(() => {
-            input.value = '';
-            showToast('Thanks!', 'Your comment has been shared', 'success');
-            loadComments();
-        })
-        .catch(error => {
-            console.error('Error adding comment:', error);
-            showToast('Error', 'Could not submit comment', 'danger');
-        })
-        .finally(() => {
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
-            }
-        });
-    }
-
-    function deleteComment(id) {
-        if(confirm('Delete your comment? This will also delete all replies.')) {
-            db.collection('comment_replies')
-                .where('commentId', '==', id)
+        function loadNotifications() {
+            db.collection('notifications')
+                .orderBy('sentAt', 'desc')
+                .limit(50)
                 .get()
                 .then(snap => {
-                    const batch = db.batch();
-                    snap.docs.forEach(doc => {
-                        batch.delete(doc.ref);
-                    });
-                    batch.delete(db.collection('comments').doc(id));
-                    return batch.commit();
+                    notifications = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                    renderNotifications();
+                    updateNotificationBadge();
                 })
+                .catch(error => {
+                    console.error('Error loading notifications:', error);
+                });
+        }
+
+        function renderNotifications() {
+            const list = document.getElementById('notifications-list');
+            const readStatus = JSON.parse(localStorage.getItem('rubify_pro_notifications_read')) || {};
+
+            if (notifications.length === 0) {
+                list.innerHTML = `
+                    <div class="notification-empty">
+                        <i class="fas fa-bell-slash"></i>
+                        <p>No notifications yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            notifications.forEach(notif => {
+                const isRead = readStatus[notif.id] || false;
+
+                let time;
+                if (notif.sentAt) {
+                    time = notif.sentAt.seconds ? new Date(notif.sentAt.seconds * 1000) : new Date(notif.sentAt);
+                } else if (notif.timestamp) {
+                    time = notif.timestamp.seconds ? new Date(notif.timestamp.seconds * 1000) : new Date(notif.timestamp);
+                } else {
+                    time = new Date();
+                }
+
+                const timeAgo = getTimeAgo(time);
+
+                html += `
+                    <div class="notification-item ${!isRead ? 'unread' : ''}">
+                        <div class="notification-delete" onclick="deleteNotification('${notif.id}', event)">
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <div class="notification-content" onclick="markNotificationRead('${notif.id}')">
+                            <div class="notification-title">${notif.title || 'Notification'}</div>
+                            <div class="notification-message">${notif.message || ''}</div>
+                            ${notif.link ? `<div style="margin-bottom:5px;"><a href="${notif.link}" target="_blank" style="color:#FF416C; font-size:11px;">View Link →</a></div>` : ''}
+                            <div class="notification-time">
+                                <i class="fas fa-clock"></i> ${timeAgo}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+            updateNotificationBadge();
+        }
+
+        function deleteNotification(id, event) {
+            event.stopPropagation();
+
+            if (confirm('Delete this notification?')) {
+                db.collection('notifications').doc(id).delete()
+                    .then(() => {
+                        showToast('Notification removed', 'success');
+                        loadNotifications();
+                    })
+                    .catch(error => {
+                        console.error('Error deleting notification:', error);
+                        showToast('Could not delete notification', 'error');
+                    });
+            }
+        }
+
+        function getTimeAgo(date) {
+            const seconds = Math.floor((new Date() - date) / 1000);
+
+            let interval = seconds / 31536000;
+            if (interval > 1) return Math.floor(interval) + ' years ago';
+
+            interval = seconds / 2592000;
+            if (interval > 1) return Math.floor(interval) + ' months ago';
+
+            interval = seconds / 86400;
+            if (interval > 1) return Math.floor(interval) + ' days ago';
+
+            interval = seconds / 3600;
+            if (interval > 1) return Math.floor(interval) + ' hours ago';
+
+            interval = seconds / 60;
+            if (interval > 1) return Math.floor(interval) + ' minutes ago';
+
+            return Math.floor(seconds) + ' seconds ago';
+        }
+
+        function updateNotificationBadge() {
+            const readStatus = JSON.parse(localStorage.getItem('rubify_pro_notifications_read')) || {};
+            unreadCount = notifications.filter(n => !readStatus[n.id]).length;
+
+            const badge = document.getElementById('notification-count');
+            if (unreadCount > 0) {
+                badge.style.display = 'flex';
+                badge.textContent = unreadCount;
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function markNotificationRead(id) {
+            const readStatus = JSON.parse(localStorage.getItem('rubify_pro_notifications_read')) || {};
+            readStatus[id] = true;
+            localStorage.setItem('rubify_pro_notifications_read', JSON.stringify(readStatus));
+            renderNotifications();
+        }
+
+        function markAllNotificationsRead() {
+            const readStatus = {};
+            notifications.forEach(n => {
+                readStatus[n.id] = true;
+            });
+            localStorage.setItem('rubify_pro_notifications_read', JSON.stringify(readStatus));
+            renderNotifications();
+        }
+
+        // ===== COMMENT FUNCTIONS =====
+        function loadComments() {
+            const list = document.getElementById('comments-list');
+            list.innerHTML = `
+                <div class="loading-spinner">
+                    <i class="fas fa-circle-notch fa-spin gradient-text"></i>
+                    <p>Loading comments...</p>
+                </div>
+            `;
+
+            db.collection('comments')
+                .orderBy('timestamp', 'desc')
+                .limit(50)
+                .get()
+                .then(async (snapshot) => {
+                    if (snapshot.empty) {
+                        list.innerHTML = `
+                            <div class="notification-empty">
+                                <i class="fas fa-comment-dots"></i>
+                                <p>No comments yet. Be the first to share!</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    const commentsWithReplies = [];
+
+                    for (const doc of snapshot.docs) {
+                        const commentData = doc.data();
+
+                        let timestamp = null;
+                        if (commentData.timestamp) {
+                            if (commentData.timestamp.seconds) {
+                                timestamp = new Date(commentData.timestamp.seconds * 1000);
+                            } else if (commentData.timestamp.toDate) {
+                                timestamp = commentData.timestamp.toDate();
+                            } else {
+                                timestamp = new Date(commentData.timestamp);
+                            }
+                        } else {
+                            timestamp = new Date();
+                        }
+
+                        const comment = {
+                            id: doc.id,
+                            text: commentData.text || '',
+                            userId: commentData.userId || 'anonymous',
+                            userName: commentData.userName || 'Anonymous',
+                            timestamp: timestamp,
+                            isAdmin: commentData.isAdmin || false,
+                            pinned: commentData.pinned || false,
+                            replies: []
+                        };
+
+                        try {
+                            const repliesSnapshot = await db.collection('comment_replies')
+                                .where('commentId', '==', doc.id)
+                                .orderBy('timestamp', 'asc')
+                                .get();
+
+                            comment.replies = repliesSnapshot.docs.map(replyDoc => {
+                                const replyData = replyDoc.data();
+                                let replyTimestamp = null;
+
+                                if (replyData.timestamp) {
+                                    if (replyData.timestamp.seconds) {
+                                        replyTimestamp = new Date(replyData.timestamp.seconds * 1000);
+                                    } else if (replyData.timestamp.toDate) {
+                                        replyTimestamp = replyData.timestamp.toDate();
+                                    } else {
+                                        replyTimestamp = new Date(replyData.timestamp);
+                                    }
+                                } else {
+                                    replyTimestamp = new Date();
+                                }
+
+                                return {
+                                    id: replyDoc.id,
+                                    text: replyData.text || '',
+                                    userId: replyData.userId || 'admin',
+                                    userName: replyData.userName || 'Admin',
+                                    timestamp: replyTimestamp,
+                                    isAdmin: replyData.isAdmin || true,
+                                    sentAsNotification: replyData.sentAsNotification || false
+                                };
+                            });
+                        } catch (replyError) {
+                            console.error('Error loading replies', replyError);
+                            comment.replies = [];
+                        }
+
+                        commentsWithReplies.push(comment);
+                    }
+
+                    comments = commentsWithReplies;
+                    renderComments();
+                })
+                .catch(error => {
+                    console.error('Error loading comments:', error);
+                    document.getElementById('comments-list').innerHTML = `
+                        <div class="notification-empty">
+                            <i class="fas fa-exclamation-triangle" style="color:#ff4444;"></i>
+                            <p>Error loading comments.</p>
+                        </div>
+                    `;
+                });
+        }
+
+        function renderComments() {
+            const list = document.getElementById('comments-list');
+
+            if (!comments || comments.length === 0) {
+                list.innerHTML = `
+                    <div class="notification-empty">
+                        <i class="fas fa-comment-dots"></i>
+                        <p>No comments yet. Be the first to share!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const sortedComments = [...comments].sort((a, b) => {
+                if (a.pinned && !b.pinned) return -1;
+                if (!a.pinned && b.pinned) return 1;
+                return b.timestamp - a.timestamp;
+            });
+
+            let html = '';
+
+            sortedComments.forEach(comment => {
+                const timeAgo = getTimeAgo(comment.timestamp);
+                const isOwnComment = comment.userId === userId;
+
+                let repliesHtml = '';
+                if (comment.replies && comment.replies.length > 0) {
+                    repliesHtml = '<div class="replies-section">';
+                    comment.replies.forEach(reply => {
+                        const replyTimeAgo = getTimeAgo(reply.timestamp);
+
+                        repliesHtml += `
+                            <div class="reply-item">
+                                <div class="reply-header">
+                                    <span class="reply-author">
+                                        <i class="fas fa-shield-alt"></i> ${reply.userName || 'Admin'}
+                                        <span class="admin-badge">Admin</span>
+                                    </span>
+                                    <span class="reply-time"><i class="fas fa-clock"></i> ${replyTimeAgo}</span>
+                                </div>
+                                <div class="reply-text">${reply.text || ''}</div>
+                            </div>
+                        `;
+                    });
+                    repliesHtml += '</div>';
+                }
+
+                const replySectionId = `reply-section-${comment.id}`;
+                const replyInputId = `reply-input-${comment.id}`;
+
+                html += `
+                    <div class="comment-item" id="comment-${comment.id}">
+                        <div class="comment-header">
+                            <span class="comment-author">
+                                <i class="fas fa-user-circle" style="margin-right:5px;"></i>${comment.userName}
+                                ${isOwnComment ? ' (You)' : ''}
+                                ${comment.isAdmin ? '<span class="admin-badge">Admin</span>' : ''}
+                                ${comment.pinned ? '<span class="pinned-badge"><i class="fas fa-thumbtack"></i> Pinned</span>' : ''}
+                            </span>
+                            <span style="display:flex; align-items:center; gap:10px;">
+                                <span class="comment-time"><i class="fas fa-clock"></i> ${timeAgo}</span>
+                                ${isOwnComment ? `
+                                    <span class="comment-delete" onclick="deleteComment('${comment.id}')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </span>
+                                ` : ''}
+                            </span>
+                        </div>
+                        <div class="comment-text">${comment.text || ''}</div>
+
+                        <div class="comment-actions">
+                            <button class="comment-reply-btn" onclick="showReplyInput('${comment.id}')">
+                                <i class="fas fa-reply"></i> Reply
+                            </button>
+                        </div>
+
+                        <div id="${replySectionId}" style="display: none;" class="reply-input-area">
+                            <input type="text" id="${replyInputId}" class="reply-input" placeholder="Write your reply...">
+                            <button class="reply-send-btn" onclick="submitReply('${comment.id}')">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                            <span class="cancel-reply" onclick="hideReplyInput('${comment.id}')">Cancel</span>
+                        </div>
+
+                        ${repliesHtml}
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+        }
+
+        function showReplyInput(commentId) {
+            if (activeReplyId) {
+                const previousSection = document.getElementById(`reply-section-${activeReplyId}`);
+                if (previousSection) {
+                    previousSection.style.display = 'none';
+                }
+            }
+
+            const replySection = document.getElementById(`reply-section-${commentId}`);
+            if (replySection) {
+                replySection.style.display = 'flex';
+                activeReplyId = commentId;
+                const input = document.getElementById(`reply-input-${commentId}`);
+                if (input) input.focus();
+            }
+        }
+
+        function hideReplyInput(commentId) {
+            const replySection = document.getElementById(`reply-section-${commentId}`);
+            if (replySection) {
+                replySection.style.display = 'none';
+            }
+            if (activeReplyId === commentId) {
+                activeReplyId = null;
+            }
+        }
+
+        function submitReply(commentId) {
+            const input = document.getElementById(`reply-input-${commentId}`);
+            if (!input) return;
+
+            const text = input.value.trim();
+
+            if (!text) {
+                showToast('Please write something', 'error');
+                return;
+            }
+
+            const sendBtn = document.querySelector(`#reply-section-${commentId} .reply-send-btn`);
+            if (sendBtn) {
+                sendBtn.disabled = true;
+                sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            }
+
+            db.collection('comment_replies').add({
+                commentId: commentId,
+                userId: userId,
+                userName: userName,
+                text: text,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                isAdmin: false
+            })
                 .then(() => {
-                    showToast('Deleted', 'Comment and replies removed', 'success');
+                    input.value = '';
+                    hideReplyInput(commentId);
+                    showToast('Reply posted!', 'success');
                     loadComments();
                 })
                 .catch(error => {
-                    console.error('Error deleting comment:', error);
-                    showToast('Error', 'Could not delete comment', 'danger');
-                });
-        }
-    }
-
-    function showToast(title, message, type = 'info') {
-        const toast = document.createElement('div');
-        toast.style.cssText = `
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #161618;
-            border: 1px solid ${type === 'success' ? '#4CAF50' : type === 'danger' ? '#F44336' : '#FF416C'};
-            border-radius: 15px;
-            padding: 15px 25px;
-            z-index: 1000;
-            color: white;
-            text-align: center;
-            animation: slideUp 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        `;
-        
-        toast.innerHTML = `
-            <div style="font-weight:700; margin-bottom:5px;">${title}</div>
-            <div style="color:#aaa; font-size:13px;">${message}</div>
-        `;
-        
-        document.body.appendChild(toast);
-        
-        setTimeout(() => {
-            toast.style.animation = 'slideDown 0.3s ease';
-            setTimeout(() => {
-                if (document.body.contains(toast)) {
-                    document.body.removeChild(toast);
-                }
-            }, 300);
-        }, 3000);
-    }
-
-    // Add animation styles
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideUp {
-            from { transform: translate(-50%, 100%); opacity: 0; }
-            to { transform: translate(-50%, 0); opacity: 1; }
-        }
-        @keyframes slideDown {
-            from { transform: translate(-50%, 0); opacity: 1; }
-            to { transform: translate(-50%, 100%); opacity: 0; }
-        }
-    `;
-    document.head.appendChild(style);
-
-    // Load all content
-    function loadAllContent() {
-        console.log('Loading all content...');
-        loadContactInfo();
-        loadProducts();
-        loadVideos();
-        loadBanners();
-        loadCategories();
-        loadNotifications();
-    }
-
-    function loadContactInfo() {
-        db.collection('settings').doc('contact').get()
-            .then(doc => {
-                if(doc.exists) {
-                    contactEmail = doc.data().email || contactEmail;
-                    document.getElementById('contact-email-display').innerHTML = `Contact: ${contactEmail}`;
-                }
-            })
-            .catch(error => {
-                console.error('Error loading contact:', error);
-            });
-    }
-
-    function loadCategories() {
-        db.collection('categories').get()
-            .then(snap => {
-                categories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                categories.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
-                
-                const filterContainer = document.getElementById('category-filters');
-                let filterHtml = '<div class="cat-pill active" onclick="filter(\'All\', this)">🔥 All</div>';
-                
-                categories.forEach(cat => {
-                    filterHtml += `<div class="cat-pill" onclick="filter('${cat.name.replace(/'/g, "\\'")}', this)">${cat.icon || '📁'} ${cat.name}</div>`;
-                });
-                
-                filterContainer.innerHTML = filterHtml;
-                render();
-            })
-            .catch(error => {
-                console.error('Error loading categories:', error);
-            });
-    }
-
-    function loadProducts() {
-        db.collection('products')
-            .where('live', '==', true)
-            .get()
-            .then(snap => {
-                products = snap.docs.map(d => ({id: d.id, ...d.data()}));
-                
-                products.sort((a, b) => {
-                    const aTime = a.createdAt?.seconds || a.timestamp?.seconds || 0;
-                    const bTime = b.createdAt?.seconds || b.timestamp?.seconds || 0;
-                    return bTime - aTime;
-                });
-                
-                if(products.length === 0) {
-                    document.getElementById('grid').innerHTML = '<p style="text-align:center; color:#666; padding:40px;">📦 No products available yet. Check back soon!</p>';
-                } else {
-                    render();
-                }
-            })
-            .catch(error => {
-                console.error('Error loading products:', error);
-                document.getElementById('grid').innerHTML = '<p style="text-align:center; color:#ff4444; padding:40px;">Error loading products. Please refresh.</p>';
-            });
-    }
-
-    function loadVideos() {
-        db.collection('videos')
-            .where('active', '==', true)
-            .get()
-            .then(snap => {
-                videos = snap.docs.map(d => d.data());
-                const videoContainer = document.getElementById('video-banner-container');
-                
-                if(videos.length > 0) {
-                    const video = videos[0];
-                    let embedUrl = video.url;
-                    
-                    if(video.url && video.url.includes('youtube.com/watch')) {
-                        try {
-                            const urlObj = new URL(video.url);
-                            const videoId = urlObj.searchParams.get('v');
-                            if(videoId) embedUrl = `https://www.youtube.com/embed/${videoId}`;
-                        } catch (e) {
-                            console.error('Error parsing YouTube URL:', e);
-                        }
-                    } else if(video.url && video.url.includes('youtu.be')) {
-                        try {
-                            const videoId = video.url.split('/').pop().split('?')[0];
-                            if(videoId) embedUrl = `https://www.youtube.com/embed/${videoId}`;
-                        } catch (e) {
-                            console.error('Error parsing YouTube URL:', e);
-                        }
+                    console.error('Error submitting reply:', error);
+                    showToast('Could not send reply', 'error');
+                })
+                .finally(() => {
+                    if (sendBtn) {
+                        sendBtn.disabled = false;
+                        sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
                     }
-                    
-                    videoContainer.style.display = 'block';
-                    videoContainer.innerHTML = `
-                        <div class="video-banner">
-                            <iframe src="${embedUrl}" allowfullscreen></iframe>
-                            <div class="video-banner-overlay">
-                                <span class="slide-tag">FEATURED VIDEO</span>
-                                <div class="slide-title">${video.title || 'Featured Video'}</div>
+                });
+        }
+
+        function submitComment() {
+            const input = document.getElementById('comment-input');
+            const text = input.value.trim();
+
+            if (!text) {
+                showToast('Please write something', 'error');
+                return;
+            }
+
+            const submitBtn = document.querySelector('.comment-submit');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            }
+
+            db.collection('comments').add({
+                text: text,
+                userId: userId,
+                userName: userName,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                userAgent: navigator.userAgent.substr(0, 100),
+                pinned: false,
+                isAdmin: false
+            })
+                .then(() => {
+                    input.value = '';
+                    showToast('Comment shared!', 'success');
+                    loadComments();
+                })
+                .catch(error => {
+                    console.error('Error adding comment:', error);
+                    showToast('Could not submit comment', 'error');
+                })
+                .finally(() => {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                    }
+                });
+        }
+
+        function deleteComment(id) {
+            if (confirm('Delete your comment?')) {
+                db.collection('comment_replies')
+                    .where('commentId', '==', id)
+                    .get()
+                    .then(snap => {
+                        const batch = db.batch();
+                        snap.docs.forEach(doc => {
+                            batch.delete(doc.ref);
+                        });
+                        batch.delete(db.collection('comments').doc(id));
+                        return batch.commit();
+                    })
+                    .then(() => {
+                        showToast('Comment deleted', 'success');
+                        loadComments();
+                    })
+                    .catch(error => {
+                        console.error('Error deleting comment:', error);
+                        showToast('Could not delete comment', 'error');
+                    });
+            }
+        }
+
+        // ===== NAVIGATION =====
+        function nav(view, el) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById('view-' + view).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            window.scrollTo(0, 0);
+
+            if (view === 'menu') {
+                loadComments();
+            }
+        }
+
+        // ===== CONTENT LOADING =====
+        function loadAllContent() {
+            loadContactInfo();
+            loadProducts();
+            loadVideos();
+            loadBanners();
+            loadCategories();
+            loadNotifications();
+        }
+
+        function loadContactInfo() {
+            db.collection('settings').doc('contact').get()
+                .then(doc => {
+                    if (doc.exists) {
+                        contactEmail = doc.data().email || contactEmail;
+                        document.getElementById('contact-email-display').innerHTML = `Contact: ${contactEmail}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading contact:', error);
+                });
+        }
+
+        function loadCategories() {
+            db.collection('categories').get()
+                .then(snap => {
+                    categories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                    categories.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+
+                    const filterContainer = document.getElementById('category-filters');
+                    let filterHtml = '<div class="cat-pill active" onclick="filter(\'All\', this)">🔥 All</div>';
+
+                    categories.forEach(cat => {
+                        filterHtml += `<div class="cat-pill" onclick="filter('${cat.name.replace(/'/g, "\\'")}', this)">${cat.icon || '📁'} ${cat.name}</div>`;
+                    });
+
+                    filterContainer.innerHTML = filterHtml;
+                    render();
+                })
+                .catch(error => {
+                    console.error('Error loading categories:', error);
+                });
+        }
+
+        function loadProducts() {
+            db.collection('products')
+                .where('live', '==', true)
+                .get()
+                .then(snap => {
+                    products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+                    products.sort((a, b) => {
+                        const aTime = a.createdAt?.seconds || a.timestamp?.seconds || 0;
+                        const bTime = b.createdAt?.seconds || b.timestamp?.seconds || 0;
+                        return bTime - aTime;
+                    });
+
+                    if (products.length === 0) {
+                        document.getElementById('grid').innerHTML = '<p style="text-align:center; color:#666; padding:40px;">📦 No products available yet. Check back soon!</p>';
+                    } else {
+                        render();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading products:', error);
+                    document.getElementById('grid').innerHTML = '<p style="text-align:center; color:#ff4444; padding:40px;">Error loading products. Please refresh.</p>';
+                });
+        }
+
+        function loadVideos() {
+            db.collection('videos')
+                .where('active', '==', true)
+                .get()
+                .then(snap => {
+                    videos = snap.docs.map(d => d.data());
+                    const videoContainer = document.getElementById('video-banner-container');
+
+                    if (videos.length > 0) {
+                        const video = videos[0];
+                        let embedUrl = video.url;
+
+                        if (video.url && video.url.includes('youtube.com/watch')) {
+                            try {
+                                const urlObj = new URL(video.url);
+                                const videoId = urlObj.searchParams.get('v');
+                                if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                            } catch (e) {
+                                console.error('Error parsing YouTube URL:', e);
+                            }
+                        } else if (video.url && video.url.includes('youtu.be')) {
+                            try {
+                                const videoId = video.url.split('/').pop().split('?')[0];
+                                if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}`;
+                            } catch (e) {
+                                console.error('Error parsing YouTube URL:', e);
+                            }
+                        }
+
+                        videoContainer.style.display = 'block';
+                        videoContainer.innerHTML = `
+                            <div class="video-banner">
+                                <iframe src="${embedUrl}" allowfullscreen></iframe>
+                                <div class="video-banner-overlay">
+                                    <span class="slide-tag">FEATURED VIDEO</span>
+                                    <div class="slide-title">${video.title || 'Featured Video'}</div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        videoContainer.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading videos:', error);
+                });
+        }
+
+        function loadBanners() {
+            db.collection('banners')
+                .where('active', '==', true)
+                .get()
+                .then(snap => {
+                    banners = snap.docs.map(d => d.data());
+                    banners.sort((a, b) => {
+                        const aTime = a.createdAt?.seconds || a.timestamp?.seconds || 0;
+                        const bTime = b.createdAt?.seconds || b.timestamp?.seconds || 0;
+                        return bTime - aTime;
+                    });
+
+                    const box = document.getElementById('banner-box');
+
+                    if (!banners.length) {
+                        box.style.display = 'none';
+                        return;
+                    }
+
+                    box.style.display = 'block';
+                    box.innerHTML = banners.map((b, i) => `
+                        <div class="slide ${i === 0 ? 'active' : ''} ${b.link ? 'clickable' : ''}" 
+                             style="background-image:url('${b.image}')"
+                             ${b.link ? `onclick="window.open('${b.link}', '_blank')"` : ''}>
+                            <div class="slide-overlay">
+                                <span class="slide-tag">FEATURED</span>
+                                <div class="slide-title">${b.title || 'Featured'}</div>
                             </div>
                         </div>
-                    `;
-                } else {
-                    videoContainer.style.display = 'none';
-                }
-            })
-            .catch(error => {
-                console.error('Error loading videos:', error);
-            });
-    }
+                    `).join('');
 
-    function loadBanners() {
-        db.collection('banners')
-            .where('active', '==', true)
-            .get()
-            .then(snap => {
-                banners = snap.docs.map(d => d.data());
-                banners.sort((a, b) => {
-                    const aTime = a.createdAt?.seconds || a.timestamp?.seconds || 0;
-                    const bTime = b.createdAt?.seconds || b.timestamp?.seconds || 0;
-                    return bTime - aTime;
+                    if (banners.length > 1) {
+                        let i = 0;
+                        setInterval(() => {
+                            const slides = document.querySelectorAll('.slide');
+                            if (slides.length) {
+                                slides[i].classList.remove('active');
+                                i = (i + 1) % slides.length;
+                                slides[i].classList.add('active');
+                            }
+                        }, 5000);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading banners:', error);
                 });
-                
-                const box = document.getElementById('banner-box');
-                
-                if(!banners.length) {
-                    box.style.display = 'none';
-                    return;
+        }
+
+        function render() {
+            const grid = document.getElementById('grid');
+            const searchGrid = document.getElementById('search-grid');
+            const term = document.getElementById('search-input').value.toLowerCase();
+
+            const filtered = products.filter(p => {
+                if (currentCat === 'All') return true;
+                return p.category === currentCat;
+            });
+
+            const searched = products.filter(p =>
+                (p.title && p.title.toLowerCase().includes(term)) ||
+                (p.description && p.description.toLowerCase().includes(term))
+            );
+
+            grid.innerHTML = generateCardsWithDownloads(filtered);
+
+            if (term && term.length > 0) {
+                searchGrid.innerHTML = searched.length > 0 ? generateCardsWithDownloads(searched) : '<p style="text-align:center; color:#666; padding:40px;">🔍 No results found for "' + term + '"</p>';
+            } else {
+                searchGrid.innerHTML = `<p style="text-align:center; color:#444; padding:40px;">🔍 Search for apps, prompts, or tools...</p>`;
+            }
+        }
+
+        function generateCardsWithDownloads(list) {
+            if (!list || list.length === 0) {
+                return `<div style="text-align:center; color:#555; padding:40px;">📦 No items found.</div>`;
+            }
+
+            return list.map(p => {
+                const hasApk = p.apkLink && p.apkLink.trim() !== '';
+                const hasAssets = p.assetsLink && p.assetsLink.trim() !== '';
+                const hasPdf = p.pdfLink && p.pdfLink.trim() !== '';
+                const hasZip = p.zipLink && p.zipLink.trim() !== '';
+
+                let downloadButtons = '';
+
+                if (hasApk) {
+                    downloadButtons += `
+                        <a href="${p.apkLink}" target="_blank" rel="noopener noreferrer" 
+                           class="card-action-btn" data-type="apk" onclick="event.stopPropagation(); downloadFile('${p.apkLink}', '${p.title}.apk', 'apk'); return true;" 
+                           title="Download APK">
+                            <i class="fab fa-android"></i> APK
+                        </a>
+                    `;
                 }
-                
-                box.style.display = 'block';
-                box.innerHTML = banners.map((b, i) => `
-                    <div class="slide ${i === 0 ? 'active' : ''} ${b.link ? 'clickable' : ''}" 
-                         style="background-image:url('${b.image}')"
-                         ${b.link ? `onclick="window.open('${b.link}', '_blank')"` : ''}>
-                        <div class="slide-overlay">
-                            <span class="slide-tag">FEATURED</span>
-                            <div class="slide-title">${b.title || 'Featured'}</div>
+
+                if (hasZip) {
+                    downloadButtons += `
+                        <a href="${p.zipLink}" target="_blank" rel="noopener noreferrer" 
+                           class="card-action-btn" data-type="zip" onclick="event.stopPropagation(); downloadFile('${p.zipLink}', '${p.title}.zip', 'zip'); return true;" 
+                           title="Download ZIP">
+                            <i class="fas fa-file-archive"></i> ZIP
+                        </a>
+                    `;
+                }
+
+                if (hasPdf) {
+                    downloadButtons += `
+                        <a href="${p.pdfLink}" target="_blank" rel="noopener noreferrer" 
+                           class="card-action-btn" data-type="pdf" onclick="event.stopPropagation(); downloadFile('${p.pdfLink}', '${p.title}.pdf', 'pdf'); return true;" 
+                           title="Download PDF">
+                            <i class="fas fa-file-pdf"></i> PDF
+                        </a>
+                    `;
+                }
+
+                if (hasAssets) {
+                    downloadButtons += `
+                        <a href="${p.assetsLink}" target="_blank" rel="noopener noreferrer" 
+                           class="card-action-btn" data-type="assets" onclick="event.stopPropagation(); downloadFile('${p.assetsLink}', '${p.title}_assets.zip', 'assets'); return true;" 
+                           title="Download Assets">
+                            <i class="fas fa-folder"></i> Assets
+                        </a>
+                    `;
+                }
+
+                // Add premium badge if user is logged in
+                const premiumBadge = loggedInUser ? '<span class="premium-badge"><i class="fas fa-crown"></i> PREMIUM</span>' : '';
+
+                return `
+                    <div class="card" onclick="openDetail('${p.id}')">
+                        <div class="card-img-box">
+                            <img src="${p.image || 'https://via.placeholder.com/400x225'}" class="card-img" loading="lazy" onerror="this.src='https://via.placeholder.com/400x225'">
+                            <div class="card-badge">${p.category || 'RESOURCE'} ${premiumBadge}</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">${p.title || 'Untitled'}</div>
+                            <div class="card-desc">${p.description || 'No description available'}</div>
+                            ${downloadButtons ? `<div class="card-actions">${downloadButtons}</div>` : ''}
                         </div>
                     </div>
-                `).join('');
-
-                if(banners.length > 1) {
-                    let i = 0;
-                    setInterval(() => {
-                        const slides = document.querySelectorAll('.slide');
-                        if(slides.length) {
-                            slides[i].classList.remove('active');
-                            i = (i + 1) % slides.length;
-                            slides[i].classList.add('active');
-                        }
-                    }, 5000);
-                }
-            })
-            .catch(error => {
-                console.error('Error loading banners:', error);
-            });
-    }
-
-    function render() {
-        const grid = document.getElementById('grid');
-        const searchGrid = document.getElementById('search-grid');
-        const term = document.getElementById('search-input').value.toLowerCase();
-        
-        const filtered = products.filter(p => {
-            if(currentCat === 'All') return true;
-            return p.category === currentCat;
-        });
-        
-        const searched = products.filter(p => 
-            (p.title && p.title.toLowerCase().includes(term)) ||
-            (p.description && p.description.toLowerCase().includes(term))
-        );
-        
-        grid.innerHTML = generateCardsWithDownloads(filtered);
-        
-        if(term && term.length > 0) {
-            searchGrid.innerHTML = searched.length > 0 ? generateCardsWithDownloads(searched) : '<p style="text-align:center; color:#666; padding:40px;">🔍 No results found for "' + term + '"</p>';
-        } else {
-            searchGrid.innerHTML = `<p style="text-align:center; color:#444; padding:40px;">🔍 Search for apps, prompts, or tools...</p>`;
+                `;
+            }).join('');
         }
-    }
 
-    // ===== FIXED DOWNLOAD FUNCTION WITH WORKING LINKS =====
-    function generateCardsWithDownloads(list) {
-        if(!list || list.length === 0) {
-            return `<div style="text-align:center; color:#555; padding:40px;">📦 No items found.</div>`;
+        function filter(cat, el) {
+            currentCat = cat;
+            document.querySelectorAll('.cat-pill').forEach(x => x.classList.remove('active'));
+            el.classList.add('active');
+            render();
         }
-        
-        return list.map(p => {
+
+        document.getElementById('search-input').addEventListener('input', render);
+
+        function downloadFile(url, filename, type) {
+            showToast(`Downloading ${filename}`, 'success');
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename || 'download';
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function openDetail(id) {
+            const p = products.find(x => x.id === id);
+            if (!p) return;
+
             const hasApk = p.apkLink && p.apkLink.trim() !== '';
             const hasAssets = p.assetsLink && p.assetsLink.trim() !== '';
             const hasPdf = p.pdfLink && p.pdfLink.trim() !== '';
             const hasZip = p.zipLink && p.zipLink.trim() !== '';
-            
-            let downloadButtons = '';
-            
-            if(hasApk) {
-                downloadButtons += `
-                    <a href="${p.apkLink}" target="_blank" rel="noopener noreferrer" 
-                       class="card-action-btn" data-type="apk" onclick="event.stopPropagation(); downloadFile('${p.apkLink}', '${p.title}.apk', 'apk'); return true;" 
-                       title="Download APK">
-                        <i class="fab fa-android"></i> APK
-                    </a>
-                `;
-            }
-            
-            if(hasZip) {
-                downloadButtons += `
-                    <a href="${p.zipLink}" target="_blank" rel="noopener noreferrer" 
-                       class="card-action-btn" data-type="zip" onclick="event.stopPropagation(); downloadFile('${p.zipLink}', '${p.title}.zip', 'zip'); return true;" 
-                       title="Download ZIP">
-                        <i class="fas fa-file-archive"></i> ZIP
-                    </a>
-                `;
-            }
-            
-            if(hasPdf) {
-                downloadButtons += `
-                    <a href="${p.pdfLink}" target="_blank" rel="noopener noreferrer" 
-                       class="card-action-btn" data-type="pdf" onclick="event.stopPropagation(); downloadFile('${p.pdfLink}', '${p.title}.pdf', 'pdf'); return true;" 
-                       title="Download PDF">
-                        <i class="fas fa-file-pdf"></i> PDF
-                    </a>
-                `;
-            }
-            
-            if(hasAssets) {
-                downloadButtons += `
-                    <a href="${p.assetsLink}" target="_blank" rel="noopener noreferrer" 
-                       class="card-action-btn" data-type="assets" onclick="event.stopPropagation(); downloadFile('${p.assetsLink}', '${p.title}_assets.zip', 'assets'); return true;" 
-                       title="Download Assets">
-                        <i class="fas fa-folder"></i> Assets
-                    </a>
-                `;
-            }
-            
-            return `
-            <div class="card" onclick="openDetail('${p.id}')">
-                <div class="card-img-box">
-                    <img src="${p.image || 'https://via.placeholder.com/400x225'}" class="card-img" loading="lazy" onerror="this.src='https://via.placeholder.com/400x225'">
-                    <div class="card-badge">${p.category || 'RESOURCE'}</div>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">${p.title || 'Untitled'}</div>
-                    <div class="card-desc">${p.description || 'No description available'}</div>
-                    ${downloadButtons ? `<div class="card-actions">${downloadButtons}</div>` : ''}
-                </div>
-            </div>
-        `}).join('');
-    }
 
-    function filter(cat, el) {
-        currentCat = cat;
-        document.querySelectorAll('.cat-pill').forEach(x => x.classList.remove('active'));
-        el.classList.add('active');
-        render();
-    }
+            const featuresList = p.features ?
+                p.features.split('\n').filter(line => line.trim() !== '')
+                    .map(line => `<li>${line.trim().replace(/^[-•*]\s*/, '')}</li>`).join('') : '';
 
-    document.getElementById('search-input').addEventListener('input', render);
+            const howItWorks = p.howItWorks ?
+                p.howItWorks.split('\n').filter(line => line.trim() !== '')
+                    .map(line => `<p style="margin-bottom:10px;">${line.trim()}</p>`).join('') : '';
 
-    // Fixed download function with better handling
-    function downloadFile(url, filename, type) {
-        showToast('Download Started', `Downloading ${filename}`, 'success');
-        
-        // Create a temporary anchor element
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = filename || 'download';
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        
-        // Append to body, click, and remove
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        // Track download in console
-        console.log(`Downloading ${type} file: ${filename} from ${url}`);
-    }
+            let downloadBadges = '';
+            if (hasZip) downloadBadges += '<span class="download-badge"><i class="fas fa-file-archive"></i> ZIP Available</span>';
+            if (hasPdf) downloadBadges += '<span class="download-badge"><i class="fas fa-file-pdf"></i> PDF Available</span>';
+            if (hasApk) downloadBadges += '<span class="download-badge"><i class="fab fa-android"></i> APK Available</span>';
 
-    function openDetail(id) {
-        const p = products.find(x => x.id === id);
-        if(!p) return;
-        
-        const hasApk = p.apkLink && p.apkLink.trim() !== '';
-        const hasAssets = p.assetsLink && p.assetsLink.trim() !== '';
-        const hasPdf = p.pdfLink && p.pdfLink.trim() !== '';
-        const hasZip = p.zipLink && p.zipLink.trim() !== '';
-        
-        const featuresList = p.features ? 
-            p.features.split('\n').filter(line => line.trim() !== '')
-                .map(line => `<li>${line.trim().replace(/^[-•*]\s*/, '')}</li>`).join('') : '';
-        
-        const howItWorks = p.howItWorks ? 
-            p.howItWorks.split('\n').filter(line => line.trim() !== '')
-                .map(line => `<p style="margin-bottom:10px;">${line.trim()}</p>`).join('') : '';
-        
-        let downloadBadges = '';
-        if(hasZip) downloadBadges += '<span class="download-badge"><i class="fas fa-file-archive"></i> ZIP Available</span>';
-        if(hasPdf) downloadBadges += '<span class="download-badge"><i class="fas fa-file-pdf"></i> PDF Available</span>';
-        if(hasApk) downloadBadges += '<span class="download-badge"><i class="fab fa-android"></i> APK Available</span>';
-        
-        document.getElementById('modal-content').innerHTML = `
-            <img src="${p.image || 'https://via.placeholder.com/400x225'}" class="hero-img" onerror="this.src='https://via.placeholder.com/400x225'">
-            <div class="content-box">
-                <div style="display:flex; gap:5px; flex-wrap:wrap; margin-bottom:10px;">
-                    ${downloadBadges}
-                </div>
-                <span style="color:#FF416C; font-weight:700; font-size:12px; letter-spacing:1px; text-transform:uppercase;">${p.category || 'RESOURCE'}</span>
-                <h1 style="font-size:32px; font-weight:800; line-height:1.1; margin:10px 0 20px 0;">${p.title || ''}</h1>
-                
-                ${p.introduction ? `
-                <div class="section-title">Introduction</div>
-                <div class="section-content">${p.introduction}</div>
-                ` : ''}
-                
-                ${p.whatItDoes ? `
-                <div class="section-title">What This Resource Does</div>
-                <div class="section-content">${p.whatItDoes}</div>
-                ` : ''}
-                
-                ${featuresList ? `
-                <div class="section-title">Key Features</div>
-                <ul class="features-list">${featuresList}</ul>
-                ` : ''}
-                
-                ${p.howItWorks ? `
-                <div class="section-title">How It Works</div>
-                <div class="section-content">${howItWorks}</div>
-                ` : ''}
-                
-                ${p.useCases ? `
-                <div class="section-title">Use Cases</div>
-                <div class="section-content">${p.useCases}</div>
-                ` : ''}
-                
-                ${p.prosLimitations ? `
-                <div class="section-title">Pros and Limitations</div>
-                <div class="section-content">${p.prosLimitations}</div>
-                ` : ''}
-                
-                <div class="section-title">Download Options</div>
-                <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
-                    ${hasApk ? `<a href="${p.apkLink}" target="_blank" rel="noopener noreferrer" onclick="downloadFile('${p.apkLink}', '${p.title}.apk', 'apk'); return true;" class="btn-gradient"><i class="fab fa-android"></i> Download APK</a>` : ''}
-                    ${hasZip ? `<a href="${p.zipLink}" target="_blank" rel="noopener noreferrer" onclick="downloadFile('${p.zipLink}', '${p.title}.zip', 'zip'); return true;" class="btn-glass"><i class="fas fa-file-archive"></i> Download ZIP</a>` : ''}
-                    ${hasPdf ? `<a href="${p.pdfLink}" target="_blank" rel="noopener noreferrer" onclick="downloadFile('${p.pdfLink}', '${p.title}.pdf', 'pdf'); return true;" class="btn-glass"><i class="fas fa-file-pdf"></i> Download PDF</a>` : ''}
-                    ${hasAssets ? `<a href="${p.assetsLink}" target="_blank" rel="noopener noreferrer" onclick="downloadFile('${p.assetsLink}', '${p.title}_assets.zip', 'assets'); return true;" class="btn-glass"><i class="fas fa-folder"></i> Download Assets</a>` : ''}
-                </div>
-                
-                <div class="section-title">Educational & Safety Disclaimer</div>
-                <div class="section-content">${p.disclaimer || 'For educational and informational purposes only. No ownership claim over third-party tools. Users are responsible for their usage.'}</div>
-                
-                <div class="section-title">External Resource Notice</div>
-                <div class="section-content">This resource is hosted on an external platform. Rubify Pro does not host or store any files.</div>
-                
-                <div class="detail-footer">
-                    <div style="margin-top:30px;">
-                        <p>If you have any questions or concerns, contact us at:</p>
-                        <p style="color:#FF416C;">Email: ${contactEmail}</p>
-                        <p style="margin-top:15px;">Rubify Pro respects intellectual property rights.<br>All trademarks and resources belong to their respective owners.</p>
+            document.getElementById('modal-content').innerHTML = `
+                <img src="${p.image || 'https://via.placeholder.com/400x225'}" class="hero-img" onerror="this.src='https://via.placeholder.com/400x225'">
+                <div class="content-box">
+                    <div style="display:flex; gap:5px; flex-wrap:wrap; margin-bottom:10px;">
+                        ${downloadBadges}
+                    </div>
+                    <span style="color:#FF416C; font-weight:700; font-size:12px; letter-spacing:1px; text-transform:uppercase;">${p.category || 'RESOURCE'}</span>
+                    <h1 style="font-size:32px; font-weight:800; line-height:1.1; margin:10px 0 20px 0;">${p.title || ''}</h1>
+                    
+                    ${p.introduction ? `
+                        <div class="section-title">Introduction</div>
+                        <div class="section-content">${p.introduction}</div>
+                    ` : ''}
+                    
+                    ${p.whatItDoes ? `
+                        <div class="section-title">What This Resource Does</div>
+                        <div class="section-content">${p.whatItDoes}</div>
+                    ` : ''}
+                    
+                    ${featuresList ? `
+                        <div class="section-title">Key Features</div>
+                        <ul class="features-list">${featuresList}</ul>
+                    ` : ''}
+                    
+                    ${p.howItWorks ? `
+                        <div class="section-title">How It Works</div>
+                        <div class="section-content">${howItWorks}</div>
+                    ` : ''}
+                    
+                    ${p.useCases ? `
+                        <div class="section-title">Use Cases</div>
+                        <div class="section-content">${p.useCases}</div>
+                    ` : ''}
+                    
+                    ${p.prosLimitations ? `
+                        <div class="section-title">Pros and Limitations</div>
+                        <div class="section-content">${p.prosLimitations}</div>
+                    ` : ''}
+                    
+                    <div class="section-title">Download Options</div>
+                    <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
+                        ${hasApk ? `<a href="${p.apkLink}" target="_blank" rel="noopener noreferrer" onclick="downloadFile('${p.apkLink}', '${p.title}.apk', 'apk'); return true;" class="btn-gradient"><i class="fab fa-android"></i> Download APK</a>` : ''}
+                        ${hasZip ? `<a href="${p.zipLink}" target="_blank" rel="noopener noreferrer" onclick="downloadFile('${p.zipLink}', '${p.title}.zip', 'zip'); return true;" class="btn-glass"><i class="fas fa-file-archive"></i> Download ZIP</a>` : ''}
+                        ${hasPdf ? `<a href="${p.pdfLink}" target="_blank" rel="noopener noreferrer" onclick="downloadFile('${p.pdfLink}', '${p.title}.pdf', 'pdf'); return true;" class="btn-glass"><i class="fas fa-file-pdf"></i> Download PDF</a>` : ''}
+                        ${hasAssets ? `<a href="${p.assetsLink}" target="_blank" rel="noopener noreferrer" onclick="downloadFile('${p.assetsLink}', '${p.title}_assets.zip', 'assets'); return true;" class="btn-glass"><i class="fas fa-folder"></i> Download Assets</a>` : ''}
+                    </div>
+                    
+                    <div class="section-title">Educational & Safety Disclaimer</div>
+                    <div class="section-content">${p.disclaimer || 'For educational and informational purposes only. No ownership claim over third-party tools. Users are responsible for their usage.'}</div>
+                    
+                    <div class="section-title">External Resource Notice</div>
+                    <div class="section-content">This resource is hosted on an external platform. Rubify Website does not host or store any files.</div>
+                    
+                    <div class="detail-footer">
+                        <div style="margin-top:30px;">
+                            <p>If you have any questions or concerns, contact us at:</p>
+                            <p style="color:#FF416C;">Email: ${contactEmail}</p>
+                            <p style="margin-top:15px;">Rubify Website respects intellectual property rights.<br>All trademarks and resources belong to their respective owners.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="close-bottom-btn" onclick="closeModal()">
+                        <i class="fas fa-times-circle"></i> Close
                     </div>
                 </div>
-                
-                <div class="close-bottom-btn" onclick="closeModal()">
-                    <i class="fas fa-times-circle"></i> Close
-                </div>
-            </div>
-        `;
-        document.getElementById('detail-modal').classList.add('modal-open');
-        window.history.pushState({}, '', `?pid=${id}`);
-    }
-
-    function closeModal() {
-        document.getElementById('detail-modal').classList.remove('modal-open');
-        window.history.pushState({}, '', window.location.pathname);
-    }
-
-    function openLegal(title) {
-        document.getElementById('legal-title').innerText = title;
-        
-        let content = '';
-        if(title === 'Privacy Policy') {
-            content = '<p>At Rubify Pro, we value your privacy. This policy outlines how we collect, use, and protect your information.</p><br><p>We collect minimal information necessary to provide our services. Your data is never sold to third parties.</p>';
-        } else if(title === 'Terms of Service') {
-            content = '<p>By using Rubify Pro, you agree to these terms. Our platform provides AI resource listings for educational purposes.</p><br><p>You are responsible for how you use the resources found on our platform. We do not guarantee accuracy or availability of third-party links.</p>';
-        } else if(title === 'Disclaimer') {
-            content = '<p>Rubify Pro is a platform for discovering AI resources. We do not host, store, or own any of the listed resources.</p><br><p>All trademarks, logos, and brand names are the property of their respective owners. Use resources at your own discretion.</p>';
+            `;
+            document.getElementById('detail-modal').classList.add('modal-open');
+            window.history.pushState({}, '', `?pid=${id}`);
         }
-        
-        document.getElementById('legal-text').innerHTML = content;
-        document.getElementById('legal-full').classList.add('active');
-    }
 
-    function sendMessage() {
-        const email = document.getElementById('contact-email-input').value;
-        const message = document.getElementById('contact-message').value;
-        if(email && message) {
-            db.collection('messages').add({
-                email: email,
-                message: message,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                userId: userId
-            }).then(() => {
-                showToast('Message Sent', 'We\'ll get back to you soon!', 'success');
-                document.getElementById('contact-email-input').value = '';
-                document.getElementById('contact-message').value = '';
-            }).catch(error => {
-                console.error('Error sending message:', error);
-                showToast('Error', 'Could not send message', 'danger');
-            });
-        } else {
-            showToast('Missing Info', 'Please fill all fields', 'warning');
+        function closeModal() {
+            document.getElementById('detail-modal').classList.remove('modal-open');
+            window.history.pushState({}, '', window.location.pathname);
         }
-    }
 
-    document.addEventListener('click', function(event) {
-        const panel = document.getElementById('notifications-panel');
-        const bell = document.querySelector('.notification-badge');
-        
-        if(panel && bell && !panel.contains(event.target) && !bell.contains(event.target) && panel.classList.contains('active')) {
-            panel.classList.remove('active');
+        function openLegal(title) {
+            document.getElementById('legal-title').innerText = title;
+
+            let content = '';
+            if (title === 'Privacy Policy') {
+                content = '<p>At Rubify Website, we value your privacy. This policy outlines how we collect, use, and protect your information.</p><br><p>We collect minimal information necessary to provide our services. Your data is never sold to third parties.</p>';
+            } else if (title === 'Terms of Service') {
+                content = '<p>By using Rubify Website, you agree to these terms. Our platform provides AI resource listings for educational purposes.</p><br><p>You are responsible for how you use the resources found on our platform. We do not guarantee accuracy or availability of third-party links.</p>';
+            } else if (title === 'Disclaimer') {
+                content = '<p>Rubify Website is a platform for discovering AI resources. We do not host, store, or own any of the listed resources.</p><br><p>All trademarks, logos, and brand names are the property of their respective owners. Use resources at your own discretion.</p>';
+            }
+
+            document.getElementById('legal-text').innerHTML = content;
+            document.getElementById('legal-full').classList.add('active');
         }
-    });
 
-    // Initialize on load
-    window.addEventListener('load', function() {
-        console.log('Rubify Pro loaded, initializing Firebase...');
-        checkForUpdates();
-        loadAllContent();
-    });
-
-    const pid = new URLSearchParams(window.location.search).get('pid');
-    if(pid) {
-        setTimeout(() => openDetail(pid), 1500);
-    }
-
-    window.addEventListener('popstate', function() {
-        if(!window.location.search.includes('pid')) {
-            closeModal();
+        function sendMessage() {
+            const email = document.getElementById('contact-email-input').value;
+            const message = document.getElementById('contact-message').value;
+            if (email && message) {
+                db.collection('messages').add({
+                    email: email,
+                    message: message,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    userId: userId,
+                    deviceId: getDeviceId()
+                }).then(() => {
+                    showToast('Message sent!', 'success');
+                    document.getElementById('contact-email-input').value = '';
+                    document.getElementById('contact-message').value = '';
+                }).catch(error => {
+                    console.error('Error sending message:', error);
+                    showToast('Could not send message', 'error');
+                });
+            } else {
+                showToast('Please fill all fields', 'error');
+            }
         }
-    });
-  </script>
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (event) {
+            const panel = document.getElementById('notifications-panel');
+            const bell = document.querySelector('.notification-badge');
+            const dropdown = document.getElementById('user-dropdown');
+            const profileBtn = document.getElementById('login-profile-btn');
+
+            if (panel && bell && !panel.contains(event.target) && !bell.contains(event.target) && panel.classList.contains('active')) {
+                panel.classList.remove('active');
+            }
+
+            if (dropdown && profileBtn && !dropdown.contains(event.target) && !profileBtn.contains(event.target) && dropdown.classList.contains('active')) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        // Initialize on load
+        window.addEventListener('load', function () {
+            const isLoggedIn = checkSavedLogin();
+            if (!isLoggedIn) {
+                console.log('Please login to access Rubify Website');
+            } else {
+                // Log device on load
+                if (userKey) {
+                    logDeviceAccess(userKey, 'session_start');
+                }
+                checkForUpdates();
+                loadAllContent();
+            }
+        });
+
+        const pid = new URLSearchParams(window.location.search).get('pid');
+        if (pid) {
+            setTimeout(() => openDetail(pid), 1500);
+        }
+
+        window.addEventListener('popstate', function () {
+            if (!window.location.search.includes('pid')) {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>
