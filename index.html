@@ -21,6 +21,7 @@
             --success: #4CAF50;
             --warning: #FFC107;
             --danger: #F44336;
+            --blocked: #ff4444;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -252,6 +253,181 @@
             display: block;
         }
 
+        /* Blocked Device Screen */
+        .blocked-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 1000000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .blocked-screen.active {
+            display: flex;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .blocked-container {
+            max-width: 500px;
+            width: 90%;
+            animation: slideUp 0.6s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .blocked-card {
+            background: #111;
+            border-radius: 40px;
+            padding: 50px 40px;
+            border: 2px solid #ff4444;
+            box-shadow: 0 30px 60px rgba(255, 68, 68, 0.3);
+            text-align: center;
+        }
+
+        .blocked-icon {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 68, 68, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            border: 3px solid #ff4444;
+        }
+
+        .blocked-icon i {
+            font-size: 60px;
+            color: #ff4444;
+        }
+
+        .blocked-card h1 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #ff4444;
+        }
+
+        .blocked-badge {
+            background: rgba(255, 68, 68, 0.2);
+            border: 1px solid #ff4444;
+            color: #ff4444;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .device-id-box {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 25px 0;
+            font-family: monospace;
+            font-size: 14px;
+            color: #ff4444;
+            word-break: break-all;
+        }
+
+        .device-id-box .label {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .device-id-box .id {
+            background: #222;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ff4444;
+        }
+
+        .blocked-message {
+            color: #ccc;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .support-email-btn {
+            background: transparent;
+            border: 2px solid #ff4444;
+            color: #ff4444;
+            padding: 16px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+            text-decoration: none;
+        }
+
+        .support-email-btn:hover {
+            background: #ff4444;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 68, 68, 0.4);
+        }
+
+        .support-email-btn i {
+            font-size: 18px;
+        }
+
+        .try-again-btn {
+            background: transparent;
+            border: 1px solid #333;
+            color: #888;
+            padding: 16px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .try-again-btn:hover {
+            border-color: #ff4444;
+            color: white;
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .contact-info a {
+            color: #ff4444;
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
         /* User Profile Dropdown */
         .user-dropdown {
             position: absolute;
@@ -325,6 +501,70 @@
             font-weight: 600;
             font-family: monospace;
         }
+
+        .device-info-card {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+
+        .device-info-title {
+            color: #888;
+            font-size: 11px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .device-info-title i {
+            color: #FF416C;
+        }
+
+        .device-id {
+            font-family: monospace;
+            font-size: 12px;
+            color: #ccc;
+            background: #222;
+            padding: 8px;
+            border-radius: 6px;
+            word-break: break-all;
+            margin-bottom: 8px;
+        }
+
+        .device-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4CAF50;
+            color: #4CAF50;
+        }
+
+        .status-blocked {
+            background: rgba(255, 68, 68, 0.2);
+            border: 1px solid #ff4444;
+            color: #ff4444;
+        }
+
+        .status-warning {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid #FFC107;
+            color: #FFC107;
+        }
         
         .dropdown-btn {
             width: 100%;
@@ -355,6 +595,16 @@
         }
         
         .dropdown-btn.logout:hover {
+            background: #ff4444;
+            color: white;
+        }
+
+        .dropdown-btn.contact-support {
+            color: #ff4444;
+            border-color: #ff4444;
+        }
+
+        .dropdown-btn.contact-support:hover {
             background: #ff4444;
             color: white;
         }
@@ -1703,6 +1953,42 @@
     </style> 
 </head> 
 <body>
+    <!-- Blocked Device Screen - Completely Blocks Access -->
+    <div id="blocked-screen" class="blocked-screen">
+        <div class="blocked-container">
+            <div class="blocked-card">
+                <div class="blocked-icon">
+                    <i class="fas fa-ban"></i>
+                </div>
+                <h1>Access Denied</h1>
+                <div class="blocked-badge">DEVICE BLOCKED</div>
+                
+                <div class="device-id-box">
+                    <span class="label">Your Device ID:</span>
+                    <div class="id" id="blocked-device-id">Loading...</div>
+                </div>
+                
+                <p class="blocked-message">
+                    This device has been blocked from accessing Rubify Website. 
+                    If you believe this is a mistake, please contact support.
+                </p>
+                
+                <a href="mailto:mrflop786@gmail.com?subject=Device%20Blocked%20-%20Request%20Unblock" 
+                   class="support-email-btn" id="blocked-support-email">
+                    <i class="fas fa-envelope"></i> Contact Support
+                </a>
+                
+                <button class="try-again-btn" onclick="checkDeviceStatusAgain()">
+                    <i class="fas fa-sync-alt"></i> Check Again
+                </button>
+                
+                <div class="contact-info">
+                    <p>Support: <a href="mailto:mrflop786@gmail.com">mrflop786@gmail.com</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Force Login Overlay -->
     <div id="force-login" class="force-login-overlay">
         <div class="login-container">
@@ -1753,7 +2039,22 @@
             <div class="label">Current Key</div>
             <div class="value" id="current-key">-</div>
         </div>
+
+        <!-- Device Information Card -->
+        <div class="device-info-card" id="device-info-card">
+            <div class="device-info-title">
+                <i class="fas fa-microchip"></i> Device Information
+            </div>
+            <div class="device-id" id="device-id-display">Loading...</div>
+            <div class="device-status" id="device-status-display">
+                <span>Status:</span>
+                <span class="status-badge status-active" id="device-status-badge">Active</span>
+            </div>
+        </div>
         
+        <button class="dropdown-btn contact-support" onclick="contactSupport()" id="contact-support-btn">
+            <i class="fas fa-headset"></i> Contact Support
+        </button>
         <button class="dropdown-btn logout" onclick="logoutUser()" id="logout-btn">
             <i class="fas fa-sign-out-alt"></i> Logout
         </button>
@@ -2000,6 +2301,9 @@
         let loggedInUser = null;
         let userKey = null;
 
+        // Device Blocking Variables
+        let deviceBlockCheckInterval = null;
+
         // ===== FORCE LOGIN FUNCTIONS =====
 
         function showToast(message, type = 'info') {
@@ -2083,7 +2387,7 @@
             }
         }
 
-        async function checkIfDeviceBlocked() {
+        async function checkDeviceStatus() {
             const deviceId = getDeviceId();
             try {
                 // Check blacklist
@@ -2091,21 +2395,111 @@
                 if (blacklistDoc.exists) {
                     const blacklist = blacklistDoc.data().devices || [];
                     if (blacklist.includes(deviceId)) {
-                        return true;
+                        return { blocked: true, source: 'blacklist' };
                     }
                 }
                 
                 // Check device status
                 const deviceDoc = await db.collection('devices').doc(deviceId).get();
                 if (deviceDoc.exists && deviceDoc.data().blocked === true) {
-                    return true;
+                    return { blocked: true, source: 'device', data: deviceDoc.data() };
                 }
                 
-                return false;
+                return { blocked: false, data: deviceDoc.exists ? deviceDoc.data() : null };
             } catch (error) {
-                console.error('Error checking device block status:', error);
-                return false;
+                console.error('Error checking device status:', error);
+                return { blocked: false, error: true };
             }
+        }
+
+        async function checkIfDeviceBlocked() {
+            const status = await checkDeviceStatus();
+            return status.blocked;
+        }
+
+        // Show blocked screen and completely prevent access
+        async function showBlockedScreen() {
+            const deviceId = getDeviceId();
+            document.getElementById('blocked-device-id').textContent = deviceId;
+            
+            // Update support email with device ID
+            const supportEmail = document.getElementById('blocked-support-email');
+            supportEmail.href = `mailto:mrflop786@gmail.com?subject=Device%20Blocked%20-%20Request%20Unblock&body=Device%20ID:%20${encodeURIComponent(deviceId)}%0D%0A%0D%0APlease%20unblock%20my%20device.%20Thank%20you.`;
+            
+            // Hide all other overlays
+            document.getElementById('force-login').classList.add('hidden');
+            document.getElementById('main-content').classList.remove('visible');
+            
+            // Show blocked screen
+            document.getElementById('blocked-screen').classList.add('active');
+            
+            // Clear any existing login data
+            localStorage.removeItem('rubify_logged_in');
+            localStorage.removeItem('rubify_key');
+            localStorage.removeItem('rubify_key_data');
+            loggedInUser = null;
+            userKey = null;
+            
+            // Start periodic check to see if device is unblocked
+            if (deviceBlockCheckInterval) {
+                clearInterval(deviceBlockCheckInterval);
+            }
+            
+            deviceBlockCheckInterval = setInterval(async () => {
+                const status = await checkDeviceStatus();
+                if (!status.blocked) {
+                    // Device has been unblocked!
+                    clearInterval(deviceBlockCheckInterval);
+                    deviceBlockCheckInterval = null;
+                    document.getElementById('blocked-screen').classList.remove('active');
+                    document.getElementById('force-login').classList.remove('hidden');
+                    showToast('Your device has been unblocked! You can now log in.', 'success');
+                }
+            }, 10000); // Check every 10 seconds
+        }
+
+        // Check device status again (manual check)
+        async function checkDeviceStatusAgain() {
+            const status = await checkDeviceStatus();
+            if (!status.blocked) {
+                clearInterval(deviceBlockCheckInterval);
+                deviceBlockCheckInterval = null;
+                document.getElementById('blocked-screen').classList.remove('active');
+                document.getElementById('force-login').classList.remove('hidden');
+                showToast('Your device has been unblocked! You can now log in.', 'success');
+            } else {
+                showToast('Device is still blocked. Please contact support.', 'error');
+            }
+        }
+
+        function updateDeviceDisplay() {
+            const deviceId = getDeviceId();
+            document.getElementById('device-id-display').textContent = deviceId;
+            
+            checkDeviceStatus().then(status => {
+                const badge = document.getElementById('device-status-badge');
+                const statusDisplay = document.getElementById('device-status-display');
+                
+                if (status.blocked) {
+                    badge.className = 'status-badge status-blocked';
+                    badge.textContent = 'BLOCKED';
+                    statusDisplay.innerHTML = '<span>Status:</span> <span class="status-badge status-blocked">BLOCKED</span> <span style="color:#ff4444; margin-left:5px;"><i class="fas fa-exclamation-triangle"></i></span>';
+                    
+                    // Show contact support button more prominently
+                    document.getElementById('contact-support-btn').style.background = '#ff4444';
+                    document.getElementById('contact-support-btn').style.color = 'white';
+                    document.getElementById('contact-support-btn').style.borderColor = '#ff4444';
+                } else {
+                    badge.className = 'status-badge status-active';
+                    badge.textContent = 'ACTIVE';
+                    statusDisplay.innerHTML = '<span>Status:</span> <span class="status-badge status-active">ACTIVE</span>';
+                    
+                    // Reset contact support button
+                    document.getElementById('contact-support-btn').style.background = '';
+                    document.getElementById('contact-support-btn').style.color = '';
+                    document.getElementById('contact-support-btn').style.borderColor = '';
+                }
+            });
         }
 
         function checkSavedLogin() {
@@ -2122,6 +2516,7 @@
 
                 // Update profile
                 updateUserDropdown();
+                updateDeviceDisplay();
 
                 return true;
             }
@@ -2136,11 +2531,11 @@
                 return;
             }
 
-            // Check if device is blocked
-            const isBlocked = await checkIfDeviceBlocked();
-            if (isBlocked) {
-                showError('This device has been blocked. Please contact support.');
-                await logDeviceAccess(keyInput, 'blocked_device');
+            // Check if device is blocked - if blocked, show blocked screen
+            const deviceStatus = await checkDeviceStatus();
+            if (deviceStatus.blocked) {
+                await logDeviceAccess(keyInput, 'blocked_device_attempt');
+                await showBlockedScreen();
                 return;
             }
 
@@ -2220,6 +2615,7 @@
 
                 // Update UI
                 updateUserDropdown();
+                updateDeviceDisplay();
 
                 // Show welcome message
                 showToast(loggedInUser.toast || 'Login successful!', 'success');
@@ -2264,6 +2660,8 @@
             document.getElementById('user-dropdown').classList.remove('active');
             document.getElementById('main-content').classList.remove('visible');
             document.getElementById('force-login').classList.remove('hidden');
+            
+            // Reset login form
             document.getElementById('login-key').value = '';
             document.getElementById('profile-icon').className = 'fas fa-user';
 
@@ -2276,6 +2674,7 @@
             const dropdown = document.getElementById('user-dropdown');
             dropdown.classList.toggle('active');
             updateUserDropdown();
+            updateDeviceDisplay();
         }
 
         function updateUserDropdown() {
@@ -2287,6 +2686,14 @@
                 document.getElementById('current-key').textContent = loggedInUser.keyName;
                 document.getElementById('profile-icon').className = 'fas fa-user-check';
             }
+        }
+
+        function contactSupport() {
+            const deviceId = getDeviceId();
+            const subject = encodeURIComponent('Device Blocked - Assistance Needed');
+            const body = encodeURIComponent(`My device has been blocked. Please help.\n\nDevice ID: ${deviceId}\nKey: ${userKey || 'Not logged in'}`);
+            window.location.href = `mailto:mrflop786@gmail.com?subject=${subject}&body=${body}`;
+            showToast('Opening email client...', 'info');
         }
 
         // ===== UPDATE OVERLAY FUNCTIONS =====
@@ -3295,19 +3702,29 @@
             }
         });
 
+        // Initial device check on page load
+        async function initialDeviceCheck() {
+            const status = await checkDeviceStatus();
+            if (status.blocked) {
+                await showBlockedScreen();
+            } else {
+                const isLoggedIn = checkSavedLogin();
+                if (!isLoggedIn) {
+                    document.getElementById('force-login').classList.remove('hidden');
+                } else {
+                    // Log device on load
+                    if (userKey) {
+                        logDeviceAccess(userKey, 'session_start');
+                    }
+                    checkForUpdates();
+                    loadAllContent();
+                }
+            }
+        }
+
         // Initialize on load
         window.addEventListener('load', function () {
-            const isLoggedIn = checkSavedLogin();
-            if (!isLoggedIn) {
-                console.log('Please login to access Rubify Website');
-            } else {
-                // Log device on load
-                if (userKey) {
-                    logDeviceAccess(userKey, 'session_start');
-                }
-                checkForUpdates();
-                loadAllContent();
-            }
+            initialDeviceCheck();
         });
 
         const pid = new URLSearchParams(window.location.search).get('pid');
